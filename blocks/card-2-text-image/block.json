@@ -1,0 +1,46 @@
+{
+  "apiVersion": 2,
+  "name": "childtheme/card-2-text-img",
+  "title": "Card: 2-Column Text + Image",
+  "category": "design",
+  "icon": "format-image",
+  "description": "Two-column promo card with text + image, optional background, and side decorations.",
+  "keywords": ["card", "cta", "image", "text"],
+  "supports": {
+    "align": ["wide", "full"],
+    "anchor": true,
+    "spacing": { "margin": true, "padding": true },
+    "color": { "text": false, "background": false, "link": false }
+  },
+  "attributes": {
+    "headline": { "type": "string", "default": "Why We're a Little Different?" },
+    "paragraphOne": { "type": "string", "default": "We don’t sell flights, we share secrets. Ilegiant Air Tickets is for curious Asian travelers who want to fly smarter, go deeper, and explore with meaning." },
+    "paragraphTwo": { "type": "string", "default": "Get smart routes, local insights, and travel tips made for wanderers who chase memories, not mileage points." },
+    "buttonText": { "type": "string", "default": "Learn More" },
+    "buttonUrl": { "type": "string", "default": "#" },
+    "imageUrl": { "type": "string", "default": "https://via.placeholder.com/960x540?text=Image" },
+    "imageAlt": { "type": "string", "default": "Scenic travel image" },
+    "imageBorderRadius": { "type": "number", "default": 24 },
+
+    "imagePosition": { "type": "string", "default": "right" },              
+    "backgroundColor": { "type": "string", "default": "" },                 
+    "decor": { "type": "array", "default": [] }                              
+  },
+  "style": "file:./style.css",
+  "render": "file:./render.php",
+  "example": {
+    "attributes": {
+      "headline": "Connect, Share & Inspire",
+      "paragraphOne": "Join a community of curious explorers who swap stories, share shortcuts, and plan spontaneous adventures together.",
+      "buttonText": "Join Now",
+      "imageUrl": "https://picsum.photos/960/540?random=9",
+      "imagePosition": "left",
+      "backgroundColor": "#ffffff",
+      "decor": [
+        { "url": "https://picsum.photos/seed/left/200/600", "alt": "Left motif", "side": "left" },
+        { "url": "https://picsum.photos/seed/right/200/600", "alt": "Right motif", "side": "right" }
+      ]
+    }
+  },
+  "textdomain": "childtheme"
+}

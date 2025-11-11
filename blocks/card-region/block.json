@@ -1,0 +1,52 @@
+{
+  "apiVersion": 2,
+  "name": "childtheme/card-region",
+  "title": "Card Region (Grid/Carousel)",
+  "category": "design",
+  "icon": "images-alt2",
+  "description": "Responsive region cards with auto-carousel when items exceed the column count.",
+  "keywords": ["cards", "carousel", "regions"],
+  "supports": {
+    "align": ["wide", "full"],
+    "anchor": true,
+    "spacing": { "margin": true, "padding": true },
+    "color": { "background": false, "text": false, "link": false }
+  },
+  "attributes": {
+    "heading": { "type": "string", "default": "Go Where the Story Takes You" },
+    "subheading": { "type": "string", "default": "" },
+    "columns": { "type": "number", "default": 3 },
+    "backgroundColor": { "type": "string", "default": "" },
+    "items": {
+      "type": "array",
+      "default": [
+        { "title": "Sample Region", "excerpt": "Short blurb goes here.", "imageUrl": "https://picsum.photos/640/800?random=1", "imageAlt": "Region", "buttonText": "Explore", "buttonUrl": "#" }
+      ]
+    },
+    "sectionCtaText": { "type": "string", "default": "" },
+    "sectionCtaUrl":  { "type": "string", "default": "" },
+
+    "decor": {
+      "type": "array",
+      "default": []
+    }
+  },
+  "style": "file:./style.css",
+  "render": "file:./render.php",
+  "example": {
+    "attributes": {
+      "heading": "Go Where the Story Takes You",
+      "subheading": "From South Korea to Thailand to Japan, discover destinations packed with culture and fun.",
+      "columns": 3,
+      "items": [
+        { "title": "Thailand", "excerpt": "Temples, markets, islands.", "imageUrl": "https://picsum.photos/640/800?random=11", "buttonText": "Explore Thailand", "buttonUrl": "#" },
+        { "title": "Korea", "excerpt": "Palaces and street food.", "imageUrl": "https://picsum.photos/640/800?random=12", "buttonText": "Explore South Korea", "buttonUrl": "#" },
+        { "title": "Japan", "excerpt": "Torii gates and neon nights.", "imageUrl": "https://picsum.photos/640/800?random=13", "buttonText": "Explore Japan", "buttonUrl": "#" },
+        { "title": "Vietnam", "excerpt": "Lanterns and limestone.", "imageUrl": "https://picsum.photos/640/800?random=14", "buttonText": "Explore Vietnam", "buttonUrl": "#" }
+      ],
+      "sectionCtaText": "View Map",
+      "sectionCtaUrl": "#"
+    }
+  },
+  "textdomain": "childtheme"
+}

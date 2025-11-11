@@ -1,0 +1,32 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ilegiants/hero-banner",
+  "title": "Hero Banner",
+  "description": "Full-width hero with rotating background, compact scrim, title, subhead, and CTA.",
+  "category": "design",
+  "icon": "format-image",
+  "keywords": ["hero", "banner", "cover"],
+  "supports": {
+    "align": ["full", "wide"],
+    "spacing": { "padding": true, "margin": ["top", "bottom"] }
+  },
+  "style": "file:./style.css",
+  "render": "file:./render.php",
+  "usesContext": ["postType", "postId"],
+  "attributes": {
+    "title": { "type": "string", "default": "Travel Smarter, Wander Freely" },
+    "tagline": { "type": "string", "default": "Your travel buddy for smarter routes, cool hacks, and stories that make you say, “Wait, I can do that?!”" },
+    "ctaText": { "type": "string", "default": "Let's Go!" },
+    "ctaUrl":  { "type": "string", "default": "#" },
+    "overlay": { "type": "number", "default": 0.45 },
+    "minHeight": { "type": "number", "default": 520 },
+    "accent": { "type": "string", "default": "tomato" },
+    "titleShadow": { "type": "boolean", "default": true },
+    "images": { "type": "array", "default": [], "items": { "type": "string" } },
+    "interval": { "type": "number", "default": 5000 },
+    "fullHeight": { "type": "boolean", "default": true },
+    "headerHeight": { "type": "number", "default": 0 },
+    "underHeader": { "type": "boolean", "default": true }
+  }
+}

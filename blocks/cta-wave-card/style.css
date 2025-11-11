@@ -1,0 +1,58 @@
+.cta-wave-card{
+  --cta-fg: #fff;
+  --cta-bg: transparent;
+  --cta-border: rgba(255,255,255,.45);
+
+  display:inline-block;
+  padding:.50rem 1rem;
+  border-radius:12px;
+  color:var(--cta-fg);
+  background:var(--cta-bg);
+  border:1px solid var(--cta-border);
+  text-decoration:none;
+  /* font-size:var(--wp--preset--font-size--body); */
+  font-size: 15px;
+  position:relative;
+  z-index:0;
+}
+.cta-wave-card--sm{ padding:.45rem .85rem; border-radius:10px; }
+.cta-wave-card--lg{ padding:.65rem 1.25rem; border-radius:14px; }
+
+/* Context variant for non-image surfaces */
+.cta-wave-card--default{
+  --cta-fg: #fff;
+  --cta-bg: var(--cta-accent, #FD593C);
+  --cta-border: transparent;
+}
+
+/* Wave effect */
+.cta-wave-card { white-space:nowrap; letter-spacing:.2px; --wave-step:55ms; --wave-raise:6px;}
+.btn-wave-inner { display:inline-block; }
+.cta-wave-card .wave-char{
+  display:inline-block;
+  transform:translateY(0);
+  transform-origin: bottom center;
+  will-change: transform;
+}
+/* .cta-wave-card:hover .wave-char,
+.cta-wave-card:focus-visible .wave-char{
+  animation:btn-wave 520ms ease calc(var(--i) * var(--wave-step)) 1 both;
+  outline: none;
+}
+@keyframes btn-wave{
+  0% { transform:translateY(0) }
+  40%{ transform:translateY(calc(-1 * var(--wave-raise))) }
+  100%{ transform:translateY(0) }
+} */
+
+/* Optional hover accent for on-image buttons */
+.cta-wave-card--on-image:hover { 
+  /* border-color: var(--cta-accent, #FD593C); */
+  border: 3px solid  var(--cta-border);
+}
+
+/* Motion safety */
+@media (prefers-reduced-motion:reduce){
+  .cta-wave-card:hover .wave-char,
+  .cta-wave-card:focus-visible .wave-char{ animation:none !important; }
+}

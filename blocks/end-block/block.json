@@ -1,0 +1,35 @@
+{
+  "apiVersion": 2,
+  "name": "childtheme/end-block",
+  "title": "End Block – CTA",
+  "category": "widgets",
+  "icon": "megaphone",
+  "description": "Closing call-to-action with headline, subhead, and buttons.",
+  "supports": {
+    "align": ["wide", "full"],
+    "anchor": true,
+    "html": false
+  },
+  "style": "file:./style.css",
+  "render": "file:./render.php",
+  "attributes": {
+    "align": { "type": "string", "default": "wide" },
+    "title": { "type": "string", "default": "Share Your Travel Story and Say Hey!" },
+    "subheading": { "type": "string", "default": "Got a hidden gem, or a travel fail turned win? We’d love to hear it—share your story, or drop us a message." },
+    "buttons": {
+      "type": "array",
+      "default": [
+        { "text": "Share My Story", "url": "#", "accent": "#FD593C" },
+        { "text": "Message Us",     "url": "#", "accent": "#14B9D6" }
+      ],
+      "items": {
+        "type": "object",
+        "properties": {
+          "text":   { "type": "string" },
+          "url":    { "type": "string" },
+          "accent": { "type": "string" }
+        }
+      }
+    }
+  }
+}

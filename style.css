@@ -1,0 +1,74 @@
+/*
+Theme Name: ilegiants
+Theme URI: 
+Author: 
+Author URI: 
+Description: ilegiants
+Requires at least: 6.8
+Tested up to: 6.8
+Requires PHP: 5.7
+Version: 
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Template: twentytwentyfive
+Text Domain: ilegiants
+Tags: 
+*/
+
+/* Design tokens */
+:root{
+  /* Gutters */
+  --page-gutter-left: clamp(12px, calc(12px + 208 * ((100vw - 360px) / 1080)), 220px);
+  --page-gutter-right: clamp(12px, calc(12px + 208 * ((100vw - 360px) / 1080)), 220px);
+  --page-gutter-inline: var(--page-gutter-left) var(--page-gutter-right);
+
+  /* Content rail */
+  --content-max: 72rem; /* ~1152px; tune as needed */
+
+  /* Utility */
+  --toc-top: 96px;
+
+  --section-mt: 125px;
+}
+
+/* Global reset for the top edge */
+html, body, .wp-block-group { margin: 0; padding: 0; }
+
+/* Block theme padding/margin that often creates a top gap */
+.wp-site-blocks { padding-top: 0; }
+.wp-site-blocks > :first-child { margin-block-start: 0; }
+
+/* sections */
+.child-block { margin-top: var(--section-mt); }
+
+/* first section inside common wrappers: no top padding */
+.wp-block-group > .child-block:first-child,
+.wp-site-blocks  > .child-block:first-child {
+  padding-top: 0;
+}
+
+/* Template-part wrapper should not add spacing */
+header.wp-block-template-part { margin: 0; padding: 0; }
+
+/* Global layout: single source of truth for alignment */
+.container{
+  width: min(
+    var(--content-max),
+    calc(100% - (var(--page-gutter-left) + var(--page-gutter-right)))
+  );
+  margin-inline: auto;
+}
+
+/* Make every full-width section respect the same container */
+.alignfull > .container,
+.site-header > .container,
+.site-main > .container,
+.site-footer > .container{ width: inherit; }
+
+/* Block defaults */
+.wp-site-blocks{
+  min-height: 100%;
+  font-size: var(--wp--preset--font-size--body);
+  line-height: 1.6;
+}
+

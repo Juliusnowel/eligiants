@@ -1,0 +1,49 @@
+{
+  "apiVersion": 2,
+  "name": "childtheme/card-about",
+  "title": "Card About",
+  "category": "design",
+  "icon": "id-alt",
+  "description": "Responsive info cards with optional top-left icon. Mobile shows 2, tablet shows 4, desktop shows all.",
+  "keywords": ["about", "info", "cards"],
+  "supports": {
+    "align": ["wide", "full"],
+    "anchor": true,
+    "spacing": { "margin": true, "padding": true },
+    "color": { "background": false, "text": false, "link": false }
+  },
+  "attributes": {
+    "heading":   { "type": "string", "default": "Smart Travel, Simple Wins" },
+    "subheading":{ "type": "string", "default": "" },
+    "columns":   { "type": "number", "default": 3 },
+    "items": {
+      "type": "array",
+      "default": [
+        {
+          "title": "Amet Consectetur",
+          "excerpt": "Short copy about this helpful tip. Keep it crisp.",
+          "iconAlt": "Icon"
+        }
+      ]
+    },
+    "cardBg": { "type": "string", "default": "#fff" },
+    "decor":     { "type": "array", "default": [] }
+  },
+  "style": "file:./style.css",
+  "render": "file:./render.php",
+  "example": {
+    "attributes": {
+      "heading": "Smart Travel, Simple Wins",
+      "subheading": "Pack light, spend smart, and travel like a pro.",
+      "columns": 3,
+      "items": [
+        { "title":"Packing Hacks",  "excerpt":"Compression cubes, roll method, and a micro first-aid kit.", "buttonText":"Read More", "buttonUrl":"#", "iconUrl":"https://picsum.photos/80?random=11" },
+        { "title":"Airport Flow",   "excerpt":"IDs handy, liquids up front, shoes that slip on/off.",         "buttonText":"Read More", "buttonUrl":"#", "iconUrl":"https://picsum.photos/80?random=12" },
+        { "title":"Local Transit",  "excerpt":"City cards beat single fares. Download offline maps.",         "buttonText":"Read More", "buttonUrl":"#", "iconUrl":"https://picsum.photos/80?random=13" },
+        { "title":"Cash & Cards",   "excerpt":"Fee-free ATM strategy plus a travel rewards backup.",          "buttonText":"Read More", "buttonUrl":"#", "iconUrl":"https://picsum.photos/80?random=14" },
+        { "title":"Safety Basics",  "excerpt":"Copy of passport, shared itinerary, roaming pin-lock.",        "buttonText":"Read More", "buttonUrl":"#", "iconUrl":"https://picsum.photos/80?random=15" }
+      ]
+    }
+  },
+  "textdomain": "childtheme"
+}

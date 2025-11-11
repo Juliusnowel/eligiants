@@ -1,0 +1,110 @@
+/* shell */
+.card-about{
+  --cols: 3;
+  --gap: clamp(.9rem, 2vw, 5.25rem);
+  --radius: 16px;
+  --accent: #FD593C;
+  --rule: #FDCD3B;
+  --card-bg: #fff;
+  --decor-w: clamp(110px, 14vw, 200px);
+  --decor-y: -20%;
+
+  padding-left: var(--page-gutter-left, 1rem);
+  padding-right: var(--page-gutter-right, 1rem);
+  position: relative;
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+/* header */
+.card-about__header{ text-align:center; margin: 0 auto 3.25rem;}
+.card-about__title{
+  margin: 0 0 .35rem; color: var(--accent);
+  font-size: var(--wp--preset--font-size--h-2);
+  border-bottom: 3px solid var(--rule);
+  display: inline-block; padding-bottom: .3rem;
+  width: 100%;
+}
+.card-about__sub{ margin:.25rem 0 0; }
+
+/* layout */
+.card-about__track{ display:flex; flex-wrap:wrap; gap:var(--gap); justify-content:center; }
+.card-about__item{
+  margin-top: 25px;
+  flex: 1 1 calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols));
+  min-width: 260px; max-width: 480px; display:flex;
+}
+.card-about__card{
+  background: var(--card-bg); border-radius: var(--radius);
+  box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 1px 0 rgba(0,0,0,.05) inset;
+  padding: 1.25rem 1.25rem 1rem; position: relative; width: 100%;
+}
+
+/* badge */
+.card-about__badge{
+  position: absolute; left: -35px; top: -45px;
+  width: 72px; height: 72px; display:grid; place-items:center; border-radius:16px;
+}
+.card-about__badge-img{ width: 105px; height: 105px; object-fit: contain; display:block; }
+
+/* content */
+.card-about__name{
+  margin:.25rem 0 0 3.5rem; color:var(--accent);
+  font-size: var(--wp--preset--font-size--h-4); position:relative; padding-right:1rem;
+}
+.card-about__rule{ display:block; height:3px; background:var(--rule); width:95%; margin-top:.35rem; }
+.card-about__blurb{ margin:0 0 .75rem; font-size:var(--wp--preset--font-size--body); opacity:.95; }
+
+/* CTA */
+.card-about__cta-wrap{ margin:.25rem 0 0; display:flex; justify-content:flex-end; }
+.card-about__cta{
+  display:inline-block; padding:.5rem 1rem; border-radius:12px; border:1px solid #cfe7ee;
+  background:#fff; color:#00a3c7; text-decoration:none; font-weight:600;
+  box-shadow:0 6px 10px -4px rgba(0,0,0,.15);
+}
+.card-about__cta:hover{ border-color:#74d0e0; }
+
+/* foreground above decor */
+.card-about__header, .card-about__track{ position:relative; z-index:1; }
+
+/* decor */
+.card-about__decor{
+  position:absolute; top: clamp(8px, 3vw, 40px); z-index:0;
+  pointer-events:none; user-select:none; opacity:1;
+}
+.card-about__decor-img{
+  display:block; width: var(--decor-w); height:auto;
+  filter: drop-shadow(0 8px 16px rgba(0,0,0,.25));
+}
+.card-about__decor--left  { left:0;  transform: translateX(-35%) translateY(var(--decor-y)) rotate(-2deg); }
+.card-about__decor--right { right:0; transform: translateX( 35%) translateY(var(--decor-y)) rotate( 2deg); }
+
+/* small screens */
+@media (max-width: 720px){
+  .card-about__decor{ display:none; }
+  .card-about__item{ min-width:100%; }
+  .card-about__badge{ left:-28px; top:-35px; width:64px; height:64px; }
+  .card-about__badge-img{ width:86px; height:96px; }
+}
+
+/* responsive cols */
+@media (max-width: 1165px){
+  .card-about{ --cols: 1; }
+  .card-about__item{ min-width:75%; }
+}
+
+/* tablet uplift */
+@media (min-width: 721px) and (max-width: 1165px){
+  .card-about{
+    --decor-w: clamp(220px, 28vw, 360px);
+    --decor-y: -10%;
+    padding-block: 5rem;
+    min-height: 560px;
+  }
+  .card-about__decor{ top: clamp(16px, 4vw, 64px); }
+}
+
+/* Safari fallback */
+@supports not (overflow: clip){
+  .card-about{ overflow-x: hidden; }
+}

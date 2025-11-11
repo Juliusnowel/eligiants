@@ -1,0 +1,24 @@
+{
+  "apiVersion": 3,
+  "name": "ilegiants/cta-wave-card",
+  "title": "CTA – Wave (Card)",
+  "category": "design",
+  "icon": "button",
+  "style": "file:./style.css",
+  "render": "file:./render.php",
+  "supports": {
+    "className": true,
+    "spacing": { "margin": true },
+    "align": ["wide","full"]
+  },
+  "attributes": {
+    "text":      { "type": "string", "default": "Read More" },
+    "url":       { "type": "string", "default": "#" },
+    "accent":    { "type": "string", "default": "#FD593C" },
+    "context":   { "type": "string", "default": "on-image" },  
+    "size":      { "type": "string", "default": "md" },       
+    "target":    { "type": "string", "default": "" },
+    "rel":       { "type": "string", "default": "" },
+    "ariaLabel": { "type": "string", "default": "" }
+  }
+}

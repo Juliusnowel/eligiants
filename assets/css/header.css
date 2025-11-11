@@ -1,0 +1,265 @@
+/* ===== Vars ===== */
+:root{
+  --nav-accent:#e93a1b;
+  --panel-bg:#ededed;
+
+  /* FX */
+  --fx-dur:.44s;
+  --fx-step:36ms;
+  --fx-line-dur:.15s;
+  --fx-line-delay:.08s;
+  --fx-ease:cubic-bezier(.2,.7,0,1);
+  --fx-shift:1.15em;
+  --fx-underline-gap:.28em;
+
+  /* Wave */
+  --wave-w:1.75em;
+  --wave-thick:2px;
+  --wave-soften:4px;
+}
+
+/* ===== Sticky navbar ===== */
+header.wp-block-template-part {
+  position: sticky;
+  top: 0;
+  z-index: 10000;
+  overflow: visible;
+  background: transparent; 
+}
+
+/* Your existing navbar rules still apply */
+#navbar {
+  position: sticky;
+  top: 0;
+  z-index: 10001;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+body.scrolled #navbar{
+  background: #FDCD3B;
+}
+.admin-bar #navbar,
+.admin-bar header.wp-block-template-part { top: 32px; }
+@media (max-width:782px){
+  .admin-bar #navbar,
+  .admin-bar header.wp-block-template-part { top: 46px; }
+}
+
+:root { --navbar-h: 72px; }
+
+/* Gutters so logo isn’t glued to the edge */
+#navbar .container{
+  max-width:100%;
+  padding-left:var(--page-gutter-left);
+  padding-right:var(--page-gutter-right);
+}
+
+/* Brand */
+.brand-link{
+  margin-right:clamp(16px,4vw,56px);
+  text-decoration:none; color:inherit;
+}
+.brand-logo{ height:clamp(28px,4.5vw,36px); width:auto; display:block; }
+
+/* Nav items */
+#navbar .nav-link{
+  border-radius:.6rem;
+  padding:.45rem 1rem;
+  font-size:var(--wp--preset--font-size--body);
+  color:var(--wp--preset--color--ink);
+  transition:color .15s ease, background-color .15s ease;
+}
+#navbar .nav-item .nav-link.active,
+#navbar .nav-item.show > .nav-link{
+  background:var(--nav-accent); color:#fff !important;
+}
+
+/* top-level links own the effect */
+#navbar .navbar-nav > .nav-item > .nav-link{
+  position:relative; text-decoration:none !important;
+}
+
+/* wrapper owns underline (not clipped) */
+#navbar .nav-link .fx-wrap{
+  position:relative; display:inline-block; isolation:isolate;
+}
+
+/* stack clips the text swap only */
+#navbar .nav-link .fx-stack{
+  position:relative; display:inline-block;
+  height:1em; line-height:.7em; overflow:hidden;
+  vertical-align:-.05em;
+  -webkit-font-smoothing:antialiased;
+  text-shadow:0 var(--fx-shift) 0 currentColor;
+}
+
+/* layers */
+#navbar .nav-link .fx-top,
+#navbar .nav-link .fx-bottom{ display:block; white-space:nowrap; }
+
+/* per-letter units */
+#navbar .nav-link .fx-char{
+  display:inline-block; will-change:transform;
+  transition:transform var(--fx-dur) var(--fx-ease);
+  transition-delay:calc(var(--i) * var(--fx-step));
+  transform:translateY(var(--y,0));
+}
+#navbar .nav-link .fx-top .fx-char{ --y:0; }
+#navbar .nav-link .fx-bottom{
+  position:absolute; left:0; top:0; color:var(--nav-accent);
+}
+#navbar .nav-link .fx-bottom .fx-char{ --y:var(--fx-shift); }
+
+/* hover: lift original, reveal brand clone */
+/* #navbar .nav-link:hover .fx-top .fx-char{ --y:calc(-1 * var(--fx-shift)); } */
+/* #navbar .nav-link:hover .fx-bottom .fx-char{ --y:0; } */
+#navbar .nav-link:hover .fx-top {
+  color: #d42203;
+}
+
+/* underline + moving crest */
+#navbar .nav-link .fx-wrap::after{
+  content:""; position:absolute; left:0; right:0;
+  bottom:calc(-1 * var(--fx-underline-gap));
+  height:var(--wave-thick); background:var(--nav-accent);
+  transform:scaleX(0); transform-origin:left center;
+  pointer-events:none; z-index:1;
+}
+#navbar .nav-link .fx-wrap::before{
+  content:""; position:absolute; left:0; right:0;
+  bottom:calc(-1 * var(--fx-underline-gap));
+  height:var(--wave-thick); pointer-events:none; opacity:0; z-index:2;
+  background-image:radial-gradient(50% 220% at 0% 50%, var(--nav-accent) 0 55%, transparent 56%);
+  background-repeat:no-repeat; background-size:var(--wave-w) 100%;
+  background-position:0 0; filter:blur(var(--wave-soften));
+  will-change:background-position, opacity;
+}
+
+#navbar .nav-link:hover .fx-wrap::after{
+  animation:fx-underline var(--fx-dur) var(--fx-ease) var(--fx-line-delay) forwards;
+}
+#navbar .nav-link:focus-visible .fx-wrap::after{
+  animation:fx-underline var(--fx-line-dur) var(--fx-ease) 0s forwards;
+}
+#navbar .nav-link:hover .fx-wrap::before,
+#navbar .nav-link:focus-visible .fx-wrap::before{
+  opacity:1;
+  animation:fx-underline-wave var(--fx-dur) var(--fx-ease) var(--fx-line-delay) forwards;
+}
+
+/* active pill stays clean */
+/* #navbar .nav-item .nav-link.active .fx-wrap::after{ transform:scaleX(0); }
+#navbar .nav-item .nav-link.active .fx-top .fx-char,
+#navbar .nav-item .nav-link.active .fx-bottom .fx-char{ transition:none; } */
+
+/* Respect reduced motion — single, consolidated rule */
+/* @media (prefers-reduced-motion:reduce){
+  #navbar .nav-link .fx-char,
+  #navbar .nav-link .fx-wrap::after{ transition:none !important; animation:none !important; }
+  #navbar .nav-link .fx-wrap::before{ animation:none !important; opacity:0 !important; }
+} */
+
+/* Dropdown */
+#navbar .dropdown-menu{
+  background:var(--panel-bg);
+  border:0; border-radius:.5rem; padding:.5rem;
+  box-shadow:0 8px 24px rgba(0,0,0,.08);
+  min-width:16rem;
+}
+#navbar .dropdown-item{
+  border-radius:.35rem; padding:.6rem .9rem;
+  font-size:var(--wp--preset--font-size--body);
+  line-height:1.25;
+}
+#navbar .dropdown-item:hover{ text-decoration:underline !important; color: #FD593C;}
+
+
+/* Desktop hover open (matches expand-xxl) */
+@media (min-width:1400px){
+  #navbar .nav-item.dropdown > .dropdown-menu{
+    display:block; opacity:0; visibility:hidden; transform:translateY(10px);
+    transition:opacity .2s ease, transform .2s ease, visibility 0s linear .2s;
+  }
+  #navbar .nav-item.dropdown:hover > .dropdown-menu,
+  #navbar .nav-item.dropdown:focus-within > .dropdown-menu{
+    opacity:1; visibility:visible; transform:none; transition-delay:0s;
+  }
+}
+
+/* Mobile collapsed */
+/* Mobile + Tablet: kill wave, set static tomato text */
+/* Mobile + Tablet behavior */
+@media (max-width: 1399.98px){
+  /* Keep your existing dropdown layout tweak */
+  #navbar .dropdown-menu{
+    position:static; float:none; box-shadow:none; width:100%; margin-top:.5rem;
+  }
+
+  /* Default: black text, no background */
+  #navbar .nav-link{
+    color:#000 !important;
+    background:transparent !important;
+  }
+
+  /* Kill wave/motion */
+  #navbar .nav-link .fx-char{
+    transition:none !important;
+    transform:none !important;
+  }
+  #navbar .nav-link .fx-stack{
+    height:auto; line-height:1.1em; overflow:visible;
+    text-shadow:none !important;
+  }
+  #navbar .nav-link .fx-bottom{ display:none !important; }
+  #navbar .nav-link .fx-wrap::before,
+  #navbar .nav-link .fx-wrap::after{
+    display:none !important;
+    animation:none !important;
+  }
+
+  /* Press/Focus: tomato text only */
+  #navbar .nav-link:active,
+  #navbar .nav-link:focus,
+  #navbar .nav-link:focus-visible{
+    color:tomato !important;
+    background:transparent !important;
+  }
+
+  /* Active/Current: white text on tomato pill */
+  #navbar .nav-item .nav-link.active,
+  #navbar .nav-item.show > .nav-link{
+    color:#fff !important;
+    background:tomato !important;
+  }
+}
+
+/* Keyframes */
+@keyframes fx-underline{ from{ transform:scaleX(0); } to{ transform:scaleX(1); } }
+@keyframes fx-underline-wave{ from{ background-position:0 0; } to{ background-position:100% 0; } }
+
+@media (max-width: 991.98px){
+  #navbar .nav-link .fx-char{
+    transition:none !important;
+    transform:none !important;
+  }
+  #navbar .nav-link .fx-stack{
+    text-shadow:none !important;
+    height:auto;
+    line-height:1.1em;
+  }
+  #navbar .nav-link .fx-bottom{
+    position:static;
+    color:inherit;
+  }
+  #navbar .nav-link .fx-wrap::before,
+  #navbar .nav-link .fx-wrap::after{
+    display:none !important;
+    animation:none !important;
+  }
+  #navbar .nav-link:active,
+  #navbar .nav-link:focus,
+  #navbar .nav-link:focus-visible{
+    color:tomato !important;
+  }
+}
+

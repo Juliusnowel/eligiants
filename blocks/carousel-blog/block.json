@@ -1,0 +1,42 @@
+{
+  "apiVersion": 2,
+  "name": "childtheme/carousel-blog",
+  "title": "Carousel – Blog",
+  "category": "widgets",
+  "icon": "slides",
+  "description": "Horizontally scrolling blog carousel with hover arrows and dot nav.",
+  "supports": { "align": ["wide","full"], "anchor": true, "html": false },
+  "style": "file:./style.css",
+  "render": "file:./render.php",
+  "attributes": {
+    "align": { "type": "string", "default": "wide" },
+    "heading": { "type": "string", "default": "" },
+    "subheading": { "type": "string", "default": "" },
+
+    "source": { "type": "string", "default": "query" },
+    "postsToShow": { "type": "number", "default": 6 },
+    "order": { "type": "string", "default": "DESC" },
+    "orderBy": { "type": "string", "default": "date" },
+    "categories": { "type": "array", "default": [] },
+    "tags": { "type": "array", "default": [] },
+
+    "items": {
+      "type": "array",
+      "default": [],
+      "items": { "type": "object",
+        "properties": {
+          "title": { "type": "string" },
+          "excerpt": { "type": "string" },
+          "imageUrl": { "type": "string" },
+          "linkUrl": { "type": "string" }
+        }
+      }
+    },
+
+    "imageSize": { "type": "string", "default": "large" },
+
+    "perViewMobile":  { "type": "number", "default": 1 },
+    "perViewTablet":  { "type": "number", "default": 2 },
+    "perViewDesktop": { "type": "number", "default": 3 }
+  }
+}

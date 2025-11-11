@@ -1,0 +1,51 @@
+/* Base */
+.cta-bounce{
+  display:inline-block;
+  padding:.50rem 1.75rem;
+  border-radius:12px;
+  background:var(--cta-accent, #FD593C);
+  color:#fff;
+  text-decoration:none;
+  font-size:var(--wp--preset--font-size--body);
+  font-weight:700;
+  position:relative;
+  will-change:transform;
+  z-index:0;
+  box-shadow:none;
+}
+.cta-bounce__label{ margin:0; border-bottom:3px solid transparent; }
+
+/* Drop shadow behind the pill */
+.cta-bounce::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  box-shadow:0 12px 18px -6px rgba(0,0,0,.65);
+  z-index:-1;
+  pointer-events:none;
+}
+
+/* Bounce/see-saw motion */
+@keyframes cta-bounce-seesaw{
+  0%   { transform-origin:10% 50%;  transform:rotate(0) translateY(0); }
+  16%  { transform-origin:0% 50%;   transform:rotate(-3deg) translateY(-1px); }
+  33%  { transform-origin:50% 50%;  transform:rotate(0) translateY(0); }
+  50%  { transform-origin:100% 50%; transform:rotate(3deg) translateY(-1px); }
+  66%  { transform-origin:50% 50%;  transform:rotate(0) translateY(0); }
+  83%  { transform-origin:0% 50%;   transform:rotate(-3deg) translateY(-1px); }
+  100% { transform-origin:50% 50%;  transform:rotate(0) translateY(0); }
+}
+
+.cta-bounce:hover,
+.cta-bounce:focus-visible{
+  animation: cta-bounce-seesaw 1s ease-in-out both;
+  /* background-color:#f15539;  */
+  outline:none;
+}
+
+/* Motion safety */
+@media (prefers-reduced-motion:reduce){
+  .cta-bounce:hover,
+  .cta-bounce:focus-visible{ animation:none; }
+}

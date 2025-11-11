@@ -1,0 +1,55 @@
+/* End Block – CTA */
+
+/* Container uses global gutters from your theme tokens */
+.end-block {
+  padding-left: var(--page-gutter-left, 1rem);
+  padding-right: var(--page-gutter-right, 1rem);
+  padding-bottom: 200px;
+  /* background: rgb(37, 187, 247); */
+}
+
+/* Layout */
+.end-block__inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: clamp(1rem, 4vw, 3rem);
+  padding: 0 7em;
+}
+
+/* Copy */
+.end-block__title {
+  margin: 0 0 .35rem;
+  color: #FD593C; /* accent */
+  font-size: var(--wp--preset--font-size--h-2);
+  display: inline-block;
+  padding-bottom: .35rem;
+  border-bottom: 3px solid #FDCD3B;
+  width: fit-content;
+  width: 100%;
+}
+.end-block__sub {
+  margin: .25rem 0 0;
+  font-size: var(--wp--preset--font-size--body);
+  color: var(--wp--preset--color--ink, #212529);
+}
+
+/* Actions: right-aligned row */
+.end-block__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: clamp(.6rem, 2vw, 1.25rem);
+}
+
+/* Responsive stacking */
+@media (max-width: 900px) {
+  .end-block__inner {
+    grid-template-columns: 1fr;
+    justify-items: start;
+  }
+  .end-block__actions {
+    justify-content: flex-start;
+  }
+}

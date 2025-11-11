@@ -1,0 +1,228 @@
+/* =========================================================
+   Card Region
+   ========================================================= */
+
+/* Shell */
+.card-region{
+  --cols: 3;
+  --radius: 22px;
+  --accent: #FD593C;
+
+  background: var(--region-bg, transparent);
+  padding-left: var(--page-gutter-left, 1rem);
+  padding-right: var(--page-gutter-right, 1rem);
+  position: relative;
+}
+
+/* Header */
+.card-region__header{ text-align:center; margin:0 auto 1.25rem; }
+.card-region__title{
+  margin:0 0 .5rem;
+  color:var(--accent);
+  font-size:var(--wp--preset--font-size--h-2);
+  border-bottom:3px solid #FDCD3B;
+  display:inline-block;
+  padding-bottom:.35rem;
+  width:100%;
+}
+.card-region__sub{ margin:.25rem 0 0; color: var(--wp--preset--color--ink, #333); }
+
+/* Track */
+.card-region__track{
+  display:grid;
+  grid-template-columns:repeat(var(--cols), minmax(0, 1fr));
+  gap:clamp(.9rem, 2vw, 1.5rem);
+  align-items:stretch;
+}
+
+/* Carousel mode */
+.card-region.is-carousel .card-region__track{
+  display:grid;
+  grid-auto-flow:column;
+  grid-auto-columns:minmax(260px, calc(100% / var(--cols)));
+  grid-template-columns:none;
+  overflow-x:auto;
+  overscroll-behavior-x:contain;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  padding-bottom:.25rem;
+}
+.card-region.is-carousel .card-region__item{ scroll-snap-align:start; }
+
+/* =========================================================
+   Card — match carousel-blog overlay behavior
+   ========================================================= */
+
+.card-region__item{ min-width:0; }
+
+.card-region__figure{
+  margin:0;
+  position:relative;
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:0 14px 24px rgba(0,0,0,.65);
+}
+
+.card-region__image{
+  display:block;
+  width:100%;
+  height:100%;
+  aspect-ratio:4 / 5;
+  object-fit:cover;
+}
+
+/* Bottom overlay band (rectangle), always tall enough for content */
+.card-region__overlay{
+  position:absolute;
+  left:0; right:0; bottom:0;
+  z-index:10;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  padding:1rem 3rem;
+  min-height:clamp(110px, 40%, 120px);   /* ensures visible band */
+  background:rgba(0,0,0,.35);            /* same as blog card */
+  color:#fff;
+}
+
+/* Typography parity */
+.card-region__name{
+  margin:0 0 .35rem;
+  font-size:var(--wp--preset--font-size--h-3);
+  line-height:1.1;
+}
+.card-region__blurb{ margin:0 0 .75rem; opacity:.95; }
+
+/* Center CTA within overlay */
+.card-region__cta{ margin:0; align-self:center; }
+
+/* =========================================================
+   Section CTA (flip variant)
+   ========================================================= */
+.card-region__footer{ display:flex; justify-content:center; margin-top:1.25rem; }
+
+.card-region__section-cta{
+  display:inline-block;
+  padding:.7rem 1.25rem;
+  border-radius:12px;
+  color:#fff;
+  text-decoration:none;
+  font-size:var(--wp--preset--font-size--body);
+  font-weight:700;
+  position:relative;
+  z-index:0;
+  box-shadow:none;
+  will-change:transform;
+}
+.card-region__section-cta::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  z-index:-1;
+  pointer-events:none;
+}
+
+.card-region__section-cta--flip{
+  display:inline-block;
+  padding:0;
+  perspective:1000px;
+  position:relative;
+}
+.card-region__section-cta--flip:hover,
+.card-region__section-cta--flip:focus-visible{ animation:none; }
+
+.card-region__section-cta--flip .cta-flip__inner{
+  position:relative;
+  display:grid;
+  transform-style:preserve-3d;
+  transition:transform .6s;
+  border-radius:18px;
+  box-shadow:0 12px 18px -6px rgba(0,0,0,.35);
+}
+.card-region__section-cta--flip .cta-flip__inner::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:12px;
+  z-index:-1;
+  pointer-events:none;
+  opacity:1;
+  transition:opacity .2s ease;
+}
+.card-region__section-cta--flip .cta-flip__face{
+  grid-area:1 / 1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:.7rem 1.25rem;
+  border-radius:12px;
+  background:var(--accent,#FD593C);
+  color:#fff;
+  white-space:nowrap;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  line-height:1;
+}
+.card-region__section-cta--flip .cta-flip__front{ transform:rotateY(0); }
+.card-region__section-cta--flip .cta-flip__back{ transform:rotateY(180deg); }
+.card-region__section-cta--flip:hover .cta-flip__inner,
+.card-region__section-cta--flip:focus-visible .cta-flip__inner{ transform:rotateY(180deg); }
+.card-region__section-cta--flip .cta-flip__back i{ font-size:1.15em; line-height:1; }
+.card-region__section-cta--flip .cta-flip__back img{ width:1.25em; height:1.25em; display:block; }
+.card-region__section-text{ margin:0; }
+.card-region__section-cta--flip:hover .cta-flip__inner::after,
+.card-region__section-cta--flip:focus-visible .cta-flip__inner::after{ opacity:0; }
+.card-region__section-cta--flip::after{ content:none; }
+
+@media (prefers-reduced-motion: reduce){
+  .card-region__section-cta--flip .cta-flip__inner{ transition:none; }
+  .card-region__section-cta--flip:hover .cta-flip__inner,
+  .card-region__section-cta--flip:focus-visible .cta-flip__inner{ transform:none; }
+}
+
+/* =========================================================
+   Decorative assets
+   ========================================================= */
+.card-region { position:relative; }
+.card-region__header,
+.card-region__track,
+.card-region__footer{ position:relative; z-index:1; }
+
+.card-region__decor{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:0;
+  pointer-events:none;
+  user-select:none;
+  opacity:1;
+}
+.card-region__decor-img{
+  height:180%;
+  width:auto;
+  max-width:clamp(80px, 10vw, 280px);
+  object-fit:contain;
+  filter:drop-shadow(0 8px 16px rgba(0,0,0,.25));
+  display:block;
+}
+.card-region__decor--left{ left:0; }
+.card-region__decor--right{ right:0; }
+@media (max-width:720px){ .card-region__decor{ display:none; } }
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+@media (max-width:1165px){
+  .card-region__track{ grid-template-columns:1fr; }
+  .card-region.is-grid .card-region__track{ grid-template-columns:1fr; }
+  .card-region.is-carousel .card-region__track{ grid-auto-columns:80%; }
+}
+
+@media (max-width:640px){
+  .card-region__overlay{ padding:.75rem 1rem; }
+}
+
+/* WebKit scrollbar polish (optional) */
+.card-region.is-carousel .card-region__track::-webkit-scrollbar{ height:8px; }
+.card-region.is-carousel .card-region__track::-webkit-scrollbar-thumb{ background:rgba(0,0,0,.2); border-radius:10px; }
