@@ -113,6 +113,7 @@
   z-index:0;
   box-shadow:none;
   will-change:transform;
+  outline: none;
 }
 .card-region__section-cta::after{
   content:"";

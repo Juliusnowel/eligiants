@@ -12,6 +12,7 @@
   will-change:transform;
   z-index:0;
   box-shadow:none;
+  outline: none;
 }
 .cta-bounce__label{ margin:0; border-bottom:3px solid transparent; }
 

@@ -30,6 +30,7 @@
           "accent": { "type": "string" }
         }
       }
-    }
+    },
+    "decor": { "type": "array", "default": [] }
   }
 }

@@ -1,0 +1,64 @@
+{
+  "apiVersion": 2,
+  "name": "childtheme/card-2-text-image-responsive",
+  "title": "Card: 2-Column Text + Image (Responsive Panel)",
+  "category": "design",
+  "icon": "format-image",
+  "description": "Two-column promo card with image, responsive text panel, outer/panel decor, and flexible CTA alignment.",
+  "keywords": ["card", "image", "text", "cta", "decor"],
+  "supports": {
+    "align": ["wide", "full"],
+    "anchor": true,
+    "spacing": { "margin": true, "padding": true },
+    "color": { "text": false, "background": false, "link": false }
+  },
+  "style": "file:./style.css",
+  "render": "file:./render.php",
+  "attributes": {
+    "headline":          { "type": "string" },
+    "paragraphOne":      { "type": "string" },
+    "paragraphTwo":      { "type": "string" },
+
+    "buttonText":        { "type": "string" },
+    "buttonUrl":         { "type": "string", "default": "#" },
+    "buttonAccent":      { "type": "string", "default": "#FD593C" },
+    "ctaAlign":          { "type": "string", "default": "right" },  
+
+    "imageUrl":          { "type": "string", "default": "https://via.placeholder.com/960x540?text=Image" },
+    "imageAlt":          { "type": "string", "default": "" },
+    "imageBorderRadius": { "type": "number", "default": 24 },
+    "imagePosition":     { "type": "string", "default": "right" },
+
+    "backgroundColor":   { "type": "string", "default": "" },      
+    "decor":             { "type": "array",  "default": [] },      
+
+    "textBgColor":       { "type": "string", "default": "" },      
+    "textBorderRadius":  { "type": "number", "default": 16 },
+    "textPadY":          { "type": "number", "default": 28 },      
+
+    "textDecor":         { "type": "array",  "default": [] }      
+  },
+  "example": {
+    "attributes": {
+      "align": "wide",
+      "imagePosition": "right",
+      "headline": "Travel Safety Tips Every Traveler Should Know",
+      "paragraphOne": "Traveling opens the door to unforgettable adventures, but staying safe keeps every journey enjoyable.",
+      "buttonText": "Read Tips",
+      "buttonAccent": "#FD593C",
+      "ctaAlign": "left",
+      "imageUrl": "https://picsum.photos/960/540?random=17",
+      "backgroundColor": "#F9CF57",
+      "textBgColor": "#FFFFFF",
+      "textPadY": 36,
+      "decor": [
+        { "url": "https://picsum.photos/seed/left/200/600",  "alt": "Left motif",  "side": "left"  },
+        { "url": "https://picsum.photos/seed/right/200/600", "alt": "Right motif", "side": "right" }
+      ],
+      "textDecor": [
+        { "url": "https://picsum.photos/seed/tl/80/80", "alt": "Badge TL", "pos": "tl" }
+      ]
+    }
+  },
+  "textdomain": "childtheme"
+}

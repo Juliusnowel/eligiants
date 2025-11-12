@@ -10,25 +10,16 @@
 
 /* Exact viewport height when enabled */
 .hero-banner.is-fullheight{
-  height:var(--min-h);  
-  width: 100vh;  
-  min-height:0;
+  height: var(--min-h);   
+  width: 99.6vw !important;     
+  min-height: 0;
 }
-
 /* Slide hero under the sticky header and pad content down */
 .hero-banner.is-under-header{
   margin-top:calc(-1 * var(--header-h, var(--navbar-h, 0px)));
 }
 .hero-banner.is-under-header .hero-banner__inner{
   padding-top:calc(env(safe-area-inset-top) + var(--header-h, var(--navbar-h, 0px)) + clamp(24px,4vw,48px));
-}
-
-
-/* Background covers the entire hero */
-.hero-banner__media{
-  position:absolute; inset:0;
-  background-size:cover; background-position:center; background-repeat:no-repeat;
-  z-index:0;
 }
 
 /* Full-bleed without horizontal scrollbars */
@@ -46,11 +37,29 @@
   position:absolute;
   inset:0;
   background-size:cover;
-  background-position:center center;
+  background-position:center;
   background-repeat:no-repeat;
   margin:0;
   z-index:0;
+
+  transform-origin:center;
+  will-change:transform;
+
+  /* one-way zoom; duration is synced via --cycle */
+  animation: heroZoomIn var(--cycle, 8000ms) linear forwards;
 }
+
+/* one-way zoom; holds at end because of `forwards` */
+@keyframes heroZoomIn{
+  from { transform: scale(1); }
+  to   { transform: scale(var(--zoom-to, 1.08)); } /* adjust with --zoom-to */
+}
+
+/* Motion prefs */
+@media (prefers-reduced-motion: reduce){
+  .hero-banner__media{ animation:none !important; }
+}
+
 
 /* Centering shell */
 .hero-banner__inner{
@@ -90,6 +99,14 @@
   -webkit-text-stroke-color: #FDCD3B;
 }
 
+.hero-banner__subtitle{
+  margin: 6px 0 0;                         
+  color: #fff;
+  font-size: 24px;
+  font-weight: bold; 
+  text-shadow: 0 1px 2px rgba(0,0,0,.45); 
+}
+
 .hero-banner__title-text{ display:inline-block; }
 
 .hero-banner__rule{
@@ -106,9 +123,25 @@
   color:#fff;
   font-size:clamp(14px,1.6vw,18px);
   line-height:1.6;
-  max-width:72ch;
+  max-width:122ch;
   text-shadow:0 1px 2px rgba(0,0,0,.45);
 }
+.hero-banner__ctas{
+  display: flex;
+  gap: .75rem;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: clamp(.6rem, 1.2vw, 1rem);
+}
+.hero-banner__ctas--stack{ flex-direction: column; gap: .5rem; }
+.hero-banner__ctas > *{ flex: 0 0 auto; }
+
+/* Mobile auto-stack */
+@media (max-width:540px){
+  .hero-banner__ctas{ flex-direction: column; gap: .5rem; }
+}
+
 .hero-banner__cta{
   display:inline-block;
   margin-top:4px;

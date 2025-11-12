@@ -5,12 +5,24 @@ $title      = (string) ( $attributes['title'] ?? '' );
 $sub        = (string) ( $attributes['subheading'] ?? '' );
 $buttons    = is_array( $attributes['buttons'] ?? null ) ? $attributes['buttons'] : [];
 $align_class = isset( $attributes['align'] ) ? 'align' . $attributes['align'] : '';
+$decor       = is_array( $attributes['decor'] ?? null ) ? $attributes['decor'] : [];
 
 $wrapper = get_block_wrapper_attributes( [
   'class' => 'end-block ' . $align_class . ' child-block',
 ] );
 ?>
 <div <?= $wrapper; ?>>
+  <?php if ( ! empty( $decor ) ) :
+    foreach ( $decor as $d ) :
+      $url  = isset( $d['url'] ) ? esc_url( $d['url'] ) : '';
+      if ( $url === '' ) { continue; }
+      $alt  = isset( $d['alt'] ) ? esc_attr( $d['alt'] ) : '';
+      $side = ( isset( $d['side'] ) && in_array( $d['side'], ['left','right'], true ) ) ? $d['side'] : 'right';
+      $side_class = 'end-block__decor--' . $side;
+      ?>
+      <img class="end-block__decor <?= esc_attr( $side_class ); ?>"
+           src="<?= $url; ?>" alt="<?= $alt; ?>" loading="lazy" decoding="async" />
+  <?php endforeach; endif; ?>
   <div class="end-block__inner">
     <div class="end-block__copy">
       <?php if ( $title ) : ?>

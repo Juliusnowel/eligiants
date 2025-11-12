@@ -119,6 +119,29 @@
   text-align:center;
 }
 
+/* footer link focus behavior */
+footer .nav-link,
+footer .footer-links a { outline: none; background: transparent !important;}
+
+/* kill sticky focus/active background from click */
+footer .nav-link:focus,
+footer .nav-link:active,
+footer .footer-links a:focus,
+footer .footer-links a:active {
+  background: transparent !important;
+  box-shadow: none !important;
+   color: #333;
+}
+
+/* keep accessibility for keyboard users only */
+footer .nav-link:focus-visible,
+footer .footer-links a:focus-visible {
+  outline: 2px solid #FD593C;    
+  outline-offset: 2px;
+  background: transparent;
+  border-radius: 6px;              
+}
+
 /* Tight mobile */
 @media (max-width:640px){
   .footer-ileg .container-fluid{ padding: 1.25rem .75rem; }

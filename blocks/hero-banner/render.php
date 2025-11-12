@@ -11,7 +11,7 @@ $defaults = [
   'accent'       => 'tomato',
   'titleShadow'  => true,
   'images'       => [],
-  'interval'     => 15000,
+  'interval'     => 5000,
   'fullHeight'   => true,
   'headerHeight' => 0,
   'underHeader'  => true,
@@ -61,9 +61,14 @@ $wrapper = get_block_wrapper_attributes( [
 ] );
 
 $title        = $attrs['title'];
+$subtitle     = $attrs['subtitle'] ?? '';
 $tagline      = $attrs['tagline'];
-$cta_text     = $attrs['ctaText'];
-$cta_url      = $attrs['ctaUrl'];
+$cta_text   = $attrs['ctaText'] ?? '';
+$cta_url    = $attrs['ctaUrl']  ?? '#';
+$cta2_text  = $attrs['cta2Text'] ?? '';
+$cta2_url   = $attrs['cta2Url']  ?? '#';
+$cta2_accent= $attrs['cta2Accent'] ?: ($attrs['accent'] ?? '#FD593C');
+$cta_layout = (isset($attrs['ctaLayout']) && $attrs['ctaLayout'] === 'stack') ? 'stack' : 'row';
 $title_shadow = ! empty( $attrs['titleShadow'] ) ? ' has-title-shadow' : '';
 
 $images   = array_values( array_filter( (array) $attrs['images'] ) );
@@ -83,24 +88,32 @@ $interval = max( 1000, (int) $attrs['interval'] );
         <div class="hero-banner__rule" aria-hidden="true"></div>
       <?php endif; ?>
 
+      <?php if ( $subtitle ) : ?>                             
+        <h3 class="hero-banner__subtitle"><?php echo wp_kses_post( $subtitle ); ?></h3>
+      <?php endif; ?>
+
       <?php if ( $tagline ) : ?>
         <p class="hero-banner__tagline"><?php echo wp_kses_post( $tagline ); ?></p>
       <?php endif; ?>
 
-      <?php if ( $cta_text ) : ?>
-        <?php if ( $cta_text ) : ?>
-				<?= render_block([
-						'blockName'   => 'ilegiants/cta-bounce',
-						'attrs'       => [
-						'text'   => $cta_text,
-						'url'    => $cta_url,
-						'accent' => '#FD593C' // optional override
-						],
-						'innerBlocks'  => [],
-						'innerHTML'    => '',
-						'innerContent' => []
-					]); ?>
-			<?php endif; ?>
+      <?php if ( $cta_text || $cta2_text ) : ?>
+        <div class="hero-banner__ctas hero-banner__ctas--<?php echo esc_attr($cta_layout); ?>">
+          <?php if ( $cta_text ) : ?>
+            <?= render_block([
+              'blockName'  => 'ilegiants/cta-bounce',
+              'attrs'      => [ 'text' => $cta_text, 'url' => ($cta_url ?: '#'), 'accent' => ($attrs['accent'] ?? '#FD593C') ],
+              'innerBlocks'=> [], 'innerHTML' => '', 'innerContent' => []
+            ]); ?>
+          <?php endif; ?>
+
+          <?php if ( $cta2_text ) : ?>
+            <?= render_block([
+              'blockName'  => 'ilegiants/cta-bounce',
+              'attrs'      => [ 'text' => $cta2_text, 'url' => ($cta2_url ?: '#'), 'accent' => $cta2_accent ],
+              'innerBlocks'=> [], 'innerHTML' => '', 'innerContent' => []
+            ]); ?>
+          <?php endif; ?>
+        </div>
       <?php endif; ?>
     </div>
   </div>
@@ -110,16 +123,32 @@ $interval = max( 1000, (int) $attrs['interval'] );
 (function(){
   var root = document.getElementById('<?php echo esc_js( $uid ); ?>');
   if(!root) return;
+
   var media = root.querySelector('.hero-banner__media');
   var imgs = [];
-  try { imgs = JSON.parse(root.getAttribute('data-images') || '[]'); } catch(e){ imgs = []; }
-  var interval = parseInt(root.getAttribute('data-interval') || '5000', 10);
-  if(!Array.isArray(imgs) || imgs.length < 2) return;
+  try { imgs = JSON.parse(root.getAttribute('data-images') || '[]'); } catch(e){}
+  var interval = Math.max(1000, parseInt(root.getAttribute('data-interval') || '5000', 10));
+
+  function restartZoom(){
+    media.style.setProperty('--cycle', interval + 'ms');      // keep CSS in sync
+    media.style.animation = 'none';
+    media.style.transform = 'scale(1)';                       // snap back to start
+    void media.offsetWidth;                                   // reflow to restart
+    media.style.animation = 'heroZoomIn ' + interval + 'ms linear forwards';
+  }
+
+  // initial run
+  restartZoom();
 
   var i = 0;
   setInterval(function(){
-    i = (i + 1) % imgs.length;
-    media.style.backgroundImage = 'url(' + imgs[i] + ')';
-  }, Math.max(1000, interval));
+    if (imgs.length > 1){
+      i = (i + 1) % imgs.length;
+      media.style.backgroundImage = 'url(' + imgs[i] + ')';
+    }
+    restartZoom();  // one-way zoom every cycle
+  }, interval);
 })();
 </script>
+
+

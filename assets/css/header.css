@@ -14,9 +14,10 @@
 
   /* Wave */
   --wave-w:1.75em;
-  --wave-thick:2px;
+  --wave-thick:3px;
   --wave-soften:4px;
 }
+
 
 /* ===== Sticky navbar ===== */
 header.wp-block-template-part {
@@ -45,7 +46,7 @@ body.scrolled #navbar{
   .admin-bar header.wp-block-template-part { top: 46px; }
 }
 
-:root { --navbar-h: 72px; }
+:root { --navbar-h: 85px; }
 
 /* Gutters so logo isn’t glued to the edge */
 #navbar .container{
@@ -68,6 +69,7 @@ body.scrolled #navbar{
   font-size:var(--wp--preset--font-size--body);
   color:var(--wp--preset--color--ink);
   transition:color .15s ease, background-color .15s ease;
+  outline: none;
 }
 #navbar .nav-item .nav-link.active,
 #navbar .nav-item.show > .nav-link{
@@ -173,64 +175,205 @@ body.scrolled #navbar{
 }
 #navbar .dropdown-item:hover{ text-decoration:underline !important; color: #FD593C;}
 
+/* .navbar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  padding: 20px 0;
+  z-index: 1;
+  background-color: transparent;
+} */
+.navbar nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-/* Desktop hover open (matches expand-xxl) */
-@media (min-width:1400px){
-  #navbar .nav-item.dropdown > .dropdown-menu{
-    display:block; opacity:0; visibility:hidden; transform:translateY(10px);
-    transition:opacity .2s ease, transform .2s ease, visibility 0s linear .2s;
-  }
-  #navbar .nav-item.dropdown:hover > .dropdown-menu,
-  #navbar .nav-item.dropdown:focus-within > .dropdown-menu{
-    opacity:1; visibility:visible; transform:none; transition-delay:0s;
+.navbar button {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 14px 20px;
+  border-radius: 10px;
+  color: white;
+  backdrop-filter: blur(5px);
+  transition: background 0.3s;
+}
+
+.navbar.is-sticky {
+  position: fixed;
+  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.1);
+  padding: 8px 0;
+  background-color: #FDCD3B;
+  animation: slideDown 0.35s ease-out;
+}
+
+/* Mobile menu open = white */
+.navbar.menu-open {
+  background-color: #fff;
+  box-shadow: 0 5px 16px rgba(0,0,0,0.1);
+}
+
+/* Sticky always wins (even when menu is open) — glassy dropdown */
+#navbar.is-sticky .dropdown-menu{
+  /* semi-transparent yellow so the blur reads */
+  background-color: rgba(253, 205, 59, 0.72);
+  /* background blur */
+  -webkit-backdrop-filter: saturate(120%) blur(10px);
+  backdrop-filter: saturate(120%) blur(10px);
+
+  /* optional polish */
+  border: 1px solid rgba(255,255,255,0.35);
+  background-clip: padding-box;
+  box-shadow: 0 8px 24px rgba(0,0,0,.08);
+}
+
+/* Fallback for browsers without backdrop-filter */
+@supports not ((-webkit-backdrop-filter: blur(0)) or (backdrop-filter: blur(0))){
+  #navbar.is-sticky .dropdown-menu{
+    background-color: rgba(253, 205, 59, 0.92); /* less transparent so it’s readable */
   }
 }
 
-/* Mobile collapsed */
-/* Mobile + Tablet: kill wave, set static tomato text */
-/* Mobile + Tablet behavior */
-@media (max-width: 1399.98px){
-  /* Keep your existing dropdown layout tweak */
-  #navbar .dropdown-menu{
-    position:static; float:none; box-shadow:none; width:100%; margin-top:.5rem;
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* --- Destination (dropdown) requirements --- */
+
+/* 1) No underline animation for dropdown triggers */
+@media (hover:hover) and (pointer:fine){
+  #navbar .navbar-nav > .nav-item > .nav-link:not(.dropdown-toggle)::after{
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: calc(-1 * var(--fx-underline-gap));
+    height: var(--wave-thick);
+    background: tomato;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform var(--fx-dur) var(--fx-ease);
+    pointer-events: none;
+  }
+  #navbar .navbar-nav > .nav-item > .nav-link:not(.dropdown-toggle):hover::after,
+  #navbar .navbar-nav > .nav-item > .nav-link:not(.dropdown-toggle):focus-visible::after{
+    transform: scaleX(1);
+  }
+}
+
+/* 2) Destination (dropdown toggle) hover = red, no underline */
+@media (hover:hover) and (pointer:fine){
+  #navbar .nav-item.dropdown > .nav-link.dropdown-toggle{
+    position: relative;
+  }
+  #navbar .nav-item.dropdown > .nav-link.dropdown-toggle:hover,
+  #navbar .nav-item.dropdown > .nav-link.dropdown-toggle:focus-visible{
+    color: tomato !important;
+  }
+}
+
+/* 3) Caret indicator for dropdown; rotates when open */
+#navbar .nav-item.dropdown > .nav-link.dropdown-toggle::after{
+  content: "";
+  display: inline-block;
+  margin-left: .4rem;
+  vertical-align: .1em;
+  border-top: .45em solid currentColor;
+  border-right: .4em solid transparent;
+  border-left: .4em solid transparent;
+  transition: transform .2s ease;
+}
+#navbar .nav-item.dropdown.show > .nav-link.dropdown-toggle::after{
+  transform: rotate(180deg);
+}
+
+/* --- 1) Universal hover color for top-level links (non-active) --- */
+#navbar .navbar-nav > .nav-item > .nav-link:not(.active):hover,
+.navbar .navbar-nav > .nav-item > .nav-link:not(.active):hover{
+  color: tomato !important; /* covers transparent + sticky */
+}
+
+/* Keep your fx variant but don't rely on it being in the markup */
+#navbar .nav-link:hover .fx-top,
+.navbar .nav-link:hover .fx-top{
+  color: tomato;
+}
+
+/* --- 2) Ensure dropdown toggles align with the same hover color --- */
+#navbar .nav-item.dropdown > .nav-link.dropdown-toggle:hover,
+#navbar .nav-item.dropdown > .nav-link.dropdown-toggle:focus-visible,
+.navbar .nav-item.dropdown > .nav-link.dropdown-toggle:hover,
+.navbar .nav-item.dropdown > .nav-link.dropdown-toggle:focus-visible{
+  color: tomato !important;
+}
+
+/* --- 3) Sticky state parity regardless of where is-sticky is applied --- */
+#navbar.is-sticky .navbar-nav > .nav-item > .nav-link:not(.active):hover,
+.navbar.is-sticky .navbar-nav > .nav-item > .nav-link:not(.active):hover{
+  color: tomato !important;
+}
+
+/* Optional: if you want the underline AND tomato text together on hover */
+@media (hover:hover) and (pointer:fine){
+  #navbar .navbar-nav > .nav-item > .nav-link:not(.dropdown-toggle):hover::after,
+  .navbar .navbar-nav > .nav-item > .nav-link:not(.dropdown-toggle):hover::after{
+    transform: scaleX(1);
+    background: tomato;
+  }
+}
+
+/* Force hamburger between 1400 and 1461.98 */
+@media (min-width:1400px) and (max-width:1461.98px){
+  /* Show the burger in this band */
+  .navbar-expand-xxl .navbar-toggler{ display:block !important; }
+
+  /* Neutralize Bootstrap’s xxl expand */
+  .navbar-expand-xxl .navbar-collapse{
+    display:block !important;          /* beat display:flex !important */
+    flex-basis:100% !important;         /* full width when opened */
   }
 
-  /* Default: black text, no background */
-  #navbar .nav-link{
-    color:#000 !important;
-    background:transparent !important;
-  }
+  /* Closed by default */
+  #navbarMain.collapse{ display:none !important; }
 
-  /* Kill wave/motion */
-  #navbar .nav-link .fx-char{
-    transition:none !important;
-    transform:none !important;
-  }
-  #navbar .nav-link .fx-stack{
-    height:auto; line-height:1.1em; overflow:visible;
-    text-shadow:none !important;
-  }
+  /* Visible when toggled + during animation */
+  #navbarMain.collapse.show,
+  #navbarMain.collapsing{ display:block !important; }
+
+  /* Vertical stack when open */
+  .navbar-expand-xxl .navbar-nav{ flex-direction:column; gap:.5rem; }
+}
+
+
+/* Keep your existing ≤1461 visual tweaks */
+@media (max-width:1461.98px){
+  #navbar .dropdown-menu{ position:static; float:none; box-shadow:none; width:100%; margin-top:.5rem; }
+  #navbar .nav-link{ color:#000 !important; background:transparent !important; }
+  #navbar .nav-link .fx-char{ transition:none !important; transform:none !important; }
+  #navbar .nav-link .fx-stack{ height:auto; line-height:1.1em; overflow:visible; text-shadow:none !important; }
   #navbar .nav-link .fx-bottom{ display:none !important; }
   #navbar .nav-link .fx-wrap::before,
-  #navbar .nav-link .fx-wrap::after{
-    display:none !important;
-    animation:none !important;
-  }
-
-  /* Press/Focus: tomato text only */
+  #navbar .nav-link .fx-wrap::after{ display:none !important; animation:none !important; }
   #navbar .nav-link:active,
   #navbar .nav-link:focus,
-  #navbar .nav-link:focus-visible{
-    color:tomato !important;
-    background:transparent !important;
-  }
-
-  /* Active/Current: white text on tomato pill */
+  #navbar .nav-link:focus-visible{ color:tomato !important; background:transparent !important; }
   #navbar .nav-item .nav-link.active,
-  #navbar .nav-item.show > .nav-link{
-    color:#fff !important;
-    background:tomato !important;
-  }
+  #navbar .nav-item.show > .nav-link{ color:#fff !important; background:tomato !important; }
+}
+
+/* Collapsed behavior ≤1461: full-width stack, left aligned */
+@media (max-width:1461.98px){
+  #navbar .navbar-collapse{ width:100%; }
+  #navbar .navbar-nav{ align-items:flex-start; }
+  #navbar .dropdown-menu{ position:static; float:none; box-shadow:none; width:100%; margin-top:.5rem; }
 }
 
 /* Keyframes */
@@ -263,3 +406,68 @@ body.scrolled #navbar{
   }
 }
 
+/* <1462: collapsed (you already had this) */
+@media (max-width:1461.98px){
+  .navbar-expand-1462 .navbar-toggler{ display:block; }
+  .navbar-expand-1462 .navbar-collapse.collapse{ display:none; }
+  .navbar-expand-1462 .navbar-collapse.collapse.show,
+  .navbar-expand-1462 .navbar-collapse.collapsing{ display:block; }
+  .navbar-expand-1462 .navbar-nav{ flex-direction:column; gap:.5rem; }
+  .navbar-expand-1462 .dropdown-menu{ position:static; box-shadow:none; width:100%; margin-top:.5rem; }
+}
+
+/* ≥1462: desktop inline — replicate Bootstrap expand behavior */
+@media (min-width:1462px){
+  .navbar-expand-1462{ flex-wrap:nowrap; }
+  .navbar-expand-1462 .navbar-toggler{ display:none !important; }
+  .navbar-expand-1462 .navbar-collapse{
+    display:flex !important;
+    flex-basis:auto !important;   /* key */
+  }
+  .navbar-expand-1462 .navbar-nav{
+    flex-direction:row !important; /* key */
+    align-items:center;
+  }
+  .navbar-expand-1462 .navbar-nav .nav-link{
+    padding-right:.5rem;
+    padding-left:.5rem;
+  }
+  .navbar-expand-1462 .dropdown-menu{
+    position:absolute;            /* return to overlay dropdowns */
+    float:none;
+    box-shadow:0 8px 24px rgba(0,0,0,.08);
+    width:auto;
+    margin-top:0;
+  }
+}
+
+/* ≥1462: desktop dropdown should not affect layout */
+@media (min-width:1462px){
+  /* anchor the absolute menu */
+  #navbar.navbar-expand-1462 .nav-item.dropdown{ position:relative; }
+
+  /* detach from flow; animate via opacity/transform only */
+  #navbar.navbar-expand-1462 .nav-item.dropdown > .dropdown-menu{
+    position:absolute;
+    top:100%;
+    left:0;                 /* default left-align */
+    margin:0;               /* no layout bump */
+    display:block;          /* keep for fade animation */
+    opacity:0;
+    visibility:hidden;
+    transform:translateY(8px);
+    transition:opacity .2s ease, transform .2s ease, visibility 0s linear .2s;
+  }
+
+  #navbar.navbar-expand-1462 .nav-item.dropdown:hover   > .dropdown-menu,
+  #navbar.navbar-expand-1462 .nav-item.dropdown:focus-within > .dropdown-menu{
+    opacity:1;
+    visibility:visible;
+    transform:none;
+    transition-delay:0s;
+  }
+
+  /* keep the nav row tight and centered */
+  #navbar.navbar-expand-1462 .navbar-collapse{ align-items:center; }
+  #navbar.navbar-expand-1462 #navbarMain > .navbar-nav{ margin-top:0; margin-bottom:0; }
+}

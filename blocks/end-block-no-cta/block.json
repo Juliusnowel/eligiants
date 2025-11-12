@@ -1,0 +1,35 @@
+{
+  "apiVersion": 2,
+  "name": "childtheme/end-block-no-cta",
+  "title": "End Block – No CTA",
+  "category": "design",
+  "icon": "excerpt-view",
+  "description": "Centered section closer with headline, short body copy, and optional side decor.",
+  "keywords": ["end", "closer", "summary", "decor"],
+  "supports": {
+    "align": ["wide", "full"],
+    "anchor": true,
+    "spacing": { "margin": true, "padding": true },
+    "color": { "text": false, "background": false, "link": false }
+  },
+  "attributes": {
+    "headline":        { "type": "string", "default": "Our Philosophy" },
+    "body":            { "type": "string", "default": "" },
+    "backgroundColor": { "type": "string", "default": "" },
+    "decor":           { "type": "array",  "default": [] }
+  },
+  "style":  "file:./style.css",
+  "render": "file:./render.php",
+  "example": {
+    "attributes": {
+      "align": "wide",
+      "headline": "Our Philosophy",
+      "body": "At Ilegiantairtickets.com, we believe that travel is not just about reaching a destination; it’s about understanding the world through meaningful, informed exploration. Our philosophy centers on empowering travelers with knowledge, encouraging curiosity, cultural respect, and smart decision-making.",
+      "decor": [
+        { "url": "/wp-content/themes/ilegiants/assets/images/arrow-left.png",  "alt": "left motif",  "side": "left" },
+        { "url": "/wp-content/themes/ilegiants/assets/images/arrow-right.png", "alt": "right motif", "side": "right" }
+      ]
+    }
+  },
+  "textdomain": "childtheme"
+}

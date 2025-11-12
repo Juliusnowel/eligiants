@@ -1,110 +1,91 @@
 <!-- ✅ MAIN NAVBAR -->
-<nav id="navbar" class="navbar navbar-expand-xxl navbar-light">
-  <div class="container py-2">
-    <a class="brand-link d-flex align-items-center" href="/">
-      <img class="brand-logo" src="/path/to/logo.webp" alt="IlegiantsAir Tickets" />
-      <!-- <span class="brand-text fw-bold">IlegiantsAir<br>Tickets</span> -->
-    </a>
+<header class="page-header">
 
-    <button id="navBurger" class="navbar-toggler ms-auto" type="button"
-      data-bs-toggle="collapse" data-bs-target="#navbarMain"
-      aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <nav id="navbar" class="navbar navbar-expand-1462 navbar-light">
+      <div class="container py-2">
 
-    <div class="collapse navbar-collapse" id="navbarMain">
-      <ul class="navbar-nav ms-auto mb-2 mt-2 gap-2 mb-xxl-0">
-        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        <a class="brand-link d-flex align-items-center" href="/">
+          <img class="brand-logo" src="/path/to/logo.webp" alt="IlegiantsAir Tickets" />
+        </a>
 
-        <li class="nav-item dropdown" data-bs-auto-close="outside">
-          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-            Destination
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/destination/region/">Region</a></li>
-            <li><a class="dropdown-item" href="/destination/south-korea/">South Korea</a></li>
-            <li><a class="dropdown-item" href="/destination/japan/">Japan</a></li>
-            <li><a class="dropdown-item" href="/destination/thailand/">Thailand</a></li>
+        <button id="navBurger" class="navbar-toggler ms-auto" type="button"
+          data-bs-toggle="collapse" data-bs-target="#navbarMain"
+          aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarMain">
+          <ul class="navbar-nav ms-xxl-auto mb-2 mt-2 mt-xxl-0 gap-2 mb-xxl-0">
+            <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="/about/">About Us</a></li>
+            <li class="nav-item"><a class="nav-link" href="/community/">Community</a></li>
+            <li class="nav-item"><a class="nav-link" href="/travel-savvy/">Travel Savvy</a></li>
+            <li class="nav-item dropdown" data-bs-auto-close="outside">
+              <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                Destination
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="/destination/region/">Region</a></li>
+                <li><a class="dropdown-item" href="/destination/south-korea/">South Korea</a></li>
+                <li><a class="dropdown-item" href="/destination/japan/">Japan</a></li>
+                <li><a class="dropdown-item" href="/destination/thailand/">Thailand</a></li>
+              </ul>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="/blog/">Blog</a></li>
+            <li class="nav-item"><a class="nav-link" href="/contact/">Contact</a></li>
           </ul>
-        </li>
+        </div>
+      </div>
+    </nav>
 
-        <li class="nav-item"><a class="nav-link" href="/travel-savvy/">Travel Savvy</a></li>
-        <li class="nav-item"><a class="nav-link" href="/blog/">Blog</a></li>
-        <li class="nav-item"><a class="nav-link" href="/contact/">Contact</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
+</header>
 <script>
 (function(){
-  var nav = document.getElementById('navbar');
-  if(!nav || !document.body) return;
+  const MOBILE_MAX = 1461;
+  const STICKY_AT  = 150;
 
-  var root = document.documentElement;
-  var ticking = false;
-  var scrollThreshold = 8;
+  const navbar   = document.getElementById('navbar');
+  const collapse = document.getElementById('navbarMain');
 
-  function setNavHeight(){
-    root.style.setProperty('--navbar-h', (nav.offsetHeight || 0) + 'px');
-  }
-
-  function updateBodyState(){
-    document.body.classList.toggle('scrolled', window.scrollY > scrollThreshold);
-    ticking = false;
-  }
-
-  function handleScroll(){
-    if (!ticking) {
-      window.requestAnimationFrame(updateBodyState);
-      ticking = true;
+  function syncCollapsed(){
+    // start closed in all “collapsed” ranges
+    if (window.innerWidth <= MOBILE_MAX){
+      collapse.classList.remove('show');
+      navbar.classList.remove('menu-open');
+    } else {
+      // desktop: rely on flex (no .show)
+      collapse.classList.remove('show');
+      navbar.classList.remove('menu-open');
     }
   }
 
-  setNavHeight();
-  updateBodyState();
-
-  window.addEventListener('resize', setNavHeight, { passive: true });
-  window.addEventListener('load', setNavHeight);
-  window.addEventListener('scroll', handleScroll, { passive: true });
-
-  if ('ResizeObserver' in window) {
-    new ResizeObserver(setNavHeight).observe(nav);
+  function syncOnScroll(){
+    const y = window.pageYOffset || document.documentElement.scrollTop;
+    if (y > STICKY_AT){
+      navbar.classList.add('is-sticky');
+      navbar.classList.remove('menu-open');
+    } else {
+      navbar.classList.remove('is-sticky');
+      if (collapse.classList.contains('show')) navbar.classList.add('menu-open');
+      else navbar.classList.remove('menu-open');
+    }
   }
-})();
-(function(){
-  document.querySelectorAll('#navbar .navbar-nav > .nav-item > .nav-link')
-    .forEach(link => {
-      if (link.classList.contains('fx-ready')) return;
-      const label = link.textContent.trim();
-      if (!label) return;
 
-      link.classList.add('fx-ready');
-      link.setAttribute('aria-label', label);
+  // collapse open/close -> header background management
+  collapse.addEventListener('show.bs.collapse', () => {
+    if (!navbar.classList.contains('is-sticky')) navbar.classList.add('menu-open');
+  });
+  collapse.addEventListener('hidden.bs.collapse', () => {
+    navbar.classList.remove('menu-open');
+  });
 
-      const wrap  = document.createElement('span'); wrap.className = 'fx-wrap';
-      const stack = document.createElement('span'); stack.className = 'fx-stack';
-      const top   = document.createElement('span'); top.className   = 'fx-top';
-      const bot   = document.createElement('span'); bot.className   = 'fx-bottom';
-
-      [...label].forEach((ch, i) => {
-        const t = document.createElement('span');
-        t.className = 'fx-char';
-        t.style.setProperty('--i', i);
-        t.textContent = ch === ' ' ? '\u00A0' : ch;
-        top.appendChild(t);
-        bot.appendChild(t.cloneNode(true));
-      });
-
-      stack.appendChild(top); stack.appendChild(bot);
-      wrap.appendChild(stack);
-
-      // expose char count for the underline steps
-      wrap.style.setProperty('--chars', String(label.length));
-
-      link.textContent = '';
-      link.appendChild(wrap);
-    });
+  // init + listeners
+  document.addEventListener('DOMContentLoaded', () => { syncCollapsed(); syncOnScroll(); });
+  window.addEventListener('resize', () => { clearTimeout(window._nav_r); window._nav_r = setTimeout(syncCollapsed, 120); }, { passive: true });
+  window.addEventListener('scroll', syncOnScroll, { passive: true });
 })();
 </script>
+
+
 
 

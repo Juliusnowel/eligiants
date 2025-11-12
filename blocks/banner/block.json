@@ -1,0 +1,53 @@
+  {
+    "apiVersion": 3,
+    "name": "child/banner",
+    "title": "Section · Banner",
+    "category": "widgets",
+    "description": "Hero/section banner with image or gradient background, features, list and CTA.",
+    "icon": "screenoptions",
+    "supports": {
+      "html": false,
+      "inserter": false,
+      "align": ["wide", "full"]
+    },
+    "attributes": {
+      "title":        { "type": "string",  "default": "" },
+      "description":  { "type": "string",  "default": "" },
+      "sub_title":    { "type": "string",  "default": "" },        
+      "footer_text":  { "type": "string",  "default": "" },
+
+      "headingLevel": { "type": "string", "default": "auto" },          
+      "titleFont":    { "type": "string", "default": "" },               
+      "descFont":     { "type": "string", "default": "" },
+
+      "effect": { "type": "boolean", "default": false },
+
+      "img":          { "type": "string",  "default": "" },
+
+      "mode":         { "type": "string",  "default": "auto" },    
+
+      "bgStart":      { "type": "string",  "default": "#2ea7e0" },
+      "bgEnd":        { "type": "string",  "default": "#73c6ff" },
+      "bgDirection":  { "type": "string",  "default": "90deg" },
+      "overlay":      { "type": "string",  "default": "rgba(0,0,0,.10)" }, 
+
+      "hAlign":       { "type": "string",  "default": "left" },    
+      "vAlign":       { "type": "string",  "default": "center" },  
+      "banner_size":  { "type": "string",  "default": "small" },   
+
+      "showButton":   { "type": "boolean", "default": true },
+      "buttonText":   { "type": "string",  "default": "" },
+      "buttonUrl":    { "type": "string",  "default": "" },
+
+      "category_data": { "type": "array", "default": [] },         
+      "category_list": { "type": "array", "default": [] },         
+
+      "align":        { "type": "string" },
+      "dataIndex":    { "type": "number", "default": 0 },
+      "dataKey":      { "type": "string", "default": "banners" },
+
+      "hero":       { "type": "boolean", "default": false }  
+    },
+    "render": "file:./render.php",
+    "style":  "file:./style.css"
+  }

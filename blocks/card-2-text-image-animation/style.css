@@ -1,0 +1,140 @@
+/* ===== Card: 2-Column Text + Image (Responsive Panel) ===== */
+
+.card-2-text-img-resp{
+  position: relative;
+  background: var(--card-bg, transparent);
+  padding-left:  var(--page-gutter-left, 1rem);
+  padding-right: var(--page-gutter-right, 1rem);
+  overflow-x: clip;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.card-2-text-img-resp__inner{
+  display: grid;
+  grid-template-columns: minmax(0,1.1fr) minmax(0,1fr);
+  gap: clamp(1rem, 2.5vw, 2.25rem);
+  align-items: stretch;
+  position: relative;
+  z-index: 1;
+}
+
+.card-2-text-img-resp__col{ min-width: 0; }
+
+/* Swap when imagePosition=left */
+.card-2-text-img-resp.is-img-left .card-2-text-img-resp__text { order: 2; }
+.card-2-text-img-resp.is-img-left .card-2-text-img-resp__media{ order: 1; }
+
+/* ===== Text Panel ===== */
+.card-2-text-img-resp__panel{
+  position: relative;
+  background: var(--panel-bg, transparent);
+  border-radius: var(--panel-radius, 16px);
+  /* base padding (horizontal + small vertical) */
+  padding: clamp(12px, 1.2vw, 16px) clamp(16px, 1.6vw, 20px);
+  /* default mode: NO section bg → grow via padding */
+  padding-top:  calc(var(--panel-pad-y, 28px) + clamp(12px, 1.2vw, 16px));
+  padding-bottom: calc(var(--panel-pad-y, 28px) + clamp(12px, 1.2vw, 16px));
+  margin-top: 0;
+  margin-bottom: 0;
+  box-shadow: 0 6px 24px rgba(0,0,0,.08);
+}
+
+/* Section background present → use margin instead of padding */
+.card-2-text-img-resp.has-section-bg .card-2-text-img-resp__panel{
+  padding-top:    clamp(12px, 1.2vw, 16px);
+  padding-bottom: clamp(12px, 1.2vw, 16px);
+  margin-top:     var(--panel-pad-y, 28px);
+  margin-bottom:  var(--panel-pad-y, 28px);
+}
+
+/* Transparent panel (no bg set) → no shadow, no chrome */
+.card-2-text-img-resp__panel.is-transparent{
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Panel corner decor */
+.card-2-text-img-resp__panel-decor{
+  position: absolute;
+  width: clamp(40px, 7.5vw, 230px);
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+  opacity: .95;
+}
+.card-2-text-img-resp__panel-decor--tl{ top: -106px; left:  -106px; }
+.card-2-text-img-resp__panel-decor--tr{ top: -106px; right: -106px; }
+.card-2-text-img-resp__panel-decor--bl{ bottom: -106px; left:  -106px; }
+.card-2-text-img-resp__panel-decor--br{ bottom: -106px; right: -106px; }
+
+/* Typography */
+.card-2-text-img-resp__headline{
+  margin: 0 0 var(--wp--style--block-gap, .6rem);
+  color: #FD593C;
+  font-size: var(--wp--preset--font-size--h-2);
+  border-bottom: 3px solid #FDCD3B;
+  width: 100%;
+}
+.card-2-text-img-resp__copy{
+  margin: 0 0 var(--wp--style--block-gap, .8rem);
+  font-size: var(--wp--preset--font-size--body);
+  color: var(--wp--preset--color--ink, #212529);
+  white-space: pre-line;
+}
+
+/* CTA alignment */
+.card-2-text-img-resp__cta-wrap{
+  margin-top: clamp(.6rem, 1.2vw, 1rem);
+  display: flex;
+}
+.card-2-text-img-resp__cta-wrap--left{  justify-content: flex-start; }
+.card-2-text-img-resp__cta-wrap--right{ justify-content: flex-end; }
+
+/* ===== Media ===== */
+.card-2-text-img-resp__media{ position: relative; min-height: 0; }
+.card-2-text-img-resp__figure{
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--img-radius, 24px);
+  box-shadow: 0 18px 36px rgba(0,0,0,.12), 0 8px 18px rgba(0,0,0,.06);
+}
+.card-2-text-img-resp__image{
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ===== Edge decor ===== */
+.card-2-text-img-resp__decor{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  height: 180%;
+  width: auto;
+  max-width: clamp(80px, 10vw, 280px);
+  object-fit: contain;
+}
+.card-2-text-img-resp__decor--left  { left: 0; }
+.card-2-text-img-resp__decor--right { right: 0; }
+
+/* ===== Responsive ===== */
+@media (max-width: 1165px){
+  .card-2-text-img-resp__inner{ grid-template-columns: 1fr; }
+  .card-2-text-img-resp__text { order: 1; }
+  .card-2-text-img-resp__media{ order: 2; position: static; }
+  .card-2-text-img-resp__figure{ position: static; height: auto; }
+  .card-2-text-img-resp__image{ height: auto; }
+}
+@media (max-width: 720px){
+  .card-2-text-img-resp__decor{ display: none; }
+  .card-2-text-img-resp__panel-decor{
+    width: clamp(40px, 16vw, 140px);
+  }
+}

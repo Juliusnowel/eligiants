@@ -1,0 +1,61 @@
+/* ===== End Block – No CTA ===== */
+.end-block-no-cta{
+  position: relative;
+  background: var(--end-bg, transparent);
+  padding-left:  var(--page-gutter-left, 1rem);
+  padding-right: var(--page-gutter-right, 1rem);
+  overflow-x: clip; /* guard against decor overflow */
+}
+
+.end-block-no-cta__inner{
+  /* max-width: clamp(42ch, 72vw, 980px); */
+  margin: 0 0 125px 0;
+  text-align: center;
+}
+
+/* Title + yellow rule */
+.end-block-no-cta__title{
+  margin: 0 0 .75rem;
+  color: #FD593C;
+  font-size: var(--wp--preset--font-size--h-2);
+  display: block;            /* full width of container */
+  text-align: center;
+}
+.end-block-no-cta__title::after{
+  content: "";
+  display: block;            
+  height: 3px;
+  width: 100%;              
+  margin-top: .4rem;
+  background: #FDCD3B;
+  border-radius: 2px;
+}
+
+/* Body copy (compact) */
+.end-block-no-cta__body{
+  margin: .5rem auto 0;
+  color: var(--wp--preset--color--ink, #212529);
+  line-height: 1.45;
+  font-size: clamp(.95rem, .9rem + .15vw, 1rem);
+}
+
+/* Decor (same pattern as your other blocks) */
+.end-block-no-cta__decor{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  height: 180%;
+  width: auto;
+  max-width: clamp(80px, 10vw, 280px);
+  object-fit: contain;
+}
+.end-block-no-cta__decor--left  { left: 0; }
+.end-block-no-cta__decor--right { right: 0; }
+
+@media (max-width: 900px){
+  .end-block-no-cta__title::after{ left: -6vw; right: -6vw; }
+  .end-block-no-cta__decor{ display: none; }
+}
