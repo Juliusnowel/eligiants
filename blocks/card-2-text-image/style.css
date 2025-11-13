@@ -2,28 +2,34 @@
    Card: 2-Column Text + Image
    --------------------------- */
 
-/* Gutters: inherit global tokens (with safe fallbacks) */
+/* Root card: gutters + optional background */
 .card-2-text-img {
-  padding-left: var(--page-gutter-left, 1rem);
+  padding-left:  var(--page-gutter-left, 1rem);
   padding-right: var(--page-gutter-right, 1rem);
+  position: relative;
+  background: var(--card-bg, transparent);
 }
 
-/* Remove width cap; stretch columns; kill dead space */
-.card-2-text-img__inner{
-  display:grid;
-  grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);
-  gap:var(--card-gap,2.25rem);
-  align-items:stretch;
+/* Inner layout: 2-column grid by default */
+.card-2-text-img__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: var(--card-gap, 2.25rem);
+  align-items: stretch;
+  position: relative;
+  z-index: 1;
 }
 
 /* Columns */
-.card-2-text-img__col { min-width: 0; }
+.card-2-text-img__col {
+  min-width: 0;
+}
 
-/* Typography — consume theme.json tokens */
+/* Typography — uses theme tokens */
 .card-2-text-img__headline {
   margin: 0 0 var(--wp--style--block-gap, 0.75rem);
   color: #FD593C;
-  font-size: var(--wp--preset--font-size--h-2); 
+  font-size: var(--wp--preset--font-size--h-2);
   border-bottom: 3px solid #FDCD3B;
   width: 100%;
 }
@@ -35,106 +41,137 @@
   white-space: pre-line;
 }
 
+/* Used by the CTA/title underline interaction */
 .card-2-text {
-    margin: 0px;
+  margin: 0;
 }
 
+/* CTA hover behavior */
 .card-2-text-img__cta:hover,
-.card-2-text-img__cta:focus-visible{
+.card-2-text-img__cta:focus-visible {
   animation: cta-seesaw-3x 1s ease-in-out both;
   background-color: #f15539;
 }
 
-/* Reserve space so hover doesn’t change layout */
-.card-2-text-img__text .card-2-text{
+/* Keep layout stable when CTA animates */
+.card-2-text-img__text .card-2-text {
   border-bottom: 3px solid transparent;
 }
 
-/* Flip color only when CTA is hovered */
-.card-2-text-img__text:has(.card-2-text-img__cta:hover) .card-2-text{
+/* Flip underline color only when CTA is hovered */
+.card-2-text-img__text:has(.card-2-text-img__cta:hover) .card-2-text {
   border-bottom-color: #fff;
 }
 
-/* accessibility */
-@media (prefers-reduced-motion: reduce){
+/* Motion reduction support */
+@media (prefers-reduced-motion: reduce) {
   .card-2-text-img__cta:hover,
-  .card-2-text-img__cta:focus-visible{ animation:none; }
+  .card-2-text-img__cta:focus-visible {
+    animation: none;
+  }
 }
 
-
-.card-2-text-img__media{
-  position:relative;    
-  min-height:0;          
+/* Media (image) container */
+.card-2-text-img__media {
+  position: relative;
+  min-height: 0;
 }
 
-.card-2-text-img__figure{
-  position:absolute;
-  inset:0;
-  margin:0;
-  overflow:hidden;
-  border-radius:var(--card-img-radius,24px);
+/* Equal-height figure on desktop (absolute fill) */
+.card-2-text-img__figure {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--card-img-radius, 24px);
 }
 
-.card-2-text-img__image{
-  display:block;
-  width:100%;
-  height:100%;
-  object-fit:cover;
+/* Image fills figure */
+.card-2-text-img__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
+
+/* -----------------------------------------
+   Desktop column switching (image left/right)
+   ----------------------------------------- */
+
+/* Only apply the left/right flip on desktop.
+   Mobile gets its own stack logic. */
+@media (min-width: 1166px) {
+  .card-2-text-img.is-img-left .card-2-text-img__text {
+    order: 2;
+  }
+  .card-2-text-img.is-img-left .card-2-text-img__media {
+    order: 1;
+  }
+  /* is-img-right uses default DOM order: text then image */
+}
+
+/* -----------------------------------------
+   Mobile / tablet stacking (<= 1165px)
+   Always text on top, image below
+   ----------------------------------------- */
 
 @media (max-width: 1165px) {
   .card-2-text-img__inner {
-    grid-template-columns: 1fr;   /* row → column */
+    grid-template-columns: 1fr;   /* 2 columns → 1 column */
   }
 
-  /* order: text on top, image below */
-  .card-2-text-img__text { order: 1; }
-  .card-2-text-img__media { order: 2; }
+  /* Enforce vertical order: text first, image second */
+  .card-2-text-img__text {
+    order: 1;
+  }
+  .card-2-text-img__media {
+    order: 2;
+  }
 
-  /* disable equal-height hack on stack to prevent image growth */
-  .card-2-text-img__media { position: static; }
-  .card-2-text-img__figure { position: static; height: auto; }
-  .card-2-text-img__image { height: auto; }
+  /* Normalize is-img-left / is-img-right behavior on stack.
+     This is technically redundant now that the flip is
+     desktop-only, but it makes the intent explicit. */
+  .card-2-text-img.is-img-left .card-2-text-img__text {
+    order: 1;
+  }
+  .card-2-text-img.is-img-left .card-2-text-img__media {
+    order: 2;
+  }
 
-  /* optional: avoid fixed headline width on smaller viewports */
-  /* .card-2-text-img__headline { width: auto; } */
+  /* Disable equal-height hack on stack; allow image to size naturally */
+  .card-2-text-img__media {
+    position: static;
+  }
+  .card-2-text-img__figure {
+    position: static;
+    height: auto;
+  }
+  .card-2-text-img__image {
+    height: auto;
+  }
 }
 
-/* enable optional background and layer for decor */
-.card-2-text-img{
-  position: relative;
-  background: var(--card-bg, transparent);
-}
-.card-2-text-img__inner{ position: relative; z-index: 1; }
+/* -----------------------------------------
+   Edge decor
+   ----------------------------------------- */
 
-/* switch columns based on attribute */
-.card-2-text-img.is-img-left .card-2-text-img__text{ order: 2; }
-.card-2-text-img.is-img-left .card-2-text-img__media{ order: 1; }
-/* default is .is-img-right (no change) */
-
-/* responsive stack stays consistent regardless of side */
-@media (max-width: 1165px) {
-  .card-2-text-img__inner { grid-template-columns: 1fr; }
-  .card-2-text-img__text { order: 1; }
-  .card-2-text-img__media { order: 2; }
-  .card-2-text-img__media { position: static; }
-  .card-2-text-img__figure { position: static; height: auto; }
-  .card-2-text-img__image { height: auto; }
-}
-
-.card-2-text-img__decor{
+.card-2-text-img__decor {
   position: absolute;
-  top: 50%;                     
-  transform: translateY(-50%);  
+  top: 50%;
+  transform: translateY(-50%);
   pointer-events: none;
   user-select: none;
   z-index: 0;
 
-  height: 180%;                 
+  height: 180%;
   width: auto;
   max-width: clamp(80px, 10vw, 280px);
   object-fit: contain;
 }
 
-.card-2-text-img__decor--left  { left: 0; }
-.card-2-text-img__decor--right { right: 0; }
+.card-2-text-img__decor--left {
+  left: 0;
+}
+.card-2-text-img__decor--right {
+  right: 0;
+}

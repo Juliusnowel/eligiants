@@ -13,9 +13,9 @@
   "style": "file:./style.css",
   "render": "file:./render.php",
   "attributes": {
-    "align": { "type": "string", "default": "wide" },
-    "title": { "type": "string", "default": "Share Your Travel Story and Say Hey!" },
-    "subheading": { "type": "string", "default": "Got a hidden gem, or a travel fail turned win? We’d love to hear it—share your story, or drop us a message." },
+    "align":       { "type": "string", "default": "wide" },
+    "title":       { "type": "string", "default": "Share Your Travel Story and Say Hey!" },
+    "subheading":  { "type": "string", "default": "Got a hidden gem, or a travel fail turned win? We’d love to hear it—share your story, or drop us a message." },
     "buttons": {
       "type": "array",
       "default": [
@@ -31,6 +31,8 @@
         }
       }
     },
-    "decor": { "type": "array", "default": [] }
+    "decor":     { "type": "array",  "default": [] },
+
+    "enterAnim": { "type": "string", "default": "none" }
   }
 }

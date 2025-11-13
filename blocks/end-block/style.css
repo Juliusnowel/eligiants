@@ -59,6 +59,36 @@
 .end-block__decor--left{ left: 0; }
 .end-block__decor--right{ right: 0; }
 
+/* =========================================================
+   End-block enter animation (up / down)
+   ========================================================= */
+
+/* Animate INNER, keep outer container fixed */
+.end-block.has-enter-anim .end-block__inner{
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);  /* default offset */
+  will-change: transform, opacity;
+}
+
+/* Direction: from top */
+.end-block.has-enter-anim.enter-from-up .end-block__inner{
+  transform: translate3d(0, -40px, 0);
+}
+
+/* Direction: from bottom */
+.end-block.has-enter-anim.enter-from-down .end-block__inner{
+  transform: translate3d(0, 40px, 0);
+}
+
+/* When IO flags the block as visible */
+.end-block.has-enter-anim.is-in-view .end-block__inner{
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition:
+    transform 600ms cubic-bezier(.22,.61,.36,1),
+    opacity   600ms ease-out;
+}
+
 /* Responsive */
 @media (max-width: 900px){
   .end-block__inner{

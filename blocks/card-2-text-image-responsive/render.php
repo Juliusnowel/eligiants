@@ -1,85 +1,175 @@
 <?php
-/**
- * Server-rendered "Card: 2-Column Text + Image"
- */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-$headline      = trim($attributes['headline']      ?? '');
-$paragraphOne  = trim($attributes['paragraphOne']  ?? '');
-$paragraphTwo  = array_key_exists('paragraphTwo', $attributes) ? trim($attributes['paragraphTwo']) : '';
-$buttonText    = array_key_exists('buttonText',   $attributes) ? trim($attributes['buttonText'])   : '';
-$buttonUrl     = $attributes['buttonUrl'] ?? ''; 
-$imageUrl      = $attributes['imageUrl'] ?? 'https://via.placeholder.com/960x540?text=Image';
-$imageAlt      = $attributes['imageAlt'] ?? 'Scenic travel image';
-$imgRadius     = isset($attributes['imageBorderRadius']) ? (int)$attributes['imageBorderRadius'] : 24;
+$headline       = trim( $attributes['headline']      ?? '' );
+$paragraphOne   = trim( $attributes['paragraphOne']  ?? '' );
+$paragraphTwo   = trim( $attributes['paragraphTwo']  ?? '' );
 
-$imagePosition  = in_array( ($attributes['imagePosition'] ?? 'right'), ['left','right'], true )
+$buttonText     = trim( $attributes['buttonText']    ?? '' );
+$buttonUrl      =        $attributes['buttonUrl']    ?? '#';
+$buttonAccent   =        $attributes['buttonAccent'] ?? '#FD593C';
+$ctaAlignRaw    =        $attributes['ctaAlign']     ?? 'right';
+$ctaAlign       = in_array($ctaAlignRaw, ['left','right','hidden'], true) ? $ctaAlignRaw : 'right';
+
+$imageUrl       = $attributes['imageUrl']            ?? '';
+$imageAlt       = $attributes['imageAlt']            ?? '';
+$imgRadius      = isset($attributes['imageBorderRadius']) ? (int)$attributes['imageBorderRadius'] : 24;
+
+$imagePosition  = in_array(($attributes['imagePosition'] ?? 'right'), ['left','right'], true)
                   ? $attributes['imagePosition'] : 'right';
 
-$background     = trim( (string) ( $attributes['backgroundColor'] ?? '' ) );
-$decor          = is_array( $attributes['decor'] ?? null ) ? $attributes['decor'] : [];
+$sectionBg      = trim((string)($attributes['backgroundColor'] ?? ''));
+$textBg         = trim((string)($attributes['textBgColor'] ?? ''));
+$textPadY       = is_numeric($attributes['textPadY'] ?? null) ? (int)$attributes['textPadY'] : 28;
+$textRadius     = isset($attributes['textBorderRadius']) ? (int)$attributes['textBorderRadius'] : 16;
 
-$align_class = isset( $attributes['align'] ) ? 'align' . $attributes['align'] : '';
-$pos_class   = $imagePosition === 'left' ? 'is-img-left' : 'is-img-right';
-$bg_style    = $background !== '' ? '--card-bg:' . esc_attr( $background ) . ';' : '';
+$decor          = is_array($attributes['decor']     ?? null) ? $attributes['decor']     : [];
+$textDecor      = is_array($attributes['textDecor'] ?? null) ? $attributes['textDecor'] : [];
 
-$wrapper_attributes = get_block_wrapper_attributes( [
-	'class' => 'card-2-text-img ' . $align_class . ' child-block ' . $pos_class . ( $background !== '' ? ' has-bg' : '' ),
-  'style' => $bg_style,
-] );
+/** NEW: animation attributes */
+$enterAnimRaw     = $attributes['enterAnim']     ?? 'none';
+$enterAnim        = in_array($enterAnimRaw, ['none','left','right','up','down'], true) ? $enterAnimRaw : 'none';
 
-ob_start();
-?>
+$textDecorAnimRaw = $attributes['textDecorAnim'] ?? 'none';
+$textDecorAnim    = in_array($textDecorAnimRaw, ['none','spin','spin-x'], true) ? $textDecorAnimRaw : 'none';
+
+$align_class  = isset($attributes['align']) ? 'align' . $attributes['align'] : '';
+$pos_class    = $imagePosition === 'left' ? 'is-img-left' : 'is-img-right';
+$hasSectionBg = $sectionBg !== '';
+
+/** NEW: card-level animation classes */
+$anim_classes = '';
+if ( $enterAnim !== 'none' ) {
+  $anim_classes .= ' has-enter-anim enter-from-' . $enterAnim;
+}
+
+$wrapper_attributes = get_block_wrapper_attributes([
+  'class' => 'card-2-text-img-resp child-block ' . $align_class . ' ' . $pos_class
+           . ( $hasSectionBg ? ' has-section-bg' : '' )
+           . $anim_classes,
+  'style' => ($hasSectionBg ? '--card-bg:' . esc_attr($sectionBg) . ';' : '')
+]);
+
+ob_start(); ?>
 <div <?= $wrapper_attributes; ?>>
 
-  <?php
-  // Decorative side images (absolute, non-interactive)
-  if ( ! empty( $decor ) ) :
+  <?php if ( ! empty($decor) ) :
     foreach ( $decor as $d ) :
-      $url  = isset( $d['url'] ) ? esc_url( $d['url'] ) : '';
-      if ( $url === '' ) { continue; }
-      $alt  = isset( $d['alt'] ) ? esc_attr( $d['alt'] ) : '';
-      $side = ( isset( $d['side'] ) && in_array( $d['side'], ['left','right'], true ) ) ? $d['side'] : 'right';
-      $side_class = 'card-2-text-img__decor--' . $side;
+      $url  = isset($d['url'])  ? esc_url($d['url'])  : '';
+      if ($url === '') { continue; }
+      $alt  = isset($d['alt'])  ? esc_attr($d['alt']) : '';
+      $side = (isset($d['side']) && in_array($d['side'], ['left','right'], true)) ? $d['side'] : 'right';
+      $side_class = 'card-2-text-img-resp__decor--' . $side; ?>
+      <img class="card-2-text-img-resp__decor <?= esc_attr($side_class); ?>"
+           src="<?= $url; ?>" alt="<?= $alt; ?>" loading="lazy" decoding="async" />
+  <?php endforeach; endif; ?>
+
+  <div class="card-2-text-img-resp__inner">
+
+    <div class="card-2-text-img-resp__col card-2-text-img-resp__text"
+         style="--panel-bg: <?= esc_attr($textBg ?: 'transparent'); ?>;
+                --panel-radius: <?= esc_attr($textRadius); ?>px;
+                --panel-pad-y: <?= esc_attr($textPadY); ?>px;">
+      <?php
+        $panel_classes = 'card-2-text-img-resp__panel';
+        $panel_classes .= ($textBg === '' ? ' is-transparent' : ' has-bg');
       ?>
-      <img class="card-2-text-img__decor <?= esc_attr( $side_class ); ?>" src="<?= $url; ?>" alt="<?= $alt; ?>" loading="lazy" decoding="async" />
-    <?php
-    endforeach;
-  endif;
-  ?>
+      <div class="<?= esc_attr($panel_classes); ?>">
 
-	<div class="card-2-text-img__inner">
-		<div class="card-2-text-img__col card-2-text-img__text">
-			<?php if ($headline !== ''): ?>
-				<h2 class="card-2-text-img__headline"><?= esc_html($headline); ?></h2>
-			<?php endif; ?>
+        <?php if ( ! empty($textDecor) ) :
+          /** optional: class for textDecor animation */
+          $decor_anim_class = '';
+          if ($textDecorAnim === 'spin') {
+            $decor_anim_class = ' is-decor-spin';
+          } elseif ($textDecorAnim === 'spin-x') {
+            $decor_anim_class = ' is-decor-spin-x';
+          }
 
-			<?php if ($paragraphOne !== ''): ?>
-				<p class="card-2-text-img__copy"><?= wp_kses_post($paragraphOne); ?></p>
-			<?php endif; ?>
+          foreach ( $textDecor as $td ) :
+            $turl = isset($td['url']) ? esc_url($td['url']) : '';
+            if ($turl === '') { continue; }
+            $talt = isset($td['alt']) ? esc_attr($td['alt']) : '';
+            $pos  = isset($td['pos']) ? strtolower($td['pos']) : 'tl';
+            $pos  = in_array($pos, ['tl','tr','bl','br'], true) ? $pos : 'tl'; ?>
+            <img class="card-2-text-img-resp__panel-decor card-2-text-img-resp__panel-decor--<?= esc_attr($pos); ?><?= $decor_anim_class ? ' ' . esc_attr($decor_anim_class) : ''; ?>"
+                 src="<?= $turl; ?>" alt="<?= $talt; ?>" loading="lazy" decoding="async" />
+        <?php endforeach; endif; ?>
 
-			<?php if ($paragraphTwo !== ''): ?>
-				<p class="card-2-text-img__copy"><?= wp_kses_post($paragraphTwo); ?></p>
-			<?php endif; ?>
+        <?php if ($headline !== ''): ?>
+          <h2 class="card-2-text-img-resp__headline"><?= esc_html($headline); ?></h2>
+        <?php endif; ?>
 
-			<?php if ($buttonText !== ''): ?>
-				<?= render_block([
-					'blockName'  => 'ilegiants/cta-bounce',
-					'attrs'      => ['text' => $buttonText, 'url' => ($buttonUrl ?: '#'), 'accent' => '#FD593C'],
-					'innerBlocks'=> [], 'innerHTML' => '', 'innerContent' => []
-				]); ?>
-			<?php endif; ?>
-		</div>
+        <?php if ($paragraphOne !== ''): ?>
+          <p class="card-2-text-img-resp__copy"><?= wp_kses_post($paragraphOne); ?></p>
+        <?php endif; ?>
 
-		<div class="card-2-text-img__col card-2-text-img__media">
-			<?php if ( $imageUrl ) : ?>
-				<figure class="card-2-text-img__figure" style="--card-img-radius: <?= esc_attr( $imgRadius ); ?>px;">
-					<img class="card-2-text-img__image"
-						src="<?= esc_url( $imageUrl ); ?>"
-						alt="<?= esc_attr( $imageAlt ); ?>"
-						loading="lazy" decoding="async" />
-				</figure>
-			<?php endif; ?>
-		</div>
-	</div>
+        <?php if ($paragraphTwo !== ''): ?>
+          <p class="card-2-text-img-resp__copy"><?= wp_kses_post($paragraphTwo); ?></p>
+        <?php endif; ?>
+
+        <?php if ($buttonText !== '' && $ctaAlign !== 'hidden'): ?>
+          <div class="card-2-text-img-resp__cta-wrap card-2-text-img-resp__cta-wrap--<?= esc_attr($ctaAlign); ?>">
+            <?= render_block([
+              'blockName'   => 'ilegiants/cta-bounce',
+              'attrs'       => [ 'text' => $buttonText, 'url' => ($buttonUrl ?: '#'), 'accent' => $buttonAccent ],
+              'innerBlocks' => [], 'innerHTML' => '', 'innerContent' => []
+            ]); ?>
+          </div>
+        <?php endif; ?>
+      </div>
+    </div>
+
+    <div class="card-2-text-img-resp__col card-2-text-img-resp__media">
+      <?php if ($imageUrl): ?>
+        <figure class="card-2-text-img-resp__figure" style="--img-radius: <?= esc_attr($imgRadius); ?>px;">
+          <img class="card-2-text-img-resp__image"
+               src="<?= esc_url($imageUrl); ?>"
+               alt="<?= esc_attr($imageAlt); ?>"
+               loading="lazy" decoding="async" />
+        </figure>
+      <?php endif; ?>
+    </div>
+
+  </div>
 </div>
+
+<?php
+// Attach IntersectionObserver once per page for enter animations
+?>
+<script>
+(function(){
+  // Find only cards that are not yet bound
+  var cards = document.querySelectorAll('.card-2-text-img-resp.has-enter-anim:not(.js-enter-bound)');
+  if (!cards.length) return;
+
+  // Fallback: no IntersectionObserver → just show them immediately
+  if (!('IntersectionObserver' in window)) {
+    cards.forEach(function(el){
+      el.classList.add('is-in-view', 'js-enter-bound');
+    });
+    return;
+  }
+
+  // Reuse a single observer across blocks
+  if (!window.card2TextImgRespObserver) {
+    window.card2TextImgRespObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-in-view');
+          window.card2TextImgRespObserver.unobserve(entry.target); // one-time per card
+        }
+      });
+    }, {
+      threshold: 0.5 // triggers when ~50% of the card is in viewport (center-ish)
+    });
+  }
+
+  var io = window.card2TextImgRespObserver;
+
+  // Bind new cards
+  cards.forEach(function(el){
+    el.classList.add('js-enter-bound');
+    io.observe(el);
+  });
+})();
+</script>

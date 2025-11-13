@@ -1,10 +1,10 @@
 {
   "apiVersion": 2,
-  "name": "childtheme/card-2-text-image-responsive",
-  "title": "Card: 2-Column Text + Image (Responsive Panel)",
+  "name": "childtheme/card-2-text-image-animation",
+  "title": "Card: 2-Column Text + Image (Animation Panel)",
   "category": "design",
   "icon": "format-image",
-  "description": "Two-column promo card with image, responsive text panel, outer/panel decor, and flexible CTA alignment.",
+  "description": "Two-column promo card with image, animated image panel, outer/panel decor, and flexible CTA alignment.",
   "keywords": ["card", "image", "text", "cta", "decor"],
   "supports": {
     "align": ["wide", "full"],
@@ -22,21 +22,30 @@
     "buttonText":        { "type": "string" },
     "buttonUrl":         { "type": "string", "default": "#" },
     "buttonAccent":      { "type": "string", "default": "#FD593C" },
-    "ctaAlign":          { "type": "string", "default": "right" },  
+    "ctaAlign":          { "type": "string", "default": "right" },
 
-    "imageUrl":          { "type": "string", "default": "https://via.placeholder.com/960x540?text=Image" },
+    "imageBgUrl":        { "type": "string", "default": "" },
+    "imageBgAlt":        { "type": "string", "default": "" },
+    "imageFgUrl":        { "type": "string", "default": "" },
+    "imageFgAlt":        { "type": "string", "default": "" },
+
+    "imageUrl":          { "type": "string", "default": "" },
     "imageAlt":          { "type": "string", "default": "" },
     "imageBorderRadius": { "type": "number", "default": 24 },
     "imagePosition":     { "type": "string", "default": "right" },
 
-    "backgroundColor":   { "type": "string", "default": "" },      
-    "decor":             { "type": "array",  "default": [] },      
+    "backgroundColor":   { "type": "string", "default": "" },
+    "decor":             { "type": "array",  "default": [] },
 
-    "textBgColor":       { "type": "string", "default": "" },      
+    "textBgColor":       { "type": "string", "default": "" },
     "textBorderRadius":  { "type": "number", "default": 16 },
-    "textPadY":          { "type": "number", "default": 28 },      
+    "textPadY":          { "type": "number", "default": 28 },
+    "textDecor":         { "type": "array",  "default": [] },
 
-    "textDecor":         { "type": "array",  "default": [] }      
+    "animate":           { "type": "string", "default": "none" },
+    "startScale":        { "type": "number", "default": 1 },
+    "animDurationMs":    { "type": "number", "default": 1200 },
+    "animDelayMs":       { "type": "number", "default": 0 }
   },
   "example": {
     "attributes": {
@@ -47,7 +56,7 @@
       "buttonText": "Read Tips",
       "buttonAccent": "#FD593C",
       "ctaAlign": "left",
-      "imageUrl": "https://picsum.photos/960/540?random=17",
+      "imageFgUrl": "https://picsum.photos/960/540?random=17",
       "backgroundColor": "#F9CF57",
       "textBgColor": "#FFFFFF",
       "textPadY": 36,
@@ -57,7 +66,11 @@
       ],
       "textDecor": [
         { "url": "https://picsum.photos/seed/tl/80/80", "alt": "Badge TL", "pos": "tl" }
-      ]
+      ],
+      "animate": "view",
+      "startScale": 0.1,
+      "animDurationMs": 2000,
+      "animDelayMs": 120
     }
   },
   "textdomain": "childtheme"
