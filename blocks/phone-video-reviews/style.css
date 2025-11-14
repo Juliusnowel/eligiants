@@ -158,6 +158,22 @@
   color: var(--wp--preset--color--ink, #333);
 }
 
+/* Small phones in the grid: act as buttons, not interactive players */
+.phone-reviews__grid .phone-card__screen iframe{
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  pointer-events: none;   /* let the click go to the .phone-card element */
+}
+
+/* Big overlay & tablet video: real interactive players */
+.phone-reviews__overlay-screen iframe,
+.phone-reviews__carousel-screen iframe{
+  pointer-events: auto;
+}
+
+
 /* Narrow screens: stack phones */
 @media (max-width: 768px){
   .phone-reviews__grid{

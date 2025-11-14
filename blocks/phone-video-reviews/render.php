@@ -118,7 +118,7 @@ $wrapper = get_block_wrapper_attributes( [
           </button>
         </div>
 
-
+      </div>
       <p class="phone-reviews__carousel-label" data-phone-carousel-title></p>
     </div>
   <?php endif; ?>
