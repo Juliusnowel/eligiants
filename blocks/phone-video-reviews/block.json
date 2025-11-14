@@ -12,7 +12,7 @@
   },
   "style": "file:./style.css",
   "render": "file:./render.php",
-  "attributes": {
+    "attributes": {
     "align": {
       "type": "string",
       "default": "wide"
@@ -25,6 +25,16 @@
       "type": "string",
       "default": ""
     },
+
+    "carouselAutoPlay": {
+      "type": "boolean",
+      "default": false
+    },
+    "carouselAutoPlaySeconds": {
+      "type": "number",
+      "default": 5
+    },
+
     "cards": {
       "type": "array",
       "default": [
