@@ -12,11 +12,13 @@
     "align": ["wide", "full"]
   },
   "attributes": {
-    "text":      { "type": "string", "default": "Learn More" },
-    "url":       { "type": "string", "default": "#" },
-    "accent":    { "type": "string", "default": "#FD593C" },
-    "target":    { "type": "string", "default": "" },
-    "rel":       { "type": "string", "default": "" },
-    "ariaLabel": { "type": "string", "default": "" }
+    "text":       { "type": "string", "default": "Learn More" },
+    "url":        { "type": "string", "default": "#" },
+    "accent":     { "type": "string", "default": "#FD593C" },
+    "textColor":  { "type": "string", "default": "#ffffff" },
+    "borderColor":{ "type": "string", "default": "transparent" },
+    "target":     { "type": "string", "default": "" },
+    "rel":        { "type": "string", "default": "" },
+    "ariaLabel":  { "type": "string", "default": "" }
   }
 }

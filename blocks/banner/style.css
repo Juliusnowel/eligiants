@@ -1,334 +1,114 @@
-:root {
-  /* --nav-h: 40px; */
-  --maxw: 20px;
-
-  /* gradient defaults (can be overridden inline) */
-  --bg-start: #2ea7e0;
-  --bg-end:   #73c6ff;
-  --bg-angle: 90deg;
-}
-
-.wp-block-group {
-  width: 98.4vw;
-}
-/* WRAPPER */
-.banner {
+/* Shell */
+.wp-block-ilegiants-banner,
+.banner-strip{
   position: relative;
-  display: grid;
-  min-height: var(--h, clamp(420px, 65vh, 680px));
-  /* margin-top: var(--nav-h) !important; */
-  color: #fff;
-}
-
-/* BG + overlay share geometry */
-.banner__bg,
-.banner__overlay {
-  position: absolute;
-  inset: 0;
-  border-radius: 10px;
-  margin-left: var(--page-gutter-left, 1rem);
-  margin-right: var(--page-gutter-right, 1.5rem);
-}
-.banner__bg {
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  z-index: 0;
-}
-.banner__overlay { z-index: 1; }
-
-/* VERTICAL placement */
-.banner__frame {
-  min-height: var(--h, 420px);
-  display: grid;
-  z-index: 2;
-}
-.banner[data-v="top"]    .banner__frame { align-items: start; }
-.banner[data-v="center"] .banner__frame { align-items: center; }
-.banner[data-v="bottom"] .banner__frame { align-items: end; }
-
-/* HORIZONTAL placement (+ page gutters) */
-.banner__container {
-  /* Account for page gutters so content doesn't overflow viewport */
-  width: min(
-    var(--maxw),
-    calc(100% - var(--page-gutter-left, 1rem) - var(--page-gutter-right, 1rem))
-  );
-  padding-top: clamp(36px, 8vw, 80px);
-  padding-bottom: clamp(20px, 8vw, 80px);
-  box-sizing: border-box;
-}
-.banner[data-h="left"]   .banner__container { margin-left: var(--page-gutter-left, 1rem);  margin-right: auto; text-align: left; }
-.banner[data-h="center"] .banner__container { margin-left: auto; margin-right: auto;        text-align: center; }
-.banner[data-h="right"]  .banner__container { margin-left: auto; margin-right: var(--page-gutter-right, 1.5rem); text-align: right; }
-
-/* TYPOGRAPHY */
-.banner__title { 
-  margin: 0 0 10px 0; 
-  font-weight: 700; 
-  line-height: 1.15; 
-  letter-spacing: .2px; 
-  /* Prevent clipping by allowing intra-word wrapping when needed */
-  overflow-wrap: anywhere;
-  word-break: normal;
-  hyphens: auto;
-}
-.banner__desc { 
-  line-height: 1.55;
-  font-size: var(--wp--preset--font-size--body);
-}
-.banner__tip {
-  font-size: var(--wp--preset--font-size--body);
-}
-
-/* CTA (switched states) */
-.banner__btn {
-  font-size: var(--wp--preset--font-size--body);
-  display: inline-block;
-  margin-top: 20px;
-  padding: 0.65rem 1.25rem;
-  border: 2px solid #fff;
-  border-radius: .375rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all .25s ease;
-  background: var(--bs-danger);   
-  color: #fff;                   
-  font-family: 'Open Sans';
-}
-
-.banner__btn:hover,
-.banner__btn:focus {
-  background: #fff;               
-  color: var(--bs-danger);        
-  text-decoration: none;
-}
-
-/* (optional) clearer keyboard focus */
-.banner__btn:focus-visible {
-  box-shadow: 0 0 0 3px rgba(255,80,97,.3);
-  outline: none;
-}
-
-
-/* FEATURES (icons/mini-cards) */
-.banner__features {
-  --gap: 28px;
-  display: flex !important;
-  flex-wrap: nowrap !important;
-  gap: var(--gap);
-  align-items: start;
-  margin-bottom: 22px;
-  overflow-x: auto;
-  scroll-snap-type: x proximity;
-}
-.banner[data-h="left"]   .banner__features { justify-content: flex-start; }
-.banner[data-h="center"] .banner__features { justify-content: center; }
-.banner[data-h="right"]  .banner__features { justify-content: flex-end; }
-
-.feature, article.feature {
-  padding: 8px 12px;
-  flex: 0 0 calc((100% - (4 * var(--gap))) / 5);
-  box-sizing: border-box;
-  scroll-snap-align: start;
-}
-.icon {
-  width: 100px;
-  height: 100px;
-  margin: 0 auto -12px;
-  display: block;
-}
-.feature h3 { font-weight: 700; margin: 0 0 6px; }
-.feature p  { margin: 0; opacity: .85; font-size: var(--wp--preset--font-size--body) !important; }
-
-.banner__list ul { margin: 8px auto 0; padding-left: 1.2rem; list-style: disc; }
-.banner__list li { margin: 4px 0; font-size: var(--wp--preset--font-size--body); }
-
-/* ALIGN FULL/WIDE treatment for the background plane (matches your old rules) */
-.wp-block-child-banner.alignfull {
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
-  max-width: 100vw;
-  width: 100vw;
-  border-radius: 0;
-}
-.wp-block-child-banner.alignfull .banner__bg,
-.wp-block-child-banner.alignfull .banner__overlay {
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-  border-radius: 0 !important;
-}
-
-.wp-site-blocks .wp-block-child-banner.alignwide {
-  max-width: 1830px;
   width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-}
-.wp-block-child-banner.alignwide .banner__bg,
-.wp-block-child-banner.alignwide .banner__overlay {
-  margin-left: clamp(20px, 6vw, 120px);
-  margin-right: clamp(20px, 6vw, 120px);
+  /* background handled via inline styles (color/image) */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-/* RESPONSIVE */
-@media (max-width: 1200px){
-  /* Typography scale for tablets */
-  .banner__title { font-size: clamp(26px, 5.2vw, 38px);width:100%; }
-
-  .banner__features { 
-    display: grid !important; 
-    grid-template-columns: repeat(2, 1fr); 
-    gap: var(--gap); 
-    overflow: visible; 
-    justify-items: stretch;
-  }
-  .banner[data-h="left"]   .banner__features { justify-items: start; }
-  .banner[data-h="center"] .banner__features { justify-items: center; }
-  .banner[data-h="right"]  .banner__features { justify-items: end; }
-
-  .feature, article.feature { flex: initial; min-width: auto; }
-  .icon { width: 84px; height: 84px; }
-  .banner__container { padding-top: 36px; padding-bottom: 28px; }
+/* Full / wide */
+.wp-block-ilegiants-banner.alignfull,
+.banner-strip.alignfull,
+.wp-block-ilegiants-banner.alignwide,
+.banner-strip.alignwide{
+  width: 100%;
+  max-width: 100vw;
+  margin-inline: 0;
 }
 
-@media (max-width: 640px) {
-  /* Let content define height on phones */
-  .banner { min-height: unset; }
-  .banner__frame { min-height: unset; }
-
-  .banner__bg, .banner__overlay { margin-left: 0; margin-right: 0; }
-  .wp-block-child-banner.alignfull .banner__bg,
-  .wp-block-child-banner.alignfull .banner__overlay { border-radius: 0; }
-
-  /* Tighter spacing + readable type */
-  .banner__title { font-size: clamp(22px, 7vw, 32px); margin-bottom: 8px; }
-  .banner__container { padding-top: 28px; padding-bottom: 22px; }
-
-  /* Stack features in one column on small phones */
-  .banner__features { grid-template-columns: 1fr !important; }
-  .icon { width: 72px; height: 72px; margin: 0 auto -8px; }
-
-  /* Make CTA more tappable */
-  .banner__btn { width: 100%; text-align: center; padding: 0.75rem 1rem; }
+/* Outer container uses global gutters */
+.banner-strip__outer{
+  padding-left:  var(--page-gutter-left, 1rem);
+  padding-right: var(--page-gutter-right, 1rem);
+  padding-top:   clamp(32px, 6vw, 80px);
+  padding-bottom:clamp(32px, 6vw, 80px);
+  display: flex;
+  justify-content: center;
 }
 
-@media (max-width: 480px) {
-  .banner__title { font-size: clamp(20px, 8vw, 28px); }
-  .icon { width: 60px; height: 60px; margin: 0 auto 0; }
-}
-
-.wp-block-child-banner[data-size="large"] .banner__container {
-  padding-left: clamp(24px, 6vw, 120px);
-  padding-right: clamp(24px, 6vw, 120px);
-  padding-top: clamp(56px, 10vw, 120px);
-  padding-bottom: clamp(32px, 8vw, 100px);
-}
-
-.wp-block-child-banner[data-size="small"] .banner__container {
-  padding-left:  clamp(15px, 6vw, 24px);
-  padding-right: clamp(15px, 6vw, 24px);
-}
-
-/* ==== Vertical padding overrides by vAlign ==== */
-.wp-block-child-banner[data-v="bottom"] .banner__container {
-  padding-bottom: 10px !important;
-}
-.wp-block-child-banner[data-v="bottom"] .banner__container > :last-child {
-  margin-bottom: 10px !important;
-}
-
-.wp-block-child-banner[data-v="top"] .banner__container {
-  padding-top: 0 !important;
-}
-.wp-block-child-banner[data-v="top"] .banner__container > :first-child {
-  margin-top: 0 !important;
-}
-
-/* TABLET: center the last feature when the count is odd */
-@media (max-width: 1200px) and (min-width: 641px){
-  /* keep the 2-col grid and center items inside their cells */
-  .banner__features{
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    justify-items: center;
-  }
-
-  /* when aligned center and the total is odd, center the last card */
-  .banner[data-h="center"] .banner__features .feature:last-child:nth-child(odd){
-    grid-column: 1 / -1;        
-    justify-self: center;       
-    width: calc(50% - var(--gap));
-  }
-}
-
-.wp-block-child-banner.has-glass .banner__container{
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-}
-
-/* full-bleed, centered glass bar */
-.banner__glass{
-  position: relative;
-  box-sizing: border-box;
-
-  /* span edge-to-edge */
-  width: 100vw;
-  margin-left:  calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
-
-  /* no border, slight rounding to help blending */
-  border: 0;
-  border-radius: 10px;
-
-  /* softer, tapered fill that fades at the sides */
-  background:
-    /* vertical tint (very subtle) */
-    linear-gradient(180deg,
-      rgba(10,34,64,.18) 0%,
-      rgba(10,34,64,.22) 100%
-    ),
-    /* horizontal feather: transparent edges -> denser center */
-    linear-gradient(90deg,
-      rgba(10,34,64,0) 0%,
-      rgba(10,34,64,.14) 10%,
-      rgba(10,34,64,.22) 35%,
-      rgba(10,34,64,.22) 65%,
-      rgba(10,34,64,.14) 90%,
-      rgba(10,34,64,0) 100%
-    );
-
-  /* gentle, not poppy */
-  -webkit-backdrop-filter: blur(14px) saturate(115%);
-  backdrop-filter: blur(14px) saturate(115%);
-
-  /* soft layered shadow (less elevation) */
+/* Inner translucent panel */
+.banner-strip__inner{
+  width: 100%;
+  /* max-width: 1200px; */
+  background: rgba(0,0,0,var(--overlay,0.65));
+  color: #fff;
+  border-radius: 28px;
+  padding: clamp(16px, 2vw, 24px) clamp(20px, 4vw, 40px);
+  text-align: center;
   box-shadow:
-    0 8px 28px rgba(0,0,0,.14),
-    0 2px 8px  rgba(0,0,0,.08);
-
-  /* spacing */
-  padding: clamp(12px, 2.4vw, 22px) clamp(16px, 3vw, 28px);
+    0 18px 45px rgba(0,0,0,0.40),
+    0 0 0 1px rgba(0,0,0,0.25);
+  backdrop-filter: blur(4px);
 }
 
-/* Reduce intensity for users who prefer less transparency */
-@media (prefers-reduced-transparency: reduce){
-  .banner__glass{
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-    background: rgba(15, 38, 72, .18);
-    box-shadow: 0 6px 18px rgba(0,0,0,.12);
+/* Title */
+.banner-strip__title{
+  margin: 0;
+  color: var(--accent, tomato);
+  font-weight: 800;
+  font-size: var(--wp--preset--font-size--h-2);
+  line-height: 1.2;
+  letter-spacing: .02em;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: #FDCD3B;
+}
+.banner-strip__title.has-title-shadow{
+  text-shadow: 0 3px 12px rgba(0,0,0,0.55);
+}
+.banner-strip__title-text{
+  display: inline-block;
+}
+
+/* Top/Bottom rule */
+.banner-strip__rule{
+  width: 100%;
+  height: 3px;
+  background: #FDCD3B;
+  border-radius: 2px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+/* Subtitle (optional) */
+.banner-strip__subtitle{
+  margin: 4px 0 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* Body */
+.banner-strip__tagline{
+  margin: 8px 0 0;
+  font-size: var(--wp--preset--font-size--body);
+  line-height: 1.5;
+  max-width: 80ch;
+  margin-inline: auto;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.35);
+}
+
+/* CTAs */
+.banner-strip__ctas{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  align-items: center;
+  margin-top: clamp(0.6rem, 1.2vw, 1rem);
+}
+.banner-strip__ctas--stack{
+  flex-direction: column;
+}
+
+/* Responsive tweaks */
+@media (max-width: 720px){
+  .banner-strip__inner{
+    border-radius: 18px;
   }
-}
-
-/* Optional: on very small screens, soften even more */
-@media (max-width: 640px){
-  .banner__glass{
-    border-radius: 8px;
-    -webkit-backdrop-filter: blur(12px) saturate(110%);
-    backdrop-filter: blur(12px) saturate(110%);
-    box-shadow:
-      0 6px 20px rgba(0,0,0,.12),
-      0 1px 6px  rgba(0,0,0,.06);
+  .banner-strip__ctas{
+    flex-direction: column;
   }
 }

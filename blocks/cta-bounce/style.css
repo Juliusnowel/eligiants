@@ -4,7 +4,7 @@
   padding:.50rem 1.75rem;
   border-radius:12px;
   background:var(--cta-accent, #FD593C);
-  color:#fff;
+  color:var(--cta-text, #fff);
   text-decoration:none;
   font-size:var(--wp--preset--font-size--body);
   font-weight:700;
@@ -12,9 +12,15 @@
   will-change:transform;
   z-index:0;
   box-shadow:none;
-  outline: none;
+  outline:none;
+  border:2px solid var(--cta-border, transparent);
 }
-.cta-bounce__label{ margin:0; border-bottom:3px solid transparent; }
+.cta-bounce__label{
+  margin:0;
+  /* border-bottom:3px solid var(--cta-border, transparent); */
+  border-bottom:none;
+
+}
 
 /* Drop shadow behind the pill */
 .cta-bounce::after{
@@ -41,7 +47,6 @@
 .cta-bounce:hover,
 .cta-bounce:focus-visible{
   animation: cta-bounce-seesaw 1s ease-in-out both;
-  /* background-color:#f15539;  */
   outline:none;
 }
 

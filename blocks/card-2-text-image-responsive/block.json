@@ -22,6 +22,15 @@
     "buttonText":        { "type": "string" },
     "buttonUrl":         { "type": "string", "default": "#" },
     "buttonAccent":      { "type": "string", "default": "#FD593C" },
+    "textColor":         { "type": "string", "default": "#FFFFFF" },
+    "borderColor":       { "type": "string", "default": "transparent" },
+
+    "button2Text":       { "type": "string" },
+    "button2Url":        { "type": "string", "default": "#" },
+    "button2Accent":     { "type": "string", "default": "" },
+    "textColor2":        { "type": "string", "default": "#FFFFFF" },
+    "borderColor2":      { "type": "string", "default": "transparent" },
+
     "ctaAlign":          { "type": "string", "default": "right" },
 
     "imageUrl":          { "type": "string", "default": "https://via.placeholder.com/960x540?text=Image" },
@@ -38,9 +47,12 @@
 
     "textDecor":         { "type": "array",  "default": [] },
 
-    "enterAnim":         { "type": "string", "default": "none" }, 
-    "textDecorAnim":     { "type": "string", "default": "none" } 
-  },
+    "enterAnim":         { "type": "string", "default": "none" },
+    "textDecorAnim":     { "type": "string", "default": "none" },
+
+    "textDecorPosition": { "type": "string", "default": "auto" }  
+  }
+  ,
 
   "example": {
     "attributes": {
@@ -49,7 +61,15 @@
       "headline": "Travel Safety Tips Every Traveler Should Know",
       "paragraphOne": "Traveling opens the door to unforgettable adventures, but staying safe keeps every journey enjoyable.",
       "buttonText": "Read Tips",
+      "buttonUrl": "/safety/",
       "buttonAccent": "#FD593C",
+      "textColor": "#FFFFFF",
+      "borderColor": "transparent",
+      "button2Text": "All Guides",
+      "button2Url": "/guides/",
+      "button2Accent": "#333333",
+      "textColor2": "#FFFFFF",
+      "borderColor2": "transparent",
       "ctaAlign": "left",
       "imageUrl": "https://picsum.photos/960/540?random=17",
       "backgroundColor": "#F9CF57",

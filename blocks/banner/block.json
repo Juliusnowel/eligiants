@@ -1,53 +1,60 @@
-  {
-    "apiVersion": 3,
-    "name": "child/banner",
-    "title": "Section · Banner",
-    "category": "widgets",
-    "description": "Hero/section banner with image or gradient background, features, list and CTA.",
-    "icon": "screenoptions",
-    "supports": {
-      "html": false,
-      "inserter": false,
-      "align": ["wide", "full"]
-    },
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ilegiants/banner",
+  "title": "Banner Strip",
+  "category": "design",
+  "icon": "align-center",
+  "description": "Centered banner strip with translucent dark panel, heading, text and up to two CTAs.",
+  "keywords": ["banner", "strip", "cta"],
+  "supports": {
+    "align": ["full", "wide"],
+    "spacing": {
+      "margin": ["top", "bottom"],
+      "padding": true
+    }
+  },
+  "style": "file:./style.css",
+  "render": "file:./render.php",
+  "usesContext": ["postType", "postId"],
+  "attributes": {
+    "title":       { "type": "string", "default": "" },
+    "subtitle":    { "type": "string", "default": "" },
+    "tagline":     { "type": "string", "default": "" },
+
+    "ctaText":     { "type": "string", "default": "" },
+    "ctaUrl":      { "type": "string", "default": "#" },
+    "cta2Text":    { "type": "string", "default": "" },
+    "cta2Url":     { "type": "string", "default": "#" },
+    "cta2Accent":  { "type": "string", "default": "" },
+    "ctaLayout":   { "type": "string", "default": "row" },
+
+    "overlay":     { "type": "number", "default": 0.65 },
+    "accent":      { "type": "string", "default": "tomato" },
+    "titleShadow": { "type": "boolean", "default": true },
+
+    "bgColor":         { "type": "string", "default": "" },
+    "bgImageUrl":      { "type": "string", "default": "" },
+    "bgImagePosition": { "type": "string", "default": "center center" },
+    "minHeight":       { "type": "number", "default": 0 }
+  },
+  "example": {
     "attributes": {
-      "title":        { "type": "string",  "default": "" },
-      "description":  { "type": "string",  "default": "" },
-      "sub_title":    { "type": "string",  "default": "" },        
-      "footer_text":  { "type": "string",  "default": "" },
-
-      "headingLevel": { "type": "string", "default": "auto" },          
-      "titleFont":    { "type": "string", "default": "" },               
-      "descFont":     { "type": "string", "default": "" },
-
-      "effect": { "type": "boolean", "default": false },
-
-      "img":          { "type": "string",  "default": "" },
-
-      "mode":         { "type": "string",  "default": "auto" },    
-
-      "bgStart":      { "type": "string",  "default": "#2ea7e0" },
-      "bgEnd":        { "type": "string",  "default": "#73c6ff" },
-      "bgDirection":  { "type": "string",  "default": "90deg" },
-      "overlay":      { "type": "string",  "default": "rgba(0,0,0,.10)" }, 
-
-      "hAlign":       { "type": "string",  "default": "left" },    
-      "vAlign":       { "type": "string",  "default": "center" },  
-      "banner_size":  { "type": "string",  "default": "small" },   
-
-      "showButton":   { "type": "boolean", "default": true },
-      "buttonText":   { "type": "string",  "default": "" },
-      "buttonUrl":    { "type": "string",  "default": "" },
-
-      "category_data": { "type": "array", "default": [] },         
-      "category_list": { "type": "array", "default": [] },         
-
-      "align":        { "type": "string" },
-      "dataIndex":    { "type": "number", "default": 0 },
-      "dataKey":      { "type": "string", "default": "banners" },
-
-      "hero":       { "type": "boolean", "default": false }  
-    },
-    "render": "file:./render.php",
-    "style":  "file:./style.css"
-  }
+      "align": "full",
+      "title": "Top Japanese Food Experiences They Can’t Miss",
+      "tagline": "Japanese cuisine invites travelers to savor a world where flavor meets tradition and creativity. From delicate sushi to sizzling street eats, every bite reveals the artistry and soul of Japan’s culture.",
+      "ctaText": "Unlock Food Map",
+      "ctaUrl": "/food-map/",
+      "cta2Text": "Learn More",
+      "cta2Url": "/japan-food/",
+      "cta2Accent": "#FFFFFF",
+      "overlay": 0.65,
+      "accent": "tomato",
+      "titleShadow": true,
+      "bgImageUrl": "https://picsum.photos/1600/600?random=81",
+      "bgImagePosition": "center center",
+      "minHeight": 260
+    }
+  },
+  "textdomain": "ilegiants"
+}

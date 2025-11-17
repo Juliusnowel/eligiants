@@ -1,0 +1,44 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ilegiants/lp-banner",
+  "title": "LP Banner",
+  "category": "design",
+  "icon": "cover-image",
+  "supports": {
+    "align": ["full", "wide"],
+    "spacing": {
+      "padding": true,
+      "margin": ["top", "bottom"]
+    }
+  },
+  "style": "file:./style.css",
+  "render": "file:./render.php",
+  "usesContext": ["postType", "postId"],
+  "attributes": {
+    "title":       { "type": "string",  "default": "" },
+    "subtitle":    { "type": "string",  "default": "" },
+    "tagline":     { "type": "string",  "default": "" },
+    "ctaText":     { "type": "string",  "default": "" },
+    "ctaUrl":      { "type": "string",  "default": "#" },
+    "cta2Text":    { "type": "string",  "default": "" },
+    "cta2Url":     { "type": "string",  "default": "#" },
+    "cta2Accent":  { "type": "string",  "default": "" },
+    "ctaLayout":   { "type": "string",  "default": "row" },
+
+    "overlay":     { "type": "number",  "default": 0.55 },
+    "minHeight":   { "type": "number",  "default": 520 },
+    "accent":      { "type": "string",  "default": "tomato" },
+    "titleShadow": { "type": "boolean", "default": true },
+    "images":      { "type": "array",   "default": [], "items": { "type": "string" } },
+    "interval":    { "type": "number",  "default": 5000 },
+    "fullHeight":  { "type": "boolean", "default": true },
+    "headerHeight":{ "type": "number",  "default": 0 },
+    "underHeader": { "type": "boolean", "default": true },
+
+    "contentSide":   { "type": "string",  "default": "left" },    
+    "mobilePop":     { "type": "boolean", "default": true },      
+    "zoomEnabled":   { "type": "boolean", "default": true },   
+    "motionEnabled": { "type": "boolean", "default": true }      
+  }
+}

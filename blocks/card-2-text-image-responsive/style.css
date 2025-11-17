@@ -91,6 +91,7 @@
 .card-2-text-img-resp__cta-wrap{
   margin-top: clamp(.6rem, 1.2vw, 1rem);
   display: flex;
+  gap: 10px;
 }
 .card-2-text-img-resp__cta-wrap--left{
   justify-content: flex-start;
@@ -137,6 +138,46 @@
 }
 .card-2-text-img-resp__decor--right{
   right: 0;
+}
+
+/* Panel corner decor */
+.card-2-text-img-resp__panel-decor{
+  position: absolute;
+  width: clamp(40px, 7.5vw, 230px);
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+  opacity: .95;
+}
+
+/* vertical offset only */
+.card-2-text-img-resp__panel-decor--tl,
+.card-2-text-img-resp__panel-decor--tr{
+  top: -106px;
+}
+.card-2-text-img-resp__panel-decor--bl,
+.card-2-text-img-resp__panel-decor--br{
+  bottom: -106px;
+}
+
+/* default horizontal behaviour (back-compat) */
+.card-2-text-img-resp__panel-decor--tl,
+.card-2-text-img-resp__panel-decor--bl{
+  left: -106px;
+}
+.card-2-text-img-resp__panel-decor--tr,
+.card-2-text-img-resp__panel-decor--br{
+  right: -106px;
+}
+
+/* NEW: override side via textDecorPosition */
+.card-2-text-img-resp__panel.text-decor-side-left  .card-2-text-img-resp__panel-decor{
+  left: -106px;
+  right: auto;
+}
+.card-2-text-img-resp__panel.text-decor-side-right .card-2-text-img-resp__panel-decor{
+  right: -106px;
+  left: auto;
 }
 
 /* ===== Responsive ===== */
