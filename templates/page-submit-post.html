@@ -1,0 +1,61 @@
+<!--
+Template Name: Community Submit Post
+-->
+<!-- wp:template-part {"slug":"header-community","tagName":"header"} /-->
+
+<!-- wp:group {"tagName":"main","className":"community-submit-wrapper","layout":{"type":"constrained"}} -->
+<main class="community-submit-wrapper py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+
+                <div class="submit-card p-4 p-md-5">
+                    <h2 class="submit-title mb-3">Submit Post</h2>
+                    <p class="submit-subtitle mb-4">
+                        Share your travel story with the community.
+                    </p>
+
+                    <!-- wp:html -->
+                    <form id="community-submit-form"
+                          method="post"
+                          action="/wp-admin/admin-post.php">
+
+                        <!-- required for WordPress admin-post handler -->
+                        <input type="hidden" name="action" value="community_submit_post">
+
+                        <!-- nonce will be injected by PHP in functions.php (server side) -->
+                        <input type="hidden" name="community_post_nonce" value="">
+
+                        <div class="mb-3">
+                            <label for="post_title" class="form-label">Title</label>
+                            <input type="text"
+                                   id="post_title"
+                                   name="post_title"
+                                   class="form-control"
+                                   placeholder="Enter your post title"
+                                   required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="post_content" class="form-label">Content</label>
+                            <textarea id="post_content"
+                                      name="post_content"
+                                      class="form-control"
+                                      rows="8"
+                                      placeholder="Write your blog here..."
+                                      required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-login mt-2">
+                            Submit Post
+                        </button>
+                    </form>
+                    <!-- /wp:html -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->
+<!-- /wp:group -->

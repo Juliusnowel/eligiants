@@ -293,3 +293,33 @@ header.wp-block-template-part { margin: 0; padding: 0; }
   height: 100%;
   border: 0;
 }
+
+/* Destination LPs */
+.logo-wrapper {
+  padding: 50px 0 0 0;   
+  margin: 0;       
+}
+
+.logo-img {
+  width: 160px;
+  height: auto;
+  margin: 0;
+}
+
+.logo-img-jp {
+  width: 100px;
+  height: auto;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .logo-wrapper {
+      padding: 40px 0 0 0;    
+  }
+}
+
+@media (max-width: 576px) {
+  .logo-wrapper {
+      padding: 30px 0 0 0;   
+  }
+}

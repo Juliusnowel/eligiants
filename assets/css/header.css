@@ -321,6 +321,36 @@ body.scrolled #navbar{
   color: tomato !important;
 }
 
+/* This is start header-community */
+.nav-login-icon {
+    font-size: 1.1rem;
+    color: #fd593c;
+}
+
+.btn-login {
+    background-color: #fd593c;
+    border: none;
+    border-radius: 999px;
+    padding: 0.35rem 1.8rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #ffdd55;
+}
+
+.btn-login:hover,
+.btn-login:focus {
+    background-color: #ff6c46;
+    color: #fff7b0;
+}
+
+.nav-login-icon-link {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* This is end header-community */
+
 /* Optional: if you want the underline AND tomato text together on hover */
 @media (hover:hover) and (pointer:fine){
   #navbar .navbar-nav > .nav-item > .nav-link:not(.dropdown-toggle):hover::after,
