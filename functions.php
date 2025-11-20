@@ -226,16 +226,29 @@ add_action( 'admin_post_community_submit_post', 'ileg_handle_community_submit_po
 add_action( 'admin_post_nopriv_community_submit_post', 'ileg_handle_community_submit_post_guest' );
 
 function ileg_handle_community_submit_post_guest() {
-    // Force guests to log in before posting
     $redirect = wp_get_referer() ?: home_url( '/community/submit-post/' );
-    wp_redirect( wp_login_url( $redirect ) );
+
+    $login_page = get_page_by_path( 'login' );
+    if ( $login_page ) {
+        $login_url = add_query_arg(
+            'redirect_to',
+            urlencode( $redirect ),
+            get_permalink( $login_page )
+        );
+    } else {
+        // fallback to default wp-login.php if custom page is missing
+        $login_url = wp_login_url( $redirect );
+    }
+
+    wp_redirect( $login_url );
     exit;
 }
+
 
 function ileg_handle_community_submit_post() {
     if ( ! is_user_logged_in() ) {
         $redirect = wp_get_referer() ?: home_url( '/community/submit-post/' );
-        wp_redirect( wp_login_url( $redirect ) );
+        wp_redirect( '/login' );
         exit;
     }
 
@@ -296,6 +309,63 @@ add_action( 'wp_enqueue_scripts', function () {
         'nonce' => wp_create_nonce( 'community_submit_post' ),
     ] );
 }, 30 );
+
+/**
+ * Redirect failed logins back to the frontend /login page.
+ */
+add_action( 'wp_login_failed', 'ileg_redirect_on_login_failed' );
+
+function ileg_redirect_on_login_failed( $username ) {
+    // Find the custom login page
+    $login_page = get_page_by_path( 'login' );
+    if ( ! $login_page ) {
+        return; // fallback: let WP handle it
+    }
+
+    $login_url = get_permalink( $login_page );
+
+    // Preserve original redirect_to if present
+    $redirect_to = isset( $_REQUEST['redirect_to'] )
+        ? esc_url_raw( wp_unslash( $_REQUEST['redirect_to'] ) )
+        : '';
+
+    $args = array( 'login' => 'failed' );
+    if ( $redirect_to ) {
+        $args['redirect_to'] = $redirect_to;
+    }
+
+    wp_redirect( add_query_arg( $args, $login_url ) );
+    exit;
+}
+
+
+/**
+ * Use custom frontend Reset Password page in reset emails.
+ */
+add_filter( 'retrieve_password_message', 'ileg_custom_reset_email_link', 10, 4 );
+function ileg_custom_reset_email_link( $message, $key, $user_login, $user_data ) {
+
+    // URL of your frontend reset page (slug must be /reset-password/)
+    $reset_url = add_query_arg(
+        array(
+            'key'   => $key,
+            'login' => rawurlencode( $user_login ),
+        ),
+        home_url( '/reset-password/' )
+    );
+
+    $site_name = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
+
+    // Build a simple email message that uses our custom link
+    $message  = "Hi {$user_login},\r\n\r\n";
+    $message .= "We received a request to reset your password on {$site_name}.\r\n\r\n";
+    $message .= "To reset your password, click the link below:\r\n\r\n";
+    $message .= "{$reset_url}\r\n\r\n";
+    $message .= "If you did not request this, you can safely ignore this email.\r\n";
+
+    return $message;
+}
+
 
 add_filter( 'show_admin_bar', '__return_false' );
 

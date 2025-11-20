@@ -112,6 +112,31 @@ if ( 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['frontend_register_n
             border-radius: 24px;
             padding: 2.5rem 2rem 2.25rem;
             box-shadow: 0 14px 40px rgba(0, 0, 0, 0.18);
+            position: relative; 
+        }
+
+        .register-close {
+            position: absolute;
+            top: 0.9rem;
+            right: 0.9rem;
+            width: 30px;
+            height: 30px;
+            border-radius: 999px;
+            border: none;
+            background: rgba(255, 255, 255, 0.9);
+            color: #fd593c;
+            font-size: 1.5rem;
+            line-height: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        }
+
+        .register-close:hover {
+            background: #ffffff;
         }
 
         .register-title {
@@ -218,6 +243,14 @@ if ( 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['frontend_register_n
 
 <div class="register-card-wrapper">
     <div class="register-card">
+
+        <a
+            href="<?php echo esc_url( home_url( '/community/' ) ); ?>"
+            class="register-close"
+            aria-label="Close register and go back to community"
+        >
+            &times;
+        </a>    
 
         <h2 class="register-title">Registration</h2>
         <p class="register-subtitle">Create an Account</p>

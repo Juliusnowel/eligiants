@@ -48,21 +48,47 @@ $redirect = ! empty( $_GET['redirect_to'] )
             border-radius: 24px;
             padding: 2.5rem 2rem 2.25rem;
             box-shadow: 0 14px 40px rgba(0, 0, 0, 0.18);
+            position: relative; /* enable absolute child */
+        }
+
+        .login-close {
+            position: absolute;
+            top: 0.9rem;
+            right: 0.9rem;
+            width: 30px;
+            height: 30px;
+            border-radius: 999px;
+            border: none;
+            background: rgba(255, 255, 255, 0.9);
+            color: #fd593c;
+            font-size: 1.5rem;
+            line-height: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        }
+
+        .login-close:hover {
+            background: #ffffff;
         }
 
         .login-title {
             margin: 0 0 .3rem;
             font-weight: 700;
             color: #fd593c;
+            text-align: center;
         }
 
         .login-subtitle {
             margin: 0 0 2rem;
             font-weight: 600;
             color: #16324f;
+            text-align: center;
         }
 
-        /* WordPress login form structure */
         .login-card form p {
             margin: 0 0 1rem;
         }
@@ -90,16 +116,23 @@ $redirect = ! empty( $_GET['redirect_to'] )
             box-shadow: 0 0 0 2px rgba(253, 89, 60, 0.25);
         }
 
-        /* Remember me row */
-        .login-card .login-remember label {
+        /* Remember + Forgot row */
+        .login-extra-row {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: .4rem;
-            font-size: 0.9rem;
-            margin-bottom: 0;
+            margin: 0.4rem 0 1rem;
         }
 
-        .login-card input#rememberme {
+        .login-extra-row .remember-label {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.9rem;
+            color: #333;
+        }
+
+        .login-extra-row input#rememberme {
             width: auto;
         }
 
@@ -131,13 +164,6 @@ $redirect = ! empty( $_GET['redirect_to'] )
             text-decoration: underline;
         }
 
-        .login-meta-row {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: .25rem;
-            margin-bottom: 1rem;
-        }
-
         .register-row {
             margin-top: 1.2rem;
             display: flex;
@@ -150,16 +176,14 @@ $redirect = ! empty( $_GET['redirect_to'] )
         .btn-register {
             display: inline-block;
             border-radius: 999px;
-            padding: .6rem 2.4rem;
-            background: #fd593c;
-            color: #fff;
             text-decoration: none;
             font-weight: 600;
+            color: #ff6c46;
+            text-decoration: underline;
         }
 
         .btn-register:hover {
-            background: #ff6c46;
-            color: #fff;
+            color: #0EB6D1;
         }
 
         @media (min-width: 576px) {
@@ -174,28 +198,89 @@ $redirect = ! empty( $_GET['redirect_to'] )
 
 <div class="login-card-wrapper">
     <div class="login-card">
-        <h2 class="login-title text-center">Log In</h2>
-        <p class="login-subtitle text-center">
+
+        <a
+            href="<?php echo esc_url( home_url( '/community/' ) ); ?>"
+            class="login-close"
+            aria-label="Close login and go back to community"
+        >
+            &times;
+        </a>
+
+        <h2 class="login-title">Log In</h2>
+        <p class="login-subtitle">
             Hey, Welcome Back!
         </p>
 
-        <?php
-        wp_login_form( [
-            'redirect'       => $redirect,
-            'label_username' => __( 'Email Address' ),
-            'label_password' => __( 'Password' ),
-            'label_remember' => __( 'Remember me' ),
-            'label_log_in'   => __( 'Log In' ),
-            'remember'       => true,
-            'id_submit'      => 'login-submit',
-        ] );
-        ?>
+        <?php if ( isset( $_GET['login'] ) && $_GET['login'] === 'failed' ) : ?>
+            <div style="margin-bottom:1rem;padding:.6rem .9rem;border-radius:8px;
+                        background:#fee2e2;color:#b91c1c;font-size:0.9rem;">
+                Invalid email or password. Please try again.
+            </div>
+        <?php endif; ?>
 
-        <div class="login-meta-row">
-            <a class="forgot-link" href="<?php echo esc_url( wp_lostpassword_url() ); ?>">
-                Forgot Password?
-            </a>
-        </div>
+
+        <form
+            name="loginform"
+            id="loginform"
+            action="<?php echo esc_url( wp_login_url( $redirect ) ); ?>"
+            method="post"
+        >
+            <p class="login-username">
+                <label for="user_login">Email Address</label>
+                <input
+                    type="text"
+                    name="log"
+                    id="user_login"
+                    class="input"
+                    value=""
+                    size="20"
+                    autocomplete="username"
+                />
+            </p>
+
+            <p class="login-password">
+                <label for="user_pass">Password</label>
+                <input
+                    type="password"
+                    name="pwd"
+                    id="user_pass"
+                    class="input"
+                    value=""
+                    size="20"
+                    autocomplete="current-password"
+                />
+            </p>
+
+            <div class="login-extra-row">
+                <label class="remember-label">
+                    <input
+                        name="rememberme"
+                        type="checkbox"
+                        id="rememberme"
+                        value="forever"
+                    />
+                    Remember me
+                </label>
+
+                <a class="forgot-link" href="<?php echo esc_url( home_url( '/forgot-password/' ) ); ?>">
+                    Forgot Password?
+                </a>
+
+            </div>
+
+            <p class="login-submit">
+                <input
+                    type="submit"
+                    name="wp-submit"
+                    id="login-submit"
+                    class="button button-primary"
+                    value="Log In"
+                />
+                <input type="hidden" name="redirect_to" value="<?php echo esc_attr( $redirect ); ?>" />
+                <input type="hidden" name="testcookie" value="1" />
+            </p>
+        </form>
 
         <?php
         $register_page = get_page_by_path( 'community-register' );
