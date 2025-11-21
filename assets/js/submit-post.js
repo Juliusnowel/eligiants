@@ -9,3 +9,41 @@ document.addEventListener('DOMContentLoaded', function () {
 
   nonceField.value = IlegSubmitPost.nonce;
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const variantField   = document.getElementById('post_variant');
+    const titleField     = document.getElementById('post_title');
+    const categoryGroup  = document.getElementById('category_group');
+    const imageBtn       = document.getElementById('toggle_image_post');
+    const blogBtn        = document.getElementById('toggle_blog_post');
+
+    function setVariant(type) {
+        variantField.value = type;
+
+        if (type === 'image') {
+            imageBtn.classList.add('submit-type-toggle__btn--active');
+            blogBtn.classList.remove('submit-type-toggle__btn--active');
+
+            // Title optional for image posts
+            titleField.removeAttribute('required');
+
+            // Hide blog-only category picker
+            categoryGroup.style.display = 'none';
+        } else {
+            blogBtn.classList.add('submit-type-toggle__btn--active');
+            imageBtn.classList.remove('submit-type-toggle__btn--active');
+
+            // Title required for blog posts
+            titleField.setAttribute('required', 'required');
+
+            categoryGroup.style.display = '';
+        }
+    }
+
+    imageBtn.addEventListener('click', function () { setVariant('image'); });
+    blogBtn.addEventListener('click', function () { setVariant('blog'); });
+
+    // Default: Image post as per your initial ask
+    setVariant('image');
+});
+

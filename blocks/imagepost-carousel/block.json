@@ -1,0 +1,23 @@
+{
+  "apiVersion": 2,
+  "name": "ileg/imagepost-carousel",
+  "title": "Image Post Carousel",
+  "description": "Carousel of posts in the imagepost category.",
+  "category": "widgets",
+  "icon": "images-alt2",
+  "supports": {
+    "html": false
+  },
+  "attributes": {
+    "autoplaySeconds": {
+      "type": "number",
+      "default": 3
+    },
+    "postsToShow": {
+      "type": "number",
+      "default": 10
+    }
+  },
+  "render": "file:./render.php",
+  "style": "file:./style.css"
+}

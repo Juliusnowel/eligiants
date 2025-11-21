@@ -246,50 +246,89 @@ function ileg_handle_community_submit_post_guest() {
 
 
 function ileg_handle_community_submit_post() {
-    if ( ! is_user_logged_in() ) {
-        $redirect = wp_get_referer() ?: home_url( '/community/submit-post/' );
-        wp_redirect( '/login' );
+
+    if (!is_user_logged_in()) {
+        wp_redirect('/login');
         exit;
     }
 
-    // Nonce check
     if (
-        ! isset( $_POST['community_post_nonce'] ) ||
-        ! wp_verify_nonce( $_POST['community_post_nonce'], 'community_submit_post' )
+        !isset($_POST['community_post_nonce']) ||
+        !wp_verify_nonce($_POST['community_post_nonce'], 'community_submit_post')
     ) {
-        wp_die( 'Security check failed. Please reload the page and try again.' );
+        wp_die('Security check failed. Please reload the page and try again.');
     }
 
-    $redirect_base = wp_get_referer() ?: home_url( '/community/submit-post/' );
+    $redirect_base = wp_get_referer() ?: home_url('/community/submit-post/');
 
-    // Sanitize inputs
-    $title   = isset( $_POST['post_title'] )   ? sanitize_text_field( $_POST['post_title'] )   : '';
-    $content = isset( $_POST['post_content'] ) ? wp_kses_post( $_POST['post_content'] )        : '';
+    $variant  = isset($_POST['post_variant']) ? sanitize_text_field($_POST['post_variant']) : 'blog';
+    $variant  = in_array($variant, ['blog', 'image'], true) ? $variant : 'blog';
 
-    if ( $title === '' || $content === '' ) {
-        wp_redirect( add_query_arg( 'submit-error', 'missing_fields', $redirect_base ) );
-        exit;
+    $title    = sanitize_text_field($_POST['post_title'] ?? '');
+    $content  = wp_kses_post($_POST['post_content'] ?? '');
+    $tags_raw = sanitize_text_field($_POST['post_tags'] ?? '');
+    $excerpt  = sanitize_textarea_field($_POST['post_excerpt'] ?? '');
+
+    $tags = array_filter(array_map('trim', explode(',', $tags_raw)));
+
+    // Validation split by variant
+    if ($variant === 'blog') {
+        if ($title === '' || $content === '') {
+            wp_redirect(add_query_arg('submit-error', 'missing_fields', $redirect_base));
+            exit;
+        }
+    } else { // image post
+        if (empty($_FILES['featured_image']['name'])) {
+            wp_redirect(add_query_arg('submit-error', 'missing_image', $redirect_base));
+            exit;
+        }
     }
+
+    // Determine category
+    if ($variant === 'image') {
+        // Force to category with slug "imagepost"
+        $image_cat = get_category_by_slug('imagepost');
+        $category  = $image_cat ? (int) $image_cat->term_id : 0;
+    } else {
+        $category = intval($_POST['post_category'] ?? 0);
+    }
+
+    // Draft or submit?
+    $action_type = sanitize_text_field($_POST['post_action'] ?? 'submit');
+    $post_status = ($action_type === 'draft') ? 'draft' : 'pending';
 
     // Insert post
-    $post_id = wp_insert_post( [
-        'post_title'   => $title,
-        'post_content' => $content,
-        'post_status'  => 'pending',          // or 'draft' / 'publish' per your workflow
-        'post_type'    => 'post',
-        'post_author'  => get_current_user_id(),
-    ], true );
+    $post_id = wp_insert_post([
+        'post_title'    => $title,
+        'post_content'  => $content,
+        'post_excerpt'  => $excerpt,
+        'post_status'   => $post_status,
+        'post_type'     => 'post',
+        'post_author'   => get_current_user_id(),
+        'post_category' => $category ? [$category] : [],
+        'tags_input'    => $tags
+    ], true);
 
-    if ( is_wp_error( $post_id ) ) {
-        wp_redirect( add_query_arg( 'submit-error', 'insert_failed', $redirect_base ) );
+    if (is_wp_error($post_id)) {
+        wp_redirect(add_query_arg('submit-error', 'insert_failed', $redirect_base));
         exit;
     }
 
-    // Redirect to profile (or wherever) with success flag
-    $success_target = home_url( '/community/profile/' );
-    wp_redirect( add_query_arg( 'submit-success', '1', $success_target ) );
+    // Featured image upload
+    if (!empty($_FILES['featured_image']['name'])) {
+        $attach_id = media_handle_upload('featured_image', $post_id);
+
+        if (!is_wp_error($attach_id)) {
+            set_post_thumbnail($post_id, $attach_id);
+        }
+    }
+
+    // Redirect based on action
+    $redirect_target = home_url('/community/profile/');
+    wp_redirect(add_query_arg('submit-success', $post_status, $redirect_target));
     exit;
 }
+
 
 add_action( 'wp_enqueue_scripts', function () {
     // Only load on the submit post page to keep things lean
@@ -366,6 +405,12 @@ function ileg_custom_reset_email_link( $message, $key, $user_login, $user_data )
     return $message;
 }
 
+add_action('wp_enqueue_scripts', function () {
+	if (!is_page_template('page-submit-post.php')) return;
+
+	wp_enqueue_editor();     // loads TinyMCE + Quicktags
+	wp_enqueue_media();      // enables Add Media
+});
 
 add_filter( 'show_admin_bar', '__return_false' );
 

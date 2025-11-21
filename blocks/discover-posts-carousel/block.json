@@ -1,0 +1,39 @@
+{
+  "apiVersion": 2,
+  "name": "ileg/discover-posts-carousel",
+  "title": "Discover Posts Carousel",
+  "description": "Horizontal card carousel of recent blog posts.",
+  "category": "widgets",
+  "icon": "slides",
+  "supports": {
+    "html": false
+  },
+  "attributes": {
+    "sectionTitle": {
+      "type": "string",
+      "default": "Explore"
+    },
+    "viewAllLabel": {
+      "type": "string",
+      "default": "View all"
+    },
+    "viewAllUrl": {
+      "type": "string",
+      "default": "/blog/"
+    },
+    "postsToShow": {
+      "type": "number",
+      "default": 9
+    },
+    "metricsCutoffDays": {
+      "type": "number",
+      "default": 7
+    },
+    "blogRender": {
+      "type": "string",
+      "default": "none"
+    }
+  },
+  "render": "file:./render.php",
+  "style": "file:./style.css"
+}

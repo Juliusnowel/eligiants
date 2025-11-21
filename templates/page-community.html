@@ -1,7 +1,26 @@
 <!-- wp:template-part {"slug":"header-community","tagName":"header"} /-->
 
+<!-- wp:group -->
 <div class="wp-block-group">
-    <p>test</p>
+    <!-- wp:ileg/imagepost-carousel {"autoplaySeconds":3,"postsToShow":10} /-->
+    
+    <div style="text-align: right;">
+        <!-- wp:ilegiants/cta-bounce {
+            "text": "Write a Post ?",
+            "url": "/community/submit-post/",
+            "accent": "#FD593C",
+            "textColor": "#ffffff",
+            "borderColor": "#FD593C"
+        } /-->
+    </div>
+
+    <!-- new: last 7 days only -->
+    <!-- wp:ileg/discover-posts-carousel {"sectionTitle":"Published Live Contents","viewAllUrl":"/published-contents/","blogRender":"new"} /-->
+
+    <!-- old: older than 7 days -->
+    <!-- wp:ileg/discover-posts-carousel {"sectionTitle":"Explore","viewAllUrl":"/discover/","blogRender":"old"} /-->
+
 </div>
-<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->
 <!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->

@@ -9,3 +9,11 @@
     'innerHTML'    => '',
     'innerContent' => []
 ]); ?>
+
+<!-- wp:ilegiants/cta-bounce {
+    "text": "Write a Post",
+    "url": "/community/submit-post/",
+    "accent": "#FD593C",
+    "textColor": "#ffffff",
+    "borderColor": "#FD593C"
+} /-->

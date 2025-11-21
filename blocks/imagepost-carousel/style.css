@@ -1,0 +1,141 @@
+.wp-block-group {
+    padding-left: var(--page-gutter-left) !important;
+    padding-right: var(--page-gutter-right) !important;
+    padding-top: 20px !important;
+}
+
+.imagepost-carousel {
+	position: relative;
+	width: 100%;
+	border-radius: 24px;
+	overflow: hidden;
+	background: #e4e4e4;
+	box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+}
+
+.imagepost-carousel__track {
+	position: relative;
+	width: 100%;
+	height: clamp(220px, 55vw, 680px);
+}
+
+@media (min-width: 992px) {
+	.imagepost-carousel__track {
+		height: 680px;
+	}
+}
+
+.imagepost-carousel__slide {
+	position: absolute;
+	inset: 0;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.4s ease;
+}
+
+.imagepost-carousel__slide.is-active {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+.imagepost-carousel__link {
+	display: block;
+	width: 100%;
+	height: 100%;
+	color: inherit;
+	text-decoration: none;
+}
+
+.imagepost-carousel__media {
+	width: 100%;
+	height: 100%;
+	background: #dedede;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.imagepost-carousel__img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+.imagepost-carousel__placeholder {
+	width: 120px;
+	height: 120px;
+	border-radius: 16px;
+	background: #cfcfcf;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 3rem;
+	color: #999;
+}
+
+.imagepost-carousel__caption {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	padding: 0.9rem 1.2rem;
+	background: rgba(0, 0, 0, 0.55);
+	color: #ffffff;
+}
+
+.imagepost-carousel__title {
+	margin: 0 0 0.25rem;
+	font-size: var(--wp--preset--font-size--h-3);
+}
+
+.imagepost-carousel__excerpt {
+	margin: 0;
+	font-size: var(--wp--preset--font-size--body);
+	line-height: 1.4;
+}
+
+/* Arrows */
+
+.imagepost-carousel__arrow {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 38px;
+	height: 38px;
+	border-radius: 999px;
+	border: none;
+	background: rgba(0, 0, 0, 0.35);
+	color: #ffffff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: background 0.2s ease;
+}
+
+.imagepost-carousel__arrow span {
+	font-size: 1.6rem;
+	line-height: 1;
+}
+
+.imagepost-carousel__arrow--prev {
+	left: 16px;
+}
+
+.imagepost-carousel__arrow--next {
+	right: 16px;
+}
+
+.imagepost-carousel__arrow:hover {
+	background: rgba(0, 0, 0, 0.6);
+}
+
+/* Empty state */
+
+.imagepost-carousel__empty {
+	margin: 0;
+	padding: 1rem;
+	color: #777;
+	font-size: 0.95rem;
+}

@@ -1,0 +1,233 @@
+.card-gatherer {
+    width: 100%;
+    font-family: 'Outfit', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.card-gatherer__notice,
+.card-gatherer__empty {
+    margin: 0;
+    color: #777;
+    font-size: 0.95rem;
+}
+
+.card-gatherer__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Card shell */
+
+.card-gatherer__item {
+    position: relative;
+    border-radius: 24px;
+    background: #ffffff;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Hover actions bar (Download/Delete, Edit/Delete) */
+
+.card-gatherer__actions {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 0.35rem 0.6rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.35rem;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.25), transparent);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.18s ease-out;
+    z-index: 2;
+}
+
+.card-gatherer__item:hover .card-gatherer__actions {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.card-gatherer__btn {
+    border-radius: 999px;
+    border: 0;
+    padding: 0.15rem 0.7rem;
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.card-gatherer__btn--ghost {
+    background: rgba(255, 255, 255, 0.9);
+    color: #16324f;
+}
+
+.card-gatherer__btn--danger {
+    background: #fd593c;
+    color: #ffffff;
+}
+
+.card-gatherer__btn--ghost:hover {
+    background: #ffffff;
+}
+
+.card-gatherer__btn--danger:hover {
+    background: #d7432a;
+}
+
+/* Thumbnail */
+
+.card-gatherer__thumb-wrapper {
+    display: block;
+    background: #e9e9e9;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+}
+
+.card-gatherer__thumb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.card-gatherer__thumb-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: #999;
+}
+
+/* Images grid tweaks */
+
+.card-gatherer--type-images .card-gatherer__item {
+    padding: 0;
+    box-shadow: none;
+    background: transparent;
+}
+
+.card-gatherer--type-images .card-gatherer__thumb-wrapper {
+    border-radius: 24px;
+    background: #dedede;
+}
+
+/* Body for posts/drafts */
+
+.card-gatherer__body {
+    padding: 1rem 1.25rem 1.25rem;
+}
+
+.card-gatherer__meta-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    gap: 0.5rem;
+}
+
+.card-gatherer__category {
+    display: inline-block;
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    background: #fd593c;
+    color: #ffffff;
+}
+
+.card-gatherer__status {
+    padding: 0.15rem 0.55rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    text-transform: capitalize;
+    background: #e5e5e5;
+    color: #555;
+}
+
+.card-gatherer__title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 0.35rem;
+}
+
+.card-gatherer__title a {
+    color: #16324f;
+    text-decoration: none;
+}
+
+.card-gatherer__title a:hover {
+    text-decoration: underline;
+}
+
+.card-gatherer__excerpt {
+    font-size: 0.85rem;
+    color: #555;
+    margin: 0 0 0.75rem;
+}
+
+.card-gatherer__meta-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    font-size: 0.8rem;
+    color: #777;
+}
+
+.card-gatherer__metric--muted {
+    opacity: 0.85;
+}
+
+.card-gatherer__pagination {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    font-size: 0.8rem;
+}
+
+.card-gatherer__page-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    padding: 0.25rem 0.55rem;
+    border-radius: 999px;
+    border: 1px solid #ddd;
+    text-decoration: none;
+    color: #555;
+    background: #fff;
+}
+
+.card-gatherer__page-link:hover {
+    border-color: #fd593c;
+    color: #fd593c;
+}
+
+.card-gatherer__page-link--current {
+    background: #fd593c;
+    border-color: #fd593c;
+    color: #fff;
+    font-weight: 600;
+}
+
+.card-gatherer__page-link--disabled {
+    opacity: 0.5;
+    cursor: default;
+    pointer-events: none;
+}
+
+/* Responsive */
+
+@media (max-width: 767.98px) {
+    .card-gatherer__grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+}

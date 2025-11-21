@@ -1,0 +1,23 @@
+{
+  "apiVersion": 2,
+  "name": "ileg/card-gatherer-profile",
+  "title": "Card Gatherer – Profile",
+  "description": "Profile cards for user posts, drafts, or images.",
+  "category": "widgets",
+  "icon": "id-alt",
+  "supports": {
+    "html": false
+  },
+  "attributes": {
+    "typeblock": {
+      "type": "string",
+      "default": "posts"
+    },
+    "postsPerPage": {
+      "type": "number",
+      "default": 9
+    }
+  },
+  "render": "file:./render.php",
+  "style": "file:./style.css"
+}

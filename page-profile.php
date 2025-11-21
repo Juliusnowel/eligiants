@@ -75,7 +75,18 @@ $avatar_url = get_avatar_url( $user_id, [ 'size' => 120 ] );
         }
 
         .profile-edit-btn {
+            background: #fd593c;
+            border-radius: 50px;
+            color: #fff;
             min-width: 110px;
+            border: 2px solid #fd593c;
+            align-self: center;
+        }
+
+        .profile-edit-btn:hover {
+            border: 2px solid #fd593c;
+            background: #fff;
+            color: #f12f0dff;
         }
 
         .profile-info-grid {
@@ -170,6 +181,10 @@ $avatar_url = get_avatar_url( $user_id, [ 'size' => 120 ] );
             margin: 0;
         }
 
+        h2 {
+            color: #fd593c;
+        }
+
         @media (max-width: 767.98px) {
             .profile-dashboard-header {
                 flex-direction: column;
@@ -239,7 +254,7 @@ if ( function_exists( 'do_blocks' ) ) {
                             </div>
                         </div>
                         <button type="button"
-                                class="btn btn-outline-dark profile-edit-btn"
+                                class="btn profile-edit-btn"
                                 id="profileEditToggle">
                             Edit
                         </button>
@@ -350,66 +365,29 @@ if ( function_exists( 'do_blocks' ) ) {
                     <p class="mb-4">These are the posts you’ve submitted.</p>
 
                     <?php
-                    $user_posts = new WP_Query( [
-                        'post_type'      => 'post',
-                        'post_status'    => [ 'publish', 'pending', 'draft' ],
-                        'author'         => $user_id,
-                        'posts_per_page' => 20,
-                    ] );
-
-                    if ( $user_posts->have_posts() ) : ?>
-                        <div class="row g-4 profile-posts-grid">
-                            <?php
-                            while ( $user_posts->have_posts() ) :
-                                $user_posts->the_post();
-
-                                $categories = get_the_category();
-                                $cat_label  = $categories ? $categories[0]->name : 'Uncategorized';
-                                $status     = get_post_status();
-                                ?>
-                                <div class="col-md-4">
-                                    <article class="profile-post-card h-100">
-                                        <a href="<?php the_permalink(); ?>" class="profile-post-thumb-wrapper">
-                                            <?php
-                                            if ( has_post_thumbnail() ) {
-                                                the_post_thumbnail( 'medium_large', [ 'class' => 'profile-post-thumb' ] );
-                                            } else {
-                                                ?>
-                                                <div class="w-100 h-100 d-flex align-items-center justify-content-center">
-                                                    <i class="far fa-image fa-2x"></i>
-                                                </div>
-                                                <?php
-                                            }
-                                            ?>
-                                        </a>
-                                        <div class="profile-post-body">
-                                            <div class="profile-post-meta">
-                                                <span class="profile-post-category">
-                                                    <?php echo esc_html( $cat_label ); ?>
-                                                </span>
-                                                <span class="badge bg-secondary profile-post-status">
-                                                    <?php echo esc_html( $status ); ?>
-                                                </span>
-                                            </div>
-                                            <h3 class="profile-post-title">
-                                                <a href="<?php the_permalink(); ?>">
-                                                    <?php the_title(); ?>
-                                                </a>
-                                            </h3>
-                                            <p class="profile-post-excerpt">
-                                                <?php echo esc_html( wp_trim_words( get_the_excerpt(), 16, '…' ) ); ?>
-                                            </p>
-                                        </div>
-                                    </article>
-                                </div>
-                            <?php endwhile; ?>
-                        </div>
-                        <?php wp_reset_postdata(); ?>
-                    <?php else : ?>
-                        <p class="mb-0 text-muted">You haven’t posted anything yet.</p>
-                    <?php endif; ?>
+                    echo do_blocks( '<!-- wp:ileg/card-gatherer-profile {"typeblock":"posts","postsPerPage":20} /-->' );
+                    ?>
                 </div>
 
+                <!-- MY IMAGES -->
+               <div class="submit-card p-4 p-md-5 mt-4">
+                    <h2 class="mb-3">My Images</h2>
+                    <p class="mb-4">All images you have uploaded.</p>
+
+                    <?php
+                    echo do_blocks( '<!-- wp:ileg/card-gatherer-profile {"typeblock":"images"} /-->' );
+                    ?>
+                </div>
+
+                <!-- My Drafts & Pending Posts -->
+                <div class="submit-card p-4 p-md-5 mt-4">
+                    <h2 class="mb-3">My Drafts & Pending Posts</h2>
+                    <p class="mb-4">Work-in-progress and submitted posts that aren’t published yet, including drafts, pending review, and on-hold items.</p>
+
+                    <?php
+                    echo do_blocks( '<!-- wp:ileg/card-gatherer-profile {"typeblock":"drafts"} /-->' );
+                    ?>
+                </div>
             </div>
         </div>
     </div>
