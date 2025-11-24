@@ -1,258 +1,364 @@
+/* =========================
+   Core layout (same contract as reference carousel)
+========================= */
+
+:root {
+  --slider-accent: #fd593c;
+}
+
+.carousel-block {
+  --cr-title-size: var(--wp--preset--font-size--h-2);
+  max-width: 100%;
+  position: relative;
+}
+
+.carousel-block.has-bg {
+  padding-top: 2rem;
+  padding-bottom: 2.25rem;
+}
+
+/* header for this block */
+
 .discover-carousel {
-    width: 100%;
-    font-family: 'Outfit', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    position: relative;
+  width: 100%;
+  font-family: 'Outfit', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  position: relative;
 }
 
 .discover-carousel__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
 }
 
 .discover-carousel__title {
-    margin: 0;
-    font-size: var(--wp--preset--font-size--h-2);
-    color: #fd593c;
-}
-    
-.discover-carousel__viewall {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    font-size: var(--wp--preset--font-size--body);
-    color: #fd593c;
-    text-decoration: none; /* turn off underline on the whole link */
+  margin: 0;
+  font-size: var(--wp--preset--font-size--h-2);
+  color: #fd593c;
 }
 
-/* underline only the text part on hover */
+.discover-carousel__viewall {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: var(--wp--preset--font-size--body);
+  color: #fd593c;
+  text-decoration: none;
+}
+
 .discover-carousel__viewall:hover .discover-carousel__viewall-label {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .discover-carousel__viewall-icon {
-    font-size: 4rem;
-    line-height: 1;
-    display: block;
-    position: relative;
-    top: -6px;
+  font-size: 4rem;
+  line-height: 1;
+  display: block;
+  position: relative;
+  top: -6px;
 }
 
-
-
-/* shell + viewport */
-
-.discover-carousel__shell {
-    position: relative;
-    padding: 0 4.5rem; 
-}
-
-
-.discover-carousel__viewport {
-    overflow-x: hidden;
-    overflow-y: visible;  
-    padding: 0 0 12px 0; 
-}
-
-
-.discover-carousel__track {
-    display: flex;
-    gap: 1.5rem;
-    scroll-behavior: smooth;
-}
-
-/* Cards: responsive widths, calculated so a full page never cuts a card */
+/* =========================
+   Discover card visuals
+========================= */
 
 .discover-card {
-    flex: 0 0 100%;
-    max-width: 100%;
-    background: #ffffff;
-    border-radius: 24px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    overflow: hidden;
-}
-
-@media (min-width: 576px) {
-    .discover-card {
-        flex: 0 0 calc((100% - 1.5rem) / 2); /* 2 cards + 1 gap */
-    }
-}
-
-@media (min-width: 992px) {
-    .discover-card {
-        flex: 0 0 calc((100% - 3rem) / 3);   /* 3 cards + 2 gaps */
-    }
+  width: 100%;
+  max-width: 100%;
+  background: #ffffff;
+  border-radius: 24px;
+  border: 2px solid rgba(128, 128, 128, 0.158);
+  overflow: hidden;
 }
 
 .discover-card__link {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    text-decoration: none;
-    color: inherit;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
 }
 
 /* Thumbnail */
 
 .discover-card__thumb {
-    background: #e9e9e9;
-    aspect-ratio: 4 / 3;
-    overflow: hidden;
+  background: #e9e9e9;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
 }
 
 .discover-card__img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .discover-card__thumb-placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    color: #999;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: #999;
 }
 
 /* Body */
 
 .discover-card__body {
-    padding: 1rem 1.1rem 1.2rem;
+  padding: 1rem 1.1rem 1.2rem;
 }
 
 .discover-card__category {
-    /* display: inline-block;
-    padding: 0.15rem 0.6rem;
-    border-radius: 999px;
-    font-size: 0.75rem;
-    background: #fd593c;
-    color: #ffffff;
-    margin-bottom: 0.45rem; */
-    display: none;
+  display: none;
 }
 
 .discover-card__title {
-    margin: 0 0 0.35rem;
-    font-size: var(--wp--preset--font-size--h-3);
-    color: #fd593c;
+  margin: 0 0 0.35rem;
+  font-size: var(--wp--preset--font-size--h-3);
+  color: #fd593c;
 }
 
 .discover-card__excerpt {
-    margin: 0 0 0.75rem;
-    font-size: var(--wp--preset--font-size--body);
-    color: #555555;
+  margin: 0 0 0.75rem;
+  font-size: var(--wp--preset--font-size--body);
+  color: #555555;
 }
 
 .discover-card__meta-author {
-    margin: 0 0 0.35rem;
-    font-size: var(--wp--preset--font-size--body);
-    color: #555555;
+  margin: 0 0 0.35rem;
+  font-size: var(--wp--preset--font-size--body);
+  color: #555555;
 }
 
 .discover-card__meta-label {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 .discover-card__meta-footer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between; /* spread items across the row */
-    align-items: center;
-    gap: 0.8rem;
-    font-size: var(--wp--preset--font-size--body);
-    color: #777777;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: var(--wp--preset--font-size--body);
+  color: #777777;
 }
-
 
 .discover-card__meta-muted {
-    opacity: 0.9;
+  opacity: 0.9;
 }
 
-/* Arrows – outside the card strip */
-.discover-carousel__arrow {
-    position: absolute;
-    top: 50%;
-    width: 60px;
-    height: 60px;
-    border-radius: 999px;
-    border: 1px solid #fd593c;
-    background: #ffffff;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: #fd593c;
-    z-index: 2;
+/* =========================
+   Desktop carousel chrome (from reference)
+========================= */
+
+.generic-carousel {
+  overflow: visible;
+  position: relative;
+  padding-bottom: 2rem;
 }
 
-.discover-carousel__arrow span {
-    font-size: 4rem; 
-    line-height: 1;
-    display: block;
-    position: relative;
-    top: -7px !important;
+/* Bootstrap controls with custom round arrows */
+
+.slider-prev,
+.slider-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--slider-accent);
+  border: 1px solid #e9ecef;
+  box-shadow: 0 6px 16px rgba(0,0,0,.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
 }
 
-.discover-carousel__arrow--prev {
-    left: 0;
-    transform: translate(-50%, -50%);
+.generic-carousel .carousel-control-prev,
+.generic-carousel .carousel-control-next {
+  width: auto;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 1;
+  z-index: 5;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,.25));
 }
 
-.discover-carousel__arrow--next {
-    right: 0;
-    transform: translate(50%, -50%);
+.generic-carousel .carousel-control-prev {
+  left: -44px !important;
 }
 
-/* hover states keep the same base transform, just add scale + glow */
-.discover-carousel__arrow--prev:hover {
-    transform: translate(-50%, -50%) scale(1.05);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
-    background: #fff7f4;
+.generic-carousel .carousel-control-next {
+  right: -44px !important;
 }
 
-.discover-carousel__arrow--next:hover {
-    transform: translate(50%, -50%) scale(1.05);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
-    background: #fff7f4;
+.generic-carousel .carousel-control-prev .slider-prev:hover,
+.generic-carousel .carousel-control-next .slider-next:hover {
+  color: #fff !important;
+  background-color: var(--slider-accent) !important;
 }
 
+/* Indicators */
+
+.generic-carousel .carousel-indicators {
+  bottom: -3rem;
+  z-index: 4;
+}
+
+.generic-carousel .carousel-indicators [data-bs-target] {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #fd593c;
+  opacity: 0.35;
+}
+
+.generic-carousel .carousel-indicators .active {
+  opacity: 1;
+}
+
+/* =========================
+   Mobile / tablet: peek slider (from reference)
+========================= */
+
+.is-mobile {
+  display: block;
+}
+
+.is-desktop {
+  display: none;
+}
+
+.peek-slider {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  padding: 0 0.75rem;
+  margin: 0 -0.75rem;
+  scrollbar-width: none;
+}
+
+.peek-slider::-webkit-scrollbar {
+  height: 0;
+  display: none;
+}
+
+.peek-track {
+  display: flex;
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.peek-slide {
+  flex: 0 0 86%;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+  display: flex;
+}
+
+.peek-slide .row {
+  display: flex;
+  flex: 1 1 auto;
+}
+
+.peek-slide .row > .col {
+  display: flex;
+  flex: 1 1 auto !important;
+  width: 100%;
+}
 
 /* Dots */
 
-.discover-carousel__dots {
-    margin-top: 1rem;
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
+.peek-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  background: inherit;
+  padding: 0.5rem 0 0.25rem;
 }
 
-.discover-carousel__dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 999px;
-    border: none;
-    background: #f0f0f0;
-    cursor: pointer;
-    padding: 0;
+.peek-indicators .pi-dot,
+.peek-indicators .pi-dot:link,
+.peek-indicators .pi-dot:visited,
+.peek-indicators .pi-dot:hover,
+.peek-indicators .pi-dot:focus,
+.peek-indicators .pi-dot:active {
+  text-decoration: none !important;
+  border: 0 !important;
+  outline: none;
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #fd593c;
+  opacity: 0.35;
+  cursor: pointer;
 }
 
-.discover-carousel__dot.is-active {
-    width: 16px;
-    background: #fd593c;
+.peek-indicators .pi-dot.is-active {
+  opacity: 1;
 }
 
-/* Mobile: hide arrows, 1 card per page */
+/* =========================
+   Equal-height behavior for Discover cards inside carousel
+========================= */
 
-@media (max-width: 575.98px) {
-    .discover-carousel__shell {
-        padding: 0;
-    }
+.generic-grid > .row > .col,
+.generic-carousel .carousel-item .row > .col {
+  display: flex;
+}
 
-    .discover-carousel__arrow {
-        display: none;
-    }
+.generic-grid > .row > .col > .discover-card,
+.generic-carousel .carousel-item .row > .col > .discover-card {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 1px;
+}
+
+/* =========================
+   Responsive tweaks
+========================= */
+
+@media (max-width: 1000px) {
+  .generic-carousel .carousel-control-prev { left: -38px; }
+  .generic-carousel .carousel-control-next { right: -38px; }
+}
+
+@media (min-width: 360px) {
+  .generic-carousel .carousel-control-prev { left: -18px; }
+  .generic-carousel .carousel-control-next { right: -18px; }
+}
+
+@media (min-width: 576px) {
+  .peek-slide {
+    flex-basis: 72%;
+  }
+}
+
+@media (min-width: 768px) {
+  .peek-slide {
+    flex-basis: 62%;
+  }
+}
+
+@media (min-width: 1199.98px) {
+  .is-mobile {
+    display: none;
+  }
+  .is-desktop {
+    display: block;
+  }
 }
