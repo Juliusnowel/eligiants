@@ -11,7 +11,7 @@ Template Name: Community Submit Post
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<?php wp_head(); ?>
 
-	<style>
+		<style>
 		/* Base typography for the page template, aligned with theme.json */
 		.community-submit-wrapper {
 			background: #ffffff;
@@ -136,7 +136,6 @@ Template Name: Community Submit Post
 			color: #16324f;
 		}
 	</style>
-
 </head>
 
 <body <?php body_class(); ?>>
@@ -261,20 +260,21 @@ if (function_exists('do_blocks')) {
 						</div>
 
 						<div class="d-flex gap-3 mt-4">
-							<?= render_block([
-								'blockName' => 'ilegiants/cta-bounce',
-								'attrs' => ['text' => 'Save as Draft','url' => '#','accent' => '#ffffff','textColor' => '#fd593c','borderColor' => '#fd593c','className' => 'cta-save-draft'],
-								'innerBlocks' => [], 'innerHTML' => '', 'innerContent' => []
-							]); ?>
-							<?= render_block([
-								'blockName' => 'ilegiants/cta-bounce',
-								'attrs' => ['text' => 'Submit Post','url' => '#','accent' => '#FD593C','textColor' => '#ffffff','borderColor' => '#FD593C','className' => 'cta-submit-post'],
-								'innerBlocks' => [], 'innerHTML' => '', 'innerContent' => []
-							]); ?>
+							<button type="submit"
+									class="btn btn-draft"
+									onclick="document.getElementById('post_action').value='draft'">
+								Save as Draft
+							</button>
+
+							<button type="submit"
+									class="btn btn-submit"
+									onclick="document.getElementById('post_action').value='submit'">
+								Submit Post
+							</button>
 						</div>
 
-					</form>
 
+					</form>
 
 				</div>
 
@@ -292,4 +292,3 @@ if (function_exists('block_template_part')) {
 wp_footer();
 ?>
 </body>
-</html>

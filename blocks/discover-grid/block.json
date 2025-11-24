@@ -62,6 +62,11 @@
       }
     },
 
+    "imageMode": {
+      "type": "boolean",
+      "default": false
+    },
+
     "dataKey": {
       "type": "string",
       "default": "discover"
