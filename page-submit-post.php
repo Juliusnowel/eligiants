@@ -12,38 +12,73 @@ Template Name: Community Submit Post
 	<?php wp_head(); ?>
 
 	<style>
+		/* Base typography for the page template, aligned with theme.json */
 		.community-submit-wrapper {
 			background: #ffffff;
+			font-family: var(--wp--preset--font-family--outfit);
+			font-size: var(--wp--preset--font-size--body);
+			color: var(--wp--preset--color--ink, #333333);
 		}
 
+		/* Ensure all text nodes in the card share the same “body” font size */
+		.community-submit-wrapper,
+		.community-submit-wrapper p,
+		.community-submit-wrapper span,
+		.community-submit-wrapper li,
+		.community-submit-wrapper label,
+		.community-submit-wrapper input,
+		.community-submit-wrapper select,
+		.community-submit-wrapper textarea,
+		.community-submit-wrapper button,
+		.community-submit-wrapper .submit-type-toggle__btn {
+			font-size: var(--wp--preset--font-size--body);
+			font-family: var(--wp--preset--font-family--outfit);
+			line-height: 1.5;
+		}
+
+		/* Card container */
 		.submit-card {
 			border-radius: 24px;
 			background: #ffffff;
 			box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
 		}
 
+		/* Main title = H2 preset from theme.json */
 		.submit-title {
+			font-size: var(--wp--preset--font-size--h-2);
 			font-weight: 700;
 			color: #fd593c;
+			margin: 0 0 0.35rem;
 		}
 
+		/* Subtitle = body preset */
 		.submit-subtitle {
-			color: #777;
+			font-size: var(--wp--preset--font-size--body);
+			color: #777777;
+			margin: 0 0 1rem;
 		}
 
+		/* Do NOT override global h2 anymore – keep it scoped */
+		/* (Removed your global h2 rule) */
+
+		/* Labels still use body size, just heavier weight + accent color */
 		label.form-label {
 			font-weight: 600;
 			color: #fd593c;
 		}
 
+		/* Inputs/Textareas aligned with body typography */
 		input.form-control,
 		select.form-select,
 		textarea.form-control {
 			border-radius: 14px;
 			border: 1px solid #ddd;
 			padding: 0.65rem 0.85rem;
+			font-size: var(--wp--preset--font-size--body);
+			font-family: var(--wp--preset--font-family--outfit);
 		}
 
+		/* Primary action buttons – use body size + weight */
 		.btn-submit {
 			background: #fd593c;
 			border-radius: 50px;
@@ -51,33 +86,34 @@ Template Name: Community Submit Post
 			min-width: 140px;
 			border: 2px solid #fd593c;
 			font-weight: 600;
+			font-size: var(--wp--preset--font-size--body);
+			font-family: var(--wp--preset--font-family--outfit);
 		}
 
 		.btn-submit:hover {
 			background: #FDCD3B;
 			color: #fff;
-            border: 2px solid #FDCD3B;
+			border: 2px solid #FDCD3B;
 		}
 
-        .btn-draft {
+		.btn-draft {
 			background: #fff;
 			border-radius: 50px;
 			color: #fd593c;
 			min-width: 140px;
 			border: 1px solid #fd593c;
 			font-weight: 600;
+			font-size: var(--wp--preset--font-size--body);
+			font-family: var(--wp--preset--font-family--outfit);
 		}
 
 		.btn-draft:hover {
 			background: #fff;
 			color: #fd593c;
-            border: 2px solid #fd593c;
+			border: 2px solid #fd593c;
 		}
 
-		h2 {
-			color: #fd593c;
-		}
-
+		/* Toggle pills: base on body, slightly smaller using calc() so it still follows theme.json */
 		.submit-type-toggle {
 			border-radius: 999px;
 			background: #fff3b8;
@@ -89,7 +125,7 @@ Template Name: Community Submit Post
 			background: transparent;
 			padding: 0.25rem 0.9rem;
 			border-radius: 999px;
-			font-size: 0.85rem;
+			font-size: calc(var(--wp--preset--font-size--body) * 0.85);
 			font-weight: 600;
 			color: #fd593c;
 			cursor: pointer;
@@ -99,8 +135,8 @@ Template Name: Community Submit Post
 			background: #ffd84a;
 			color: #16324f;
 		}
-
 	</style>
+
 </head>
 
 <body <?php body_class(); ?>>
@@ -154,6 +190,16 @@ if (function_exists('do_blocks')) {
 						<!-- NEW: blog vs image -->
 						<input type="hidden" name="post_variant" id="post_variant" value="image">
 
+						<!-- FEATURED IMAGE (this will be the key field for Image Post) -->
+						<div class="mb-3">
+							<label class="form-label" for="featured_image">Featured Image</label>
+							<input type="file"
+								class="form-control"
+								name="featured_image"
+								id="featured_image"
+								accept="image/*">
+						</div>
+
 						<!-- TITLE -->
 						<div class="mb-3">
 							<label class="form-label" for="post_title">Title <span class="small text-muted">(required for blog posts)</span></label>
@@ -178,16 +224,6 @@ if (function_exists('do_blocks')) {
 								]
 							);
 							?>
-						</div>
-
-						<!-- FEATURED IMAGE (this will be the key field for Image Post) -->
-						<div class="mb-3">
-							<label class="form-label" for="featured_image">Featured Image</label>
-							<input type="file"
-								class="form-control"
-								name="featured_image"
-								id="featured_image"
-								accept="image/*">
 						</div>
 
 						<!-- CATEGORY: shown only for blog posts -->
@@ -225,17 +261,16 @@ if (function_exists('do_blocks')) {
 						</div>
 
 						<div class="d-flex gap-3 mt-4">
-							<button type="submit"
-									class="btn btn-draft"
-									onclick="document.getElementById('post_action').value='draft'">
-								Save as Draft
-							</button>
-
-							<button type="submit"
-									class="btn btn-submit"
-									onclick="document.getElementById('post_action').value='submit'">
-								Submit Post
-							</button>
+							<?= render_block([
+								'blockName' => 'ilegiants/cta-bounce',
+								'attrs' => ['text' => 'Save as Draft','url' => '#','accent' => '#ffffff','textColor' => '#fd593c','borderColor' => '#fd593c','className' => 'cta-save-draft'],
+								'innerBlocks' => [], 'innerHTML' => '', 'innerContent' => []
+							]); ?>
+							<?= render_block([
+								'blockName' => 'ilegiants/cta-bounce',
+								'attrs' => ['text' => 'Submit Post','url' => '#','accent' => '#FD593C','textColor' => '#ffffff','borderColor' => '#FD593C','className' => 'cta-submit-post'],
+								'innerBlocks' => [], 'innerHTML' => '', 'innerContent' => []
+							]); ?>
 						</div>
 
 					</form>

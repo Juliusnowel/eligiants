@@ -16,9 +16,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const categoryGroup  = document.getElementById('category_group');
     const imageBtn       = document.getElementById('toggle_image_post');
     const blogBtn        = document.getElementById('toggle_blog_post');
+    const mediaButtons   = document.getElementById('wp-post_content-media-buttons');
 
     function setVariant(type) {
         variantField.value = type;
+
+         if (mediaButtons) {
+            mediaButtons.style.display = (type === 'image') ? 'none' : '';
+        }
 
         if (type === 'image') {
             imageBtn.classList.add('submit-type-toggle__btn--active');

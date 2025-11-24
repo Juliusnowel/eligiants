@@ -1,0 +1,77 @@
+{
+  "apiVersion": 3,
+  "name": "child/discover-grid",
+  "title": "Discover Grid",
+  "category": "widgets",
+  "icon": "screenoptions",
+  "description": "Paginated grid of posts with search and category filters.",
+  "supports": {
+    "html": false,
+    "align": [ "wide", "full" ],
+    "spacing": {
+      "margin": [ "top", "bottom" ],
+      "padding": true
+    }
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "intro": {
+      "type": "string",
+      "default": ""
+    },
+
+    "postsPerPage": {
+      "type": "number",
+      "default": 12
+    },
+
+    "rowsDesktop": {
+      "type": "number",
+      "default": 3
+    },
+
+    "dateFilterMode": {
+      "type": "string",
+      "default": "none",
+      "enum": [ "new", "old", "none" ]
+    },
+
+    "metricsCutoffDays": {
+      "type": "number",
+      "default": 7
+    },
+
+    "showSearch": {
+      "type": "boolean",
+      "default": true
+    },
+
+    "showCategoryFilter": {
+      "type": "boolean",
+      "default": true
+    },
+
+    "categorySlugs": {
+      "type": "array",
+      "default": [],
+      "items": {
+        "type": "string"
+      }
+    },
+
+    "dataKey": {
+      "type": "string",
+      "default": "discover"
+    },
+
+    "dataIndex": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "render": "file:./render.php",
+  "style": "file:./style.css"
+}
