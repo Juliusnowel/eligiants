@@ -148,13 +148,26 @@ while ( $query->have_posts() ) {
 	$likes     = $likes_raw !== '' ? (int) $likes_raw : 0;
 	$views     = $views_raw !== '' ? (int) $views_raw : 0;
 
-	$cats        = get_the_category( $post_id );
-	$cat_slugs   = [];
+	$cats          = get_the_category( $post_id );
+	$cat_slugs     = [];
+	$skip_imagepost = false;
 	if ( $cats && ! is_wp_error( $cats ) ) {
 		foreach ( $cats as $c ) {
-			$category_map[ $c->slug ] = $c->name;
-			$cat_slugs[]             = $c->slug;
+			$slug = $c->slug;
+
+			// Exclude any post assigned to the "imagepost" category.
+			if ( $slug === 'imagepost' ) {
+				$skip_imagepost = true;
+				break;
+			}
+
+			$category_map[ $slug ] = $c->name;
+			$cat_slugs[]           = $slug;
 		}
+	}
+
+	if ( $skip_imagepost ) {
+		continue;
 	}
 
 	$items[] = [
