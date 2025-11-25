@@ -153,6 +153,13 @@ $items        = [];
 $category_map = []; // slug => name
 $now_ts       = current_time( 'timestamp' );
 $current_user = get_current_user_id();
+$user_liked_posts = [];
+if ( $current_user ) {
+	$user_liked_posts = array_map(
+		'intval',
+		(array) get_user_meta( $current_user, '_ileg_liked_posts', true )
+	);
+}
 
 while ( $query->have_posts() ) {
 	$query->the_post();
@@ -223,6 +230,7 @@ while ( $query->have_posts() ) {
 		'time_ago'    => $time_ago,
 		'likes'       => $likes,
 		'views'       => $views,
+		'liked_by_user' => in_array( $post_id, $user_liked_posts, true ),
 		'categories'  => $cat_slugs,
 		'tags'        => $tags,
 	];
@@ -335,24 +343,36 @@ $aria_label = $title !== '' ? $title : __( 'Discover posts', 'child' );
 			$data_cats    = $cat_slugs ? implode( ',', array_map( 'sanitize_title', $cat_slugs ) ) : '';
 			$is_author    = ( $item['author_id'] === $current_user );
 			$download_url = $img ? $img : $url;
+
+			// For image posts, "(no_title)" means "user did not provide a title".
+			$is_placeholder_title = ( $image_mode && $title_safe === '(no_title)' );
+
+			// What we actually want to show / use in attributes.
+			$display_title = $is_placeholder_title ? '' : $title_safe;
+			$search_title  = strtolower( $display_title );
+
 			?>
 
 			<?php if ( $image_mode ) : ?>
 				<article class="dg-card dg-card--images"
-				         data-title="<?php echo esc_attr( strtolower( $title_safe ) ); ?>"
-				         data-cats="<?php echo esc_attr( $data_cats ); ?>"
-				         data-modal-title="<?php echo esc_attr( $title_safe ); ?>"
-				         data-modal-excerpt="<?php echo esc_attr( $excerpt_safe ); ?>"
-				         data-modal-author="<?php echo esc_attr( $author_name ); ?>"
-				         data-modal-likes="<?php echo esc_attr( $likes ); ?>"
-				         data-modal-url="<?php echo esc_url( $url ); ?>"
-				         data-modal-img="<?php echo esc_url( $img ); ?>">
+					data-post-id="<?php echo esc_attr( $item['post_id'] ); ?>"
+					data-title="<?php echo esc_attr( $search_title ); ?>"
+					data-cats="<?php echo esc_attr( $data_cats ); ?>"
+					data-modal-title="<?php echo esc_attr( $display_title ); ?>"
+					data-modal-excerpt="<?php echo esc_attr( $excerpt_safe ); ?>"
+					data-modal-author="<?php echo esc_attr( $author_name ); ?>"
+					data-modal-likes="<?php echo esc_attr( $likes ); ?>"
+					data-modal-liked="<?php echo $item['liked_by_user'] ? '1' : '0'; ?>"
+					data-modal-url="<?php echo esc_url( $url ); ?>"
+					data-modal-img="<?php echo esc_url( $img ); ?>"
+					data-modal-download="<?php echo esc_url( $download_url ); ?>">
+
 					<div class="dg-card__inner">
 						<button type="button" class="dg-card__image-btn">
 							<div class="dg-card__image">
 								<?php if ( $img ) : ?>
 									<img src="<?php echo esc_url( $img ); ?>"
-									     alt="<?php echo esc_attr( $title_safe ); ?>">
+										alt="<?php echo esc_attr( $display_title ); ?>">
 								<?php else : ?>
 									<div class="dg-card__image-placeholder"></div>
 								<?php endif; ?>
@@ -360,30 +380,35 @@ $aria_label = $title !== '' ? $title : __( 'Discover posts', 'child' );
 						</button>
 
 						<div class="dg-card__body dg-card__body--images">
-							<?php if ( ! empty( $tags_safe ) ) : ?>
+							<div class="dg-card__top-row">
+								<?php if ( ! empty( $tags_safe ) ) : ?>
 								<div class="dg-card__tags">
 									<?php echo esc_html( implode( ', ', $tags_safe ) ); ?>
 								</div>
-							<?php endif; ?>
+								<?php endif; ?>
 
-							<?php if ( $title_safe ) : ?>
+								<a href="<?php echo esc_url( $download_url ); ?>"
+								class="dg-card__download-icon"
+								download>
+								<i class="fa-solid fa-download" aria-hidden="true"></i>
+								<span class="screen-reader-text">
+									<?php esc_html_e( 'Download image', 'child' ); ?>
+								</span>
+								</a>
+							</div>
+							<?php if ( $display_title !== '' ) : ?>
 								<h3 class="dg-card__title dg-card__title--images">
-									<?php echo esc_html( $title_safe ); ?>
+									<?php echo esc_html( $display_title ); ?>
 								</h3>
 							<?php endif; ?>
+
+
 
 							<?php if ( $excerpt_safe ) : ?>
 								<p class="dg-card__excerpt dg-card__excerpt--images">
 									<?php echo esc_html( $excerpt_safe ); ?>
 								</p>
 							<?php endif; ?>
-
-							<a href="<?php echo esc_url( $download_url ); ?>"
-							   class="dg-card__download-icon"
-							   download>
-								<i class="fa-solid fa-download" aria-hidden="true"></i>
-								<span class="screen-reader-text"><?php esc_html_e( 'Download image', 'child' ); ?></span>
-							</a>
 						</div>
 					</div>
 				</article>
@@ -470,34 +495,71 @@ $aria_label = $title !== '' ? $title : __( 'Discover posts', 'child' );
 	<?php if ( $image_mode ) : ?>
 		<div class="discover-grid__modal" aria-hidden="true" role="dialog">
 			<div class="discover-grid__modal-backdrop"></div>
+
 			<div class="discover-grid__modal-dialog" role="document">
 				<button type="button" class="discover-grid__modal-close" aria-label="<?php esc_attr_e( 'Close', 'child' ); ?>">
 					<span aria-hidden="true">&times;</span>
 				</button>
+
 				<div class="discover-grid__modal-inner">
 					<div class="discover-grid__modal-media">
-						<img src="" alt="" class="discover-grid__modal-img" />
-					</div>
-					<div class="discover-grid__modal-body">
-						<h3 class="discover-grid__modal-title"></h3>
-						<div class="discover-grid__modal-excerpt"></div>
-						<p class="discover-grid__modal-author"></p>
-						<div class="discover-grid__modal-meta">
-							<span class="discover-grid__modal-likes"></span>
-							<button type="button" class="discover-grid__modal-share">
-								<i class="fa-solid fa-share-nodes" aria-hidden="true"></i>
-								<span class="screen-reader-text"><?php esc_html_e( 'Share image', 'child' ); ?></span>
-							</button>
+						<div class="discover-grid__modal-image-wrap">
+							<img src="" alt="" class="discover-grid__modal-img" />
+							<a href=""
+							class="discover-grid__modal-download"
+							download>
+								<i class="fa-solid fa-download" aria-hidden="true"></i>
+								<span class="screen-reader-text">
+									<?php esc_html_e( 'Download image', 'child' ); ?>
+								</span>
+							</a>
 						</div>
 					</div>
-				</div>
-			</div>
+
+					<div class="discover-grid__modal-body">
+						<h3 class="discover-grid__modal-title"></h3>
+
+						<div class="discover-grid__modal-excerpt"></div>
+
+						<div class="discover-grid__modal-footer">
+							<p class="discover-grid__modal-author-wrap">
+								<span class="discover-grid__modal-author-label">
+									<?php esc_html_e( 'Posted by:', 'child' ); ?>
+								</span>
+								<span class="discover-grid__modal-author"></span>
+							</p>
+
+							<div class="discover-grid__modal-meta">
+								<button type="button" class="discover-grid__modal-likes">
+									<i class="fa-regular fa-heart" aria-hidden="true"></i>
+									<span class="discover-grid__modal-likes-count"></span>
+								</button>
+
+								<button type="button" class="discover-grid__modal-share">
+									<i class="fa-solid fa-share-nodes" aria-hidden="true"></i>
+									<span class="screen-reader-text">
+										<?php esc_html_e( 'Share image', 'child' ); ?>
+									</span>
+								</button>
+							</div>
+						</div>
+
+					</div><!-- /.discover-grid__modal-body -->
+				</div><!-- /.discover-grid__modal-inner -->
+			</div><!-- /.discover-grid__modal-dialog -->
 		</div>
 	<?php endif; ?>
+
 </section>
 
 <script>
 (function(){
+  const dgAjax = {
+    url: '<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>',
+    likeNonce: '<?php echo wp_create_nonce( 'dg_like_nonce' ); ?>'
+  };
+
+
   const root = document.getElementById('<?php echo esc_js( $instance_id ); ?>');
   if (!root) return;
 
@@ -637,11 +699,21 @@ $aria_label = $title !== '' ? $title : __( 'Discover posts', 'child' );
   }
 
   // Image-mode modal
+   // Image-mode modal
   if (isImageMode) {
     const modal         = root.querySelector('.discover-grid__modal');
     const modalImg      = modal ? modal.querySelector('.discover-grid__modal-img') : null;
     const modalClose    = modal ? modal.querySelector('.discover-grid__modal-close') : null;
     const modalBackdrop = modal ? modal.querySelector('.discover-grid__modal-backdrop') : null;
+
+    const modalTitle       = modal ? modal.querySelector('.discover-grid__modal-title') : null;
+    const modalExcerpt     = modal ? modal.querySelector('.discover-grid__modal-excerpt') : null;
+    const modalAuthor      = modal ? modal.querySelector('.discover-grid__modal-author') : null;
+    const modalLikesWrap   = modal ? modal.querySelector('.discover-grid__modal-likes') : null;
+    const modalLikesIcon   = modalLikesWrap ? modalLikesWrap.querySelector('i') : null;
+    const modalLikesCount  = modalLikesWrap ? modalLikesWrap.querySelector('.discover-grid__modal-likes-count') : null;
+    const modalShare       = modal ? modal.querySelector('.discover-grid__modal-share') : null;
+    const modalDownload    = modal ? modal.querySelector('.discover-grid__modal-download') : null;
 
     function closeModal() {
       if (!modal || !modalImg) return;
@@ -651,23 +723,149 @@ $aria_label = $title !== '' ? $title : __( 'Discover posts', 'child' );
       modalImg.alt = '';
     }
 
+    function setOptionalText(el, value) {
+      if (!el) return;
+      if (value) {
+        el.textContent = value;
+        el.style.display = '';
+      } else {
+        el.textContent = '';
+        el.style.display = 'none';
+      }
+    }
+
     if (modal && modalImg) {
+      // open modal from image cards
       root.querySelectorAll('.dg-card--images .dg-card__image-btn').forEach(function(btn){
         btn.addEventListener('click', function(){
           const card = btn.closest('.dg-card--images');
           if (!card) return;
 
-          const src = card.dataset.modalImg || (card.querySelector('img') ? card.querySelector('img').src : '');
-          const alt = card.dataset.modalTitle || (card.querySelector('img') ? card.querySelector('img').alt : '');
+		  const postId   = card.dataset.postId || '';
+
+          // track view
+          if (postId) {
+            fetch(dgAjax.url, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+              body: new URLSearchParams({
+                action: 'ileg_track_view',
+                post_id: postId
+              })
+            }).catch(function () {});
+          }
+
+          const src      = card.dataset.modalImg || (card.querySelector('img') ? card.querySelector('img').src : '');
+          const title    = card.dataset.modalTitle   || '';
+          const excerpt  = card.dataset.modalExcerpt || '';
+          const author   = card.dataset.modalAuthor  || '';
+          const likesRaw = card.dataset.modalLikes   || '0';
+          const likedRaw = card.dataset.modalLiked   === '1';
+          const url      = card.dataset.modalUrl     || '';
+          const download = card.dataset.modalDownload || src;
 
           if (!src) return;
 
+          // image + download
           modalImg.src = src;
-          modalImg.alt = alt;
+          modalImg.alt = title || author || '';
+          if (modalDownload) {
+            modalDownload.href = download;
+          }
+
+          // optional text fields
+          setOptionalText(modalTitle,   title);
+          setOptionalText(modalExcerpt, excerpt);
+          setOptionalText(modalAuthor,  author);
+
+          // likes – always show, even when 0
+          if (modalLikesWrap && modalLikesCount) {
+            const baseLikes = parseInt(likesRaw || '0', 10) || 0;
+            modalLikesWrap.dataset.baseLikes = String(baseLikes);
+            modalLikesWrap.dataset.liked = likedRaw ? '1' : '0';
+            modalLikesWrap.dataset.postId = postId;
+            modalLikesCount.textContent = baseLikes + ' likes';
+
+            if (modalLikesIcon) {
+              modalLikesIcon.classList.toggle('fa-solid', likedRaw);
+              modalLikesIcon.classList.toggle('fa-regular', !likedRaw);
+              modalLikesWrap.classList.toggle('is-liked', likedRaw);
+            }
+          }
+
+          // share – fresh each open
+          if (modalShare) {
+            modalShare.onclick = function () {
+              const shareUrl = url || src;
+              if (navigator.share) {
+                navigator.share({ title: title || document.title, url: shareUrl }).catch(function(){});
+              } else {
+                window.prompt('Copy this link to share:', shareUrl);
+              }
+            };
+          }
+
           modal.classList.add('is-open');
           modal.setAttribute('aria-hidden', 'false');
         });
       });
+
+      // like button toggle (front-end only)
+      if (modalLikesWrap && modalLikesIcon && modalLikesCount) {
+        modalLikesWrap.addEventListener('click', function () {
+          const postId    = modalLikesWrap.dataset.postId || '';
+          const baseLikes = parseInt(modalLikesWrap.dataset.baseLikes || '0', 10) || 0;
+          const isLiked   = modalLikesWrap.dataset.liked === '1';
+          const newLiked  = !isLiked;
+
+          // optimistic UI update
+          const displayLikes = Math.max(0, baseLikes + (newLiked ? 1 : -1));
+          modalLikesWrap.dataset.liked = newLiked ? '1' : '0';
+          modalLikesWrap.dataset.baseLikes = String(displayLikes);
+          modalLikesCount.textContent = displayLikes + ' likes';
+
+          if (newLiked) {
+            modalLikesWrap.classList.add('is-liked');
+            modalLikesIcon.classList.remove('fa-regular');
+            modalLikesIcon.classList.add('fa-solid');
+          } else {
+            modalLikesWrap.classList.remove('is-liked');
+            modalLikesIcon.classList.remove('fa-solid');
+            modalLikesIcon.classList.add('fa-regular');
+          }
+
+          // push to server (logged-in users only)
+          if (postId) {
+            fetch(dgAjax.url, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+              body: new URLSearchParams({
+                action: 'ileg_toggle_like',
+                nonce: dgAjax.likeNonce,
+                post_id: postId
+              })
+            })
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+              if (!data || !data.success || !data.data) return;
+
+              var serverLikes = parseInt(data.data.likes || '0', 10) || 0;
+              var serverLiked = !!data.data.liked;
+
+              modalLikesWrap.dataset.baseLikes = String(serverLikes);
+              modalLikesWrap.dataset.liked = serverLiked ? '1' : '0';
+              modalLikesCount.textContent = serverLikes + ' likes';
+
+              modalLikesWrap.classList.toggle('is-liked', serverLiked);
+              modalLikesIcon.classList.toggle('fa-solid', serverLiked);
+              modalLikesIcon.classList.toggle('fa-regular', !serverLiked);
+            })
+            .catch(function () {
+              // ignore and keep optimistic state
+            });
+          }
+        });
+      }
 
       [modalClose, modalBackdrop].forEach(function(el){
         if (!el) return;
@@ -681,6 +879,8 @@ $aria_label = $title !== '' ? $title : __( 'Discover posts', 'child' );
       });
     }
   }
+
+
   const gridEl = root.querySelector('.discover-grid__grid');
 
   function layoutMasonry() {
@@ -779,15 +979,6 @@ $aria_label = $title !== '' ? $title : __( 'Discover posts', 'child' );
       img.addEventListener('load', function() {
         requestAnimationFrame(layoutMasonry);
       });
-    });
-  }
-
-
-  // also re-run on resize
-  if (isImageMode) {
-    window.addEventListener('resize', function() {
-      clearTimeout(window._dgMasonryTimer);
-      window._dgMasonryTimer = setTimeout(layoutMasonry, 150);
     });
   }
 

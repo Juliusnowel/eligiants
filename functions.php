@@ -246,89 +246,111 @@ function ileg_handle_community_submit_post_guest() {
 
 
 function ileg_handle_community_submit_post() {
-
-    if (!is_user_logged_in()) {
-        wp_redirect('/login');
+    // Must be logged in
+    if ( ! is_user_logged_in() ) {
+        wp_redirect( '/login' );
         exit;
     }
 
+    // Nonce check
     if (
-        !isset($_POST['community_post_nonce']) ||
-        !wp_verify_nonce($_POST['community_post_nonce'], 'community_submit_post')
+        ! isset( $_POST['community_post_nonce'] ) ||
+        ! wp_verify_nonce( $_POST['community_post_nonce'], 'community_submit_post' )
     ) {
-        wp_die('Security check failed. Please reload the page and try again.');
+        wp_die( 'Security check failed. Please reload the page and try again.' );
     }
 
-    $redirect_base = wp_get_referer() ?: home_url('/community/submit-post/');
+    $redirect_base = wp_get_referer() ?: home_url( '/community/submit-post/' );
 
-    $variant  = isset($_POST['post_variant']) ? sanitize_text_field($_POST['post_variant']) : 'blog';
-    $variant  = in_array($variant, ['blog', 'image'], true) ? $variant : 'blog';
+    // Variant: blog vs image
+    $variant = isset( $_POST['post_variant'] ) ? sanitize_text_field( $_POST['post_variant'] ) : 'blog';
+    $variant = in_array( $variant, [ 'blog', 'image' ], true ) ? $variant : 'blog';
 
-    $title    = sanitize_text_field($_POST['post_title'] ?? '');
-    $content  = wp_kses_post($_POST['post_content'] ?? '');
-    $tags_raw = sanitize_text_field($_POST['post_tags'] ?? '');
-    $excerpt  = sanitize_textarea_field($_POST['post_excerpt'] ?? '');
+    // Core fields
+    $title    = sanitize_text_field(      $_POST['post_title']    ?? '' );
+    $content  = wp_kses_post(             $_POST['post_content']  ?? '' );
+    $tags_raw = sanitize_text_field(      $_POST['post_tags']     ?? '' );
+    $excerpt  = sanitize_textarea_field(  $_POST['post_excerpt']  ?? '' );
 
-    $tags = array_filter(array_map('trim', explode(',', $tags_raw)));
+    $tags = array_filter( array_map( 'trim', explode( ',', $tags_raw ) ) );
 
-    // Validation split by variant
-    if ($variant === 'blog') {
-        if ($title === '' || $content === '') {
-            wp_redirect(add_query_arg('submit-error', 'missing_fields', $redirect_base));
+    /**
+     * Placeholder title logic for IMAGE posts:
+     * If user leaves title blank, store "(no_title)".
+     * We'll hide this later in the UI when rendering.
+     */
+    if ( $variant === 'image' && $title === '' ) {
+        $title = '(no_title)';
+    }
+
+    /**
+     * VALIDATION
+     * - Blog: title + content required
+     * - Image: only featured image required (title optional thanks to placeholder)
+     */
+    if ( $variant === 'blog' ) {
+
+        if ( $title === '' || $content === '' ) {
+            wp_redirect( add_query_arg( 'submit-error', 'missing_fields', $redirect_base ) );
             exit;
         }
-    } else { // image post
-        if (empty($_FILES['featured_image']['name'])) {
-            wp_redirect(add_query_arg('submit-error', 'missing_image', $redirect_base));
+
+    } else { // image
+
+        if ( empty( $_FILES['featured_image']['name'] ) ) {
+            wp_redirect( add_query_arg( 'submit-error', 'missing_image', $redirect_base ) );
             exit;
         }
     }
 
-    // Determine category
-    if ($variant === 'image') {
-        // Force to category with slug "imagepost"
-        $image_cat = get_category_by_slug('imagepost');
+    // CATEGORY
+    if ( $variant === 'image' ) {
+        // force "imagepost" category for images
+        $image_cat = get_category_by_slug( 'imagepost' );
         $category  = $image_cat ? (int) $image_cat->term_id : 0;
     } else {
-        $category = intval($_POST['post_category'] ?? 0);
+        $category = intval( $_POST['post_category'] ?? 0 );
     }
 
-    // Draft or submit?
-    $action_type = sanitize_text_field($_POST['post_action'] ?? 'submit');
-    $post_status = ($action_type === 'draft') ? 'draft' : 'pending';
+    // DRAFT vs SUBMIT
+    $action_type = sanitize_text_field( $_POST['post_action'] ?? 'submit' );
+    $post_status = ( $action_type === 'draft' ) ? 'draft' : 'pending';
 
-    // Insert post
-    $post_id = wp_insert_post([
-        'post_title'    => $title,
-        'post_content'  => $content,
-        'post_excerpt'  => $excerpt,
-        'post_status'   => $post_status,
-        'post_type'     => 'post',
-        'post_author'   => get_current_user_id(),
-        'post_category' => $category ? [$category] : [],
-        'tags_input'    => $tags
-    ], true);
+    // INSERT POST
+    $post_id = wp_insert_post(
+        [
+            'post_title'    => $title,
+            'post_content'  => $content,
+            'post_excerpt'  => $excerpt,
+            'post_status'   => $post_status,
+            'post_type'     => 'post',
+            'post_author'   => get_current_user_id(),
+            'post_category' => $category ? [ $category ] : [],
+            'tags_input'    => $tags,
+        ],
+        true
+    );
 
-    if (is_wp_error($post_id)) {
-        wp_redirect(add_query_arg('submit-error', 'insert_failed', $redirect_base));
+    if ( is_wp_error( $post_id ) ) {
+        // Optional debugging:
+        // error_log( 'Submit Post error: ' . $post_id->get_error_message() );
+        wp_redirect( add_query_arg( 'submit-error', 'insert_failed', $redirect_base ) );
         exit;
     }
 
-    // Featured image upload
-    if (!empty($_FILES['featured_image']['name'])) {
-        $attach_id = media_handle_upload('featured_image', $post_id);
-
-        if (!is_wp_error($attach_id)) {
-            set_post_thumbnail($post_id, $attach_id);
+    // FEATURED IMAGE
+    if ( ! empty( $_FILES['featured_image']['name'] ) ) {
+        $attach_id = media_handle_upload( 'featured_image', $post_id );
+        if ( ! is_wp_error( $attach_id ) ) {
+            set_post_thumbnail( $post_id, $attach_id );
         }
     }
 
-    // Redirect based on action
-    $redirect_target = home_url('/community/profile/');
-    wp_redirect(add_query_arg('submit-success', $post_status, $redirect_target));
+    // SUCCESS REDIRECT
+    $redirect_target = home_url( '/community/profile/' );
+    wp_redirect( add_query_arg( 'submit-success', $post_status, $redirect_target ) );
     exit;
 }
-
 
 add_action( 'wp_enqueue_scripts', function () {
     // Only load on the submit post page to keep things lean
@@ -404,6 +426,74 @@ function ileg_custom_reset_email_link( $message, $key, $user_login, $user_data )
 
     return $message;
 }
+
+/**
+ * AJAX: toggle like for a post (logged-in users only).
+ */
+add_action( 'wp_ajax_ileg_toggle_like', 'ileg_toggle_like' );
+
+function ileg_toggle_like() {
+    check_ajax_referer( 'dg_like_nonce', 'nonce' );
+
+    if ( ! is_user_logged_in() ) {
+        wp_send_json_error( [ 'message' => 'not_logged_in' ], 401 );
+    }
+
+    $post_id = isset( $_POST['post_id'] ) ? (int) $_POST['post_id'] : 0;
+    if ( ! $post_id || get_post_status( $post_id ) !== 'publish' ) {
+        wp_send_json_error( [ 'message' => 'invalid_post' ], 400 );
+    }
+
+    $user_id      = get_current_user_id();
+    $liked_posts  = (array) get_user_meta( $user_id, '_ileg_liked_posts', true );
+    $liked_posts  = array_map( 'intval', $liked_posts );
+    $already_liked = in_array( $post_id, $liked_posts, true );
+
+    if ( $already_liked ) {
+        // UNLIKE
+        $liked_posts = array_values( array_diff( $liked_posts, [ $post_id ] ) );
+        $delta       = -1;
+        $liked       = false;
+    } else {
+        // LIKE
+        $liked_posts[] = $post_id;
+        $liked_posts   = array_values( array_unique( $liked_posts ) );
+        $delta         = 1;
+        $liked         = true;
+    }
+
+    update_user_meta( $user_id, '_ileg_liked_posts', $liked_posts );
+
+    // Update post like count (never below 0)
+    $count = (int) get_post_meta( $post_id, 'likes', true );
+    $count = max( 0, $count + $delta );
+    update_post_meta( $post_id, 'likes', $count );
+
+    wp_send_json_success( [
+        'liked' => $liked,
+        'likes' => $count,
+    ] );
+}
+
+/**
+ * AJAX: track a view (for everyone).
+ */
+add_action( 'wp_ajax_ileg_track_view', 'ileg_track_view' );
+add_action( 'wp_ajax_nopriv_ileg_track_view', 'ileg_track_view' );
+
+function ileg_track_view() {
+    $post_id = isset( $_POST['post_id'] ) ? (int) $_POST['post_id'] : 0;
+    if ( ! $post_id || get_post_status( $post_id ) !== 'publish' ) {
+        wp_send_json_error( [ 'message' => 'invalid_post' ], 400 );
+    }
+
+    $count = (int) get_post_meta( $post_id, 'views', true );
+    $count++;
+    update_post_meta( $post_id, 'views', $count );
+
+    wp_send_json_success( [ 'views' => $count ] );
+}
+
 
 add_action('wp_enqueue_scripts', function () {
 	if (!is_page_template('page-submit-post.php')) return;

@@ -171,12 +171,25 @@ if (function_exists('do_blocks')) {
 							Blog Post
 						</button>
 					</div>
+					<?php
+					$submit_error = isset($_GET['submit-error']) ? sanitize_text_field($_GET['submit-error']) : '';
 
-					<?php if (isset($_GET['submit-error'])) : ?>
+					if ($submit_error) :
+						$message = 'There was an error submitting your post. Please check your inputs.';
+
+						if ($submit_error === 'missing_image') {
+							$message = 'For image posts, please upload a featured image.';
+						} elseif ($submit_error === 'missing_fields') {
+							$message = 'For blog posts, title and content are required.';
+						} elseif ($submit_error === 'insert_failed') {
+							$message = 'Something went wrong while saving your post. Please try again.';
+						}
+						?>
 						<div class="alert alert-danger mb-4">
-							There was an error submitting your post. Please check your inputs.
+							<?php echo esc_html( $message ); ?>
 						</div>
 					<?php endif; ?>
+
 
 					<form id="community-submit-form"
 						method="post"

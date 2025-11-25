@@ -10,19 +10,25 @@
   padding-bottom: 1.5rem;
 }
 
-/* Header */
+/* Header (mobile-first) */
 .discover-grid__head {
   margin: 0 0 1.75rem;
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-start;
   gap: 1.25rem;
 }
 
 .discover-grid__head-main {
-  flex: 1 1 80%;
+  flex: 0 0 100%;
+  width: 100%;
   min-width: 260px;
+}
+
+.discover-grid__search-wrap {
+  position: relative;
+  flex: 0 0 100%;
+  width: 100%;
 }
 
 .discover-grid__title {
@@ -46,12 +52,6 @@
   align-items: flex-start;
   gap: 0.9rem;
   margin: 0 0 1.75rem;
-}
-
-.discover-grid__search-wrap {
-  position: relative;
-  flex: 0 1 20%;
-  min-width: 140px;
 }
 
 .discover-grid__search {
@@ -134,7 +134,7 @@
   font-size: var(--wp--preset--font-size--body, 1rem);
 }
 
-/* When categories wrap too tall, switch to dropdown */
+/* Switch chips to dropdown when they wrap too tall */
 .discover-grid__categories-wrap.is-condensed .discover-grid__categories {
   display: none;
 }
@@ -143,7 +143,7 @@
   display: block;
 }
 
-/* Grid layout */
+/* Default article grid (non-image mode) */
 .discover-grid__grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -162,32 +162,7 @@
   }
 }
 
-/* Image (Pinterest-style) layout */
-/* .discover-grid--images .discover-grid__grid {
-  display: block;
-  column-count: 1;
-  column-gap: 1.25rem;
-}
-
-@media (min-width: 576px) {
-  .discover-grid--images .discover-grid__grid {
-    column-count: 2;
-  }
-}
-
-@media (min-width: 992px) {
-  .discover-grid--images .discover-grid__grid {
-    column-count: 3;
-  }
-}
-
-@media (min-width: 1200px) {
-  .discover-grid--images .discover-grid__grid {
-    column-count: 4;
-  }
-} */
-
-/* Cards */
+/* Cards – shared */
 .dg-card {
   min-width: 0;
 }
@@ -222,72 +197,29 @@
   object-fit: cover;
 }
 
-.discover-grid--images .dg-card__image {
-  aspect-ratio: auto;      
-  background: transparent;  
-}
-
-.discover-grid--images .dg-card__image img {
-  width: 100%;
-  height: auto;          
-  object-fit: cover;
-}
-
-/* IMAGE MODE – no white card box */
-.discover-grid--images .dg-card__inner {
-  background: transparent;
-  box-shadow: none;
-  border-radius: 0;
-}
-
-/* keep the nice rounding only on the image itself */
-.discover-grid--images .dg-card__image img {
-  border-radius: 36px;
-}
-
-/* compact body under the image */
-.discover-grid--images .dg-card__body--images {
-  padding: 0.5rem 0.75rem 0.75rem;
-  background: transparent;  /* or white if you want a little label strip */
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-/* layout for the optional info row */
-.discover-grid--images .dg-card__body--images {
-  display: flex;
-  align-items: flex-start;
-}
-
-/* text group on the left, icon on the right */
-.discover-grid--images .dg-card__tags,
-.discover-grid--images .dg-card__title--images,
-.discover-grid--images .dg-card__excerpt--images {
-  margin-right: 0.5rem;
-}
-
-/* lock the download icon as the only “always-on” element */
-.discover-grid--images .dg-card__download-icon {
-  margin-left: auto;
-}
-
-
 .dg-card__image-placeholder {
   width: 100%;
   height: 100%;
   background: #d4d4d4;
 }
 
-/* Image-mode cards */
-.dg-card--images {
-  break-inside: avoid;
-  margin-bottom: 1.5rem;
+/* Image-mode tweaks */
+.discover-grid--images .dg-card__inner {
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
 }
 
-.dg-card--images .dg-card__inner {
+.discover-grid--images .dg-card__image {
+  aspect-ratio: auto;
+  background: transparent;
+}
+
+.discover-grid--images .dg-card__image img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
   border-radius: 36px;
-  overflow: hidden;
 }
 
 .dg-card__image-btn {
@@ -308,14 +240,23 @@
   border-radius: 36px 36px 0 0;
 }
 
+/* text body under images */
 .dg-card__body--images {
   padding: 0.75rem 0.9rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+  background: transparent;
 }
 
 .dg-card__tags {
   font-size: var(--wp--preset--font-size--body, 1rem);
-  color: #fd593c;
+  background-color: #fd593c;
+  color: #fff;
   margin: 0 0 0.25rem;
+  padding: 2px 10px;
+  border-radius: 50px;
 }
 
 .dg-card__title--images {
@@ -334,13 +275,39 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-left: auto;
-  color: #000000;
+  margin-left: auto;          
+  color: #333333af;
   text-decoration: none;
-  font-size: 1rem;
+  font-size: 1.4rem;
 }
 
-/* Download / Share pills */
+/* body under image stays column */
+.discover-grid--images .dg-card__body--images {
+  padding: 0.5rem 0.75rem 0.75rem;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  align-items: flex-start;
+}
+
+/* new row: tags left, download right */
+.dg-card__top-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+/* reset old alignment tweaks */
+.discover-grid--images .dg-card__tags,
+.discover-grid--images .dg-card__title--images,
+.discover-grid--images .dg-card__excerpt--images {
+  margin-right: 0;
+}
+
+
+/* Download / Share pills (article mode) */
 .dg-card__actions {
   position: absolute;
   top: 0.75rem;
@@ -372,7 +339,7 @@
   color: #ffffff;
 }
 
-/* Card body */
+/* Card body (article mode) */
 .dg-card__body {
   flex: 1;
   display: flex;
@@ -420,9 +387,9 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.65rem;
-  justify-content: space-between;      
+  justify-content: space-between;
   font-size: var(--wp--preset--font-size--body, 1rem);
-  color: #fd593c;                      
+  color: #fd593c;
 }
 
 .dg-card__meta-footer span {
@@ -431,9 +398,8 @@
 }
 
 .dg-card__meta-muted {
-  opacity: 0.9;                         
+  opacity: 0.9;
 }
-
 
 /* Pagination */
 .discover-grid__pagination {
@@ -479,6 +445,7 @@
 }
 
 /* Modal for image layout */
+/* Modal for image layout */
 .discover-grid__modal {
   position: fixed;
   inset: 0;
@@ -487,7 +454,10 @@
 }
 
 .discover-grid__modal.is-open {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
 }
 
 .discover-grid__modal-backdrop {
@@ -498,8 +468,9 @@
 
 .discover-grid__modal-dialog {
   position: relative;
-  margin: 3rem auto;
+  width: 100%;
   max-width: 960px;
+  margin: 0;
   background: #ffffff;
   border-radius: 32px;
   box-shadow: 0 18px 60px rgba(0, 0, 0, 0.25);
@@ -512,6 +483,11 @@
   gap: 2rem;
 }
 
+/* image side */
+.discover-grid__modal-image-wrap {
+  position: relative;
+}
+
 .discover-grid__modal-media img {
   display: block;
   width: 100%;
@@ -520,6 +496,24 @@
   object-fit: cover;
 }
 
+/* download icon on image */
+.discover-grid__modal-download {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  color: #333333af;
+  text-decoration: none;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+}
+
+/* text side */
 .discover-grid__modal-title {
   margin: 0 0 0.75rem;
   color: #fd593c;
@@ -527,15 +521,28 @@
 }
 
 .discover-grid__modal-excerpt {
-  margin: 0 0 1rem;
+  margin: 0 0 1.25rem;
   font-size: var(--wp--preset--font-size--body, 1rem);
   line-height: 1.6;
 }
 
-.discover-grid__modal-author {
-  margin: 0.75rem 0 0.5rem;
+.discover-grid__modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-top: auto;
+}
+
+.discover-grid__modal-author-wrap {
+  margin: 0;
   font-size: var(--wp--preset--font-size--body, 1rem);
   color: #777777;
+}
+
+.discover-grid__modal-author-label {
+  font-weight: 600;
+  margin-right: 0.25rem;
 }
 
 .discover-grid__modal-meta {
@@ -546,6 +553,36 @@
   color: #fd593c;
 }
 
+/* heart button */
+.discover-grid__modal-likes {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  color: #fd593c;
+}
+
+.discover-grid__modal-likes i {
+  border-radius: 999px;
+  border: 2px solid #fd593c;
+  padding: 4px;
+  background: #ffffff;
+  font-size: 0.95rem;
+}
+
+/* active (liked) state */
+.discover-grid__modal-likes.is-liked i {
+  background: #fd593c;
+  color: #ffffff;
+}
+
+.discover-grid__modal-likes-count {
+  min-width: 2ch;
+}
+
 .discover-grid__modal-share {
   border: none;
   background: transparent;
@@ -554,6 +591,7 @@
   padding: 0;
 }
 
+/* close button */
 .discover-grid__modal-close {
   position: absolute;
   top: 1rem;
@@ -568,61 +606,48 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
+  font-size: var(--wp--preset--font-size--body);
 }
 
-/* Base / mobile-first (0–599px) */
-.discover-grid__head {
-  display: flex;
-  flex-direction: column;
-}
+/* mobile stacking */
+@media (max-width: 768px) {
+  .discover-grid__modal.is-open {
+    padding: 1rem;
+  }
 
-.discover-grid__head-main,
-.discover-grid__search-wrap {
-  flex: 0 0 100%;
-  width: 100%;
-}
+  .discover-grid__modal-dialog {
+    padding: 1.25rem;
+  }
 
-/* Mobile: 0–599px */
-@media (max-width: 599px) {
-  .discover-grid__head {
+  .discover-grid__modal-inner {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .discover-grid__modal-footer {
     flex-direction: column;
-    align-items: flex-start;        
-  }
-
-  .discover-grid__head-main,
-  .discover-grid__search-wrap {
-    flex: 0 0 100%;
-    width: 100%;
+    align-items: flex-start;
   }
 }
 
-/* Tablet: 600–1274px */
+
+/* Responsive header layout */
+
+/* 600–1274px: keep column but narrower search */
 @media (min-width: 600px) and (max-width: 1274px) {
-  .discover-grid__head {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;         
-  }
-
-  .discover-grid__head-main {
-    flex: 0 0 100%;
-    width: 100%;
-  }
-
   .discover-grid__search-wrap {
-     width: 250px;
-    align-self: flex-start;          
+    width: 250px;
+    align-self: flex-start;
   }
 }
 
-
-/* Desktop: 1275px+ */
+/* 1275px+: row layout with search on the right */
 @media (min-width: 1275px) {
   .discover-grid__head {
-    display: flex;
-    flex-wrap: nowrap;
     flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .discover-grid__head-main {
@@ -637,125 +662,14 @@
   }
 }
 
-
-
-
-/* apend */
-
-.dg-card__image {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  background: #dedede;
-  aspect-ratio: 16 / 9;
-}
-
-.dg-card__image img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Masonry: let images control height in imageMode */
-.discover-grid--images .dg-card__image {
-  aspect-ratio: auto;              /* override 16:9 */
-}
-
-.discover-grid--images .dg-card__image img {
-  height: auto;                    /* image decides height */
-}
-
-
-/* Grid layout (default article mode) */
-.discover-grid__grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 1.5rem;
-}
-
-@media (min-width: 768px) {
-  .discover-grid__grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (min-width: 1166px) {
-  .discover-grid__grid {
-    grid-template-columns: repeat(var(--cols-desktop, 3), minmax(0, 1fr));
-  }
-}
-
-/* default article grid (keep as-is) */
-.discover-grid__grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 1.5rem;
-}
-
-@media (min-width: 768px) {
-  .discover-grid__grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (min-width: 1166px) {
-  .discover-grid__grid {
-    grid-template-columns: repeat(var(--cols-desktop, 3), minmax(0, 1fr));
-  }
-}
-
-/* === IMAGE MODE: JS masonry === */
+/* IMAGE MODE: JS masonry container */
 .discover-grid--images .discover-grid__grid {
   position: relative;
-  display: block;        /* JS controls layout */
+  display: block; /* JS controls placement */
 }
 
-/* Masonry cards */
-/* Base: 1 column */
+/* Masonry cards (position only; width comes from JS) */
 .discover-grid--images .dg-card--images {
   position: absolute;
   will-change: transform;
-  width: 100%;
 }
-
-/* ≥ 600px: 2 columns */
-@media (min-width: 600px) {
-  .discover-grid--images .dg-card--images {
-    width: 50%;          /* 2 cols */
-  }
-}
-
-/* ≥ 900px: 3 columns */
-@media (min-width: 900px) {
-  .discover-grid--images .dg-card--images {
-    width: 33.3333%;     /* 3 cols */
-  }
-}
-
-/* ≥ 1200px: 4 columns */
-@media (min-width: 1200px) {
-  .discover-grid--images .dg-card--images {
-    width: 25%;          /* 4 cols */
-  }
-}
-
-/* ≥ 1500px: 5 columns */
-@media (min-width: 1500px) {
-  .discover-grid--images .dg-card--images {
-    width: 20%;          /* 5 cols */
-  }
-}
-
-/* === IMAGE MODE: JS masonry === */
-.discover-grid--images .discover-grid__grid {
-  position: relative;
-  display: block;        /* JS controls layout */
-}
-
-.discover-grid--images .dg-card--images {
-  position: absolute;
-  will-change: transform;
-  /* width is set by JS */
-}
-
