@@ -681,6 +681,115 @@ $aria_label = $title !== '' ? $title : __( 'Discover posts', 'child' );
       });
     }
   }
+  const gridEl = root.querySelector('.discover-grid__grid');
+
+  function layoutMasonry() {
+	if (!isImageMode || !gridEl) return;
+
+	const visibleCards = cards.filter(function(card) {
+		return card.classList.contains('dg-card--images') &&
+			card.style.display !== 'none';
+	});
+
+	if (!visibleCards.length) {
+		gridEl.style.height = '';
+		return;
+	}
+
+	const gap = 24; // 1.5rem, keep in sync with CSS
+	const containerWidth = gridEl.clientWidth;
+
+	// --- fixed responsive steps: 5 -> 4 -> 3 -> 2 -> 1 ---
+	let cols;
+	if (containerWidth >= 1400) {
+		cols = 5;
+	} else if (containerWidth >= 1100) {
+		cols = 4;
+	} else if (containerWidth >= 768) {
+		cols = 3;
+	} else if (containerWidth >= 576) {
+		cols = 2;
+	} else {
+		cols = 1;
+	}
+
+	// card width so columns always fill container
+	const cardWidth = (containerWidth - gap * (cols - 1)) / cols;
+
+	const colHeights = new Array(cols).fill(0);
+
+	visibleCards.forEach(function(card) {
+		// apply width so they actually use all the space
+		card.style.width = cardWidth + 'px';
+
+		// shortest column index
+		let targetCol = 0;
+		let minHeight = colHeights[0];
+		for (let i = 1; i < cols; i++) {
+		if (colHeights[i] < minHeight) {
+			minHeight = colHeights[i];
+			targetCol = i;
+		}
+		}
+
+		const x = targetCol * (cardWidth + gap);
+		const y = colHeights[targetCol];
+
+		card.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+
+		colHeights[targetCol] += card.offsetHeight + gap;
+	});
+
+	gridEl.style.height = Math.max.apply(Math, colHeights) + 'px';
+  }
+
+  function render() {
+    const filtered   = getFiltered();
+    const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
+    if (currentPage > totalPages) currentPage = totalPages;
+
+    cards.forEach(function(card){
+      card.style.display = 'none';
+      if (isImageMode) {
+        card.style.transform = ''; // reset before layout
+      }
+    });
+
+    const start = (currentPage - 1) * perPage;
+    const end   = start + perPage;
+    filtered.slice(start, end).forEach(function(card){
+      card.style.display = '';
+    });
+
+    buildPagination(totalPages);
+
+    if (isImageMode) {
+      requestAnimationFrame(layoutMasonry);
+    }
+  }
+
+  if (isImageMode) {
+    window.addEventListener('resize', function() {
+      clearTimeout(window._dgMasonryTimer);
+      window._dgMasonryTimer = setTimeout(layoutMasonry, 150);
+    });
+
+    // optional: re-layout when images finish loading
+    root.querySelectorAll('.dg-card--images img').forEach(function(img){
+      img.addEventListener('load', function() {
+        requestAnimationFrame(layoutMasonry);
+      });
+    });
+  }
+
+
+  // also re-run on resize
+  if (isImageMode) {
+    window.addEventListener('resize', function() {
+      clearTimeout(window._dgMasonryTimer);
+      window._dgMasonryTimer = setTimeout(layoutMasonry, 150);
+    });
+  }
 
   // Share buttons — always credit owner via canonical URL.
   root.querySelectorAll('.dg-card__pill--share').forEach(function(btn){

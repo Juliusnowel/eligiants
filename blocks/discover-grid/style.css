@@ -163,7 +163,7 @@
 }
 
 /* Image (Pinterest-style) layout */
-.discover-grid--images .discover-grid__grid {
+/* .discover-grid--images .discover-grid__grid {
   display: block;
   column-count: 1;
   column-gap: 1.25rem;
@@ -185,7 +185,7 @@
   .discover-grid--images .discover-grid__grid {
     column-count: 4;
   }
-}
+} */
 
 /* Cards */
 .dg-card {
@@ -221,6 +221,57 @@
   height: 100%;
   object-fit: cover;
 }
+
+.discover-grid--images .dg-card__image {
+  aspect-ratio: auto;      
+  background: transparent;  
+}
+
+.discover-grid--images .dg-card__image img {
+  width: 100%;
+  height: auto;          
+  object-fit: cover;
+}
+
+/* IMAGE MODE – no white card box */
+.discover-grid--images .dg-card__inner {
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+/* keep the nice rounding only on the image itself */
+.discover-grid--images .dg-card__image img {
+  border-radius: 36px;
+}
+
+/* compact body under the image */
+.discover-grid--images .dg-card__body--images {
+  padding: 0.5rem 0.75rem 0.75rem;
+  background: transparent;  /* or white if you want a little label strip */
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* layout for the optional info row */
+.discover-grid--images .dg-card__body--images {
+  display: flex;
+  align-items: flex-start;
+}
+
+/* text group on the left, icon on the right */
+.discover-grid--images .dg-card__tags,
+.discover-grid--images .dg-card__title--images,
+.discover-grid--images .dg-card__excerpt--images {
+  margin-right: 0.5rem;
+}
+
+/* lock the download icon as the only “always-on” element */
+.discover-grid--images .dg-card__download-icon {
+  margin-left: auto;
+}
+
 
 .dg-card__image-placeholder {
   width: 100%;
@@ -635,28 +686,76 @@
   }
 }
 
-/* Image (Pinterest-style) layout */
+/* default article grid (keep as-is) */
+.discover-grid__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .discover-grid__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1166px) {
+  .discover-grid__grid {
+    grid-template-columns: repeat(var(--cols-desktop, 3), minmax(0, 1fr));
+  }
+}
+
+/* === IMAGE MODE: JS masonry === */
 .discover-grid--images .discover-grid__grid {
-  display: block;
-  column-count: 1;
-  column-gap: 1.25rem;
+  position: relative;
+  display: block;        /* JS controls layout */
 }
 
-@media (min-width: 576px) {
-  .discover-grid--images .discover-grid__grid {
-    column-count: 2;
+/* Masonry cards */
+/* Base: 1 column */
+.discover-grid--images .dg-card--images {
+  position: absolute;
+  will-change: transform;
+  width: 100%;
+}
+
+/* ≥ 600px: 2 columns */
+@media (min-width: 600px) {
+  .discover-grid--images .dg-card--images {
+    width: 50%;          /* 2 cols */
   }
 }
 
-@media (min-width: 992px) {
-  .discover-grid--images .discover-grid__grid {
-    column-count: 3;
+/* ≥ 900px: 3 columns */
+@media (min-width: 900px) {
+  .discover-grid--images .dg-card--images {
+    width: 33.3333%;     /* 3 cols */
   }
 }
 
-/* Desktop columns driven by rowsDesktop when imageMode is true */
+/* ≥ 1200px: 4 columns */
 @media (min-width: 1200px) {
-  .discover-grid--images .discover-grid__grid {
-    column-count: var(--image-cols-desktop, 4); /* 4 or 5 etc. */
+  .discover-grid--images .dg-card--images {
+    width: 25%;          /* 4 cols */
   }
 }
+
+/* ≥ 1500px: 5 columns */
+@media (min-width: 1500px) {
+  .discover-grid--images .dg-card--images {
+    width: 20%;          /* 5 cols */
+  }
+}
+
+/* === IMAGE MODE: JS masonry === */
+.discover-grid--images .discover-grid__grid {
+  position: relative;
+  display: block;        /* JS controls layout */
+}
+
+.discover-grid--images .dg-card--images {
+  position: absolute;
+  will-change: transform;
+  /* width is set by JS */
+}
+
