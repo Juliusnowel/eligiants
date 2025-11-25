@@ -97,8 +97,12 @@ if ( ! $query->have_posts() ) {
 /**
  * BUILD ITEMS ARRAY (one per card)
  */
-$items   = [];
-$now_ts  = current_time( 'timestamp' );
+$items           = [];
+$now_ts          = current_time( 'timestamp' );
+$current_user_id = get_current_user_id();
+$liked_posts     = $current_user_id
+	? array_map( 'intval', (array) get_user_meta( $current_user_id, '_ileg_liked_posts', true ) )
+	: [];
 
 while ( $query->have_posts() ) {
 	$query->the_post();
@@ -119,13 +123,15 @@ while ( $query->have_posts() ) {
 	$time_ago  = human_time_diff( $posted_ts, $now_ts ) . ' ago';
 
 	$items[] = [
+		'postId'     => $post_id,
 		'imageURL'   => $thumb_url,
 		'imageAlt'   => get_the_title(),
 		'title'      => get_the_title(),
-		'excerpt'    => wp_trim_words( get_the_excerpt(), 24, '…' ),
+		'excerpt'    => wp_trim_words( get_the_excerpt(), 24, '.' ),
 		'authorName' => $author_name,
 		'likes'      => $likes,
 		'views'      => $views,
+		'liked'      => in_array( $post_id, $liked_posts, true ),
 		'timeAgo'    => $time_ago,
 		'ageDays'    => $age_days,
 		'url'        => get_permalink( $post_id ),
@@ -179,8 +185,10 @@ $print_card = function( array $card ) use ( $mode, $metrics_cutoff ) {
 	$title      = $card['title'] ?? '';
 	$excerpt    = $card['excerpt'] ?? '';
 	$authorName = $card['authorName'] ?? '';
+	$postId     = isset( $card['postId'] ) ? (int) $card['postId'] : 0;
 	$likes      = isset( $card['likes'] ) ? (int) $card['likes'] : 0;
 	$views      = isset( $card['views'] ) ? (int) $card['views'] : 0;
+	$liked      = ! empty( $card['liked'] );
 	$timeAgo    = $card['timeAgo'] ?? '';
 	$ageDays    = isset( $card['ageDays'] ) ? (int) $card['ageDays'] : 0;
 	$thumb      = $card['imageURL'] ?? '';
@@ -197,7 +205,21 @@ $print_card = function( array $card ) use ( $mode, $metrics_cutoff ) {
 		$show_date = ( $ageDays <= $metrics_cutoff );
 	}
 	?>
-	<article class="discover-card">
+	<article class="discover-card"
+	         data-post-id="<?php echo esc_attr( $postId ); ?>"
+	         data-liked="<?php echo $liked ? '1' : '0'; ?>"
+	         data-likes="<?php echo esc_attr( $likes ); ?>">
+		<div class="discover-card__like-wrap">
+			<button type="button"
+			        class="discover-card__like-btn"
+			        aria-pressed="<?php echo $liked ? 'true' : 'false'; ?>"
+			        <?php if ( ! $postId ) echo 'disabled'; ?>>
+				<i class="fa<?php echo $liked ? 's' : 'r'; ?> fa-heart" aria-hidden="true"></i>
+				<span class="discover-card__like-count"><?php echo esc_html( $likes ); ?></span>
+				<span class="screen-reader-text"><?php esc_html_e( 'Toggle like', 'child' ); ?></span>
+			</button>
+		</div>
+
 		<a href="<?php echo esc_url( $url ); ?>" class="discover-card__link">
 			<div class="discover-card__thumb">
 				<?php if ( $thumb ) : ?>
@@ -228,7 +250,6 @@ $print_card = function( array $card ) use ( $mode, $metrics_cutoff ) {
 				<?php endif; ?>
 
 				<div class="discover-card__meta-footer">
-					<span><?php echo esc_html( $likes ); ?> likes</span>
 					<span><?php echo esc_html( $views ); ?> Views</span>
 					<?php if ( $show_date && $timeAgo ) : ?>
 						<span class="discover-card__meta-muted">
@@ -432,5 +453,104 @@ ob_start();
   container.addEventListener('scroll', onScroll, {passive:true});
   window.addEventListener('resize', setActiveByCenter);
   setActiveByCenter();
+})();
+
+/* Likes + view tracking */
+(function(){
+  const ajax = {
+    url: '<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>',
+    likeNonce: '<?php echo wp_create_nonce( 'dg_like_nonce' ); ?>'
+  };
+
+  const cards = Array.from(document.querySelectorAll('.discover-carousel .discover-card'));
+  if (!cards.length) return;
+
+  function setLikeState(card, btn, icon, countEl, liked, likes) {
+    const likesInt = Math.max(0, parseInt(likes || '0', 10) || 0);
+    card.dataset.liked = liked ? '1' : '0';
+    card.dataset.likes = String(likesInt);
+
+    if (countEl) countEl.textContent = likesInt;
+    if (btn) {
+      btn.classList.toggle('is-liked', liked);
+      btn.setAttribute('aria-pressed', liked ? 'true' : 'false');
+    }
+    if (icon) {
+      icon.classList.toggle('fa-solid', liked);
+      icon.classList.toggle('fa-regular', !liked);
+    }
+  }
+
+  function trackView(postId) {
+    if (!postId) return;
+    const params = new URLSearchParams({ action: 'ileg_track_view', post_id: postId });
+    const encoded = params.toString();
+    if (navigator.sendBeacon) {
+      const blob = new Blob([encoded], { type: 'application/x-www-form-urlencoded; charset=UTF-8' });
+      navigator.sendBeacon(ajax.url, blob);
+    } else {
+      fetch(ajax.url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+        body: encoded
+      }).catch(function(){});
+    }
+  }
+
+  cards.forEach(function(card){
+    const likeBtn   = card.querySelector('.discover-card__like-btn');
+    const likeIcon  = likeBtn ? likeBtn.querySelector('.fa-heart') : null;
+    const likeCount = likeBtn ? likeBtn.querySelector('.discover-card__like-count') : null;
+    const link      = card.querySelector('.discover-card__link');
+    const postId    = card.dataset.postId || '';
+
+    if (link && postId) {
+      link.addEventListener('click', function(){
+        trackView(postId);
+      });
+    }
+
+    if (!likeBtn || !postId) return;
+
+    // Sync initial state from dataset
+    setLikeState(
+      card,
+      likeBtn,
+      likeIcon,
+      likeCount,
+      card.dataset.liked === '1',
+      card.dataset.likes || '0'
+    );
+
+    likeBtn.addEventListener('click', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+
+      const currentLiked = card.dataset.liked === '1';
+      const currentLikes = parseInt(card.dataset.likes || '0', 10) || 0;
+      const nextLiked    = !currentLiked;
+      const optimistic   = Math.max(0, currentLikes + (nextLiked ? 1 : -1));
+
+      setLikeState(card, likeBtn, likeIcon, likeCount, nextLiked, optimistic);
+
+      fetch(ajax.url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+        body: new URLSearchParams({
+          action: 'ileg_toggle_like',
+          nonce: ajax.likeNonce,
+          post_id: postId
+        })
+      })
+      .then(function(res){ return res.json(); })
+      .then(function(data){
+        if (!data || !data.success || !data.data) return;
+        const serverLikes = parseInt(data.data.likes || '0', 10) || 0;
+        const serverLiked = !!data.data.liked;
+        setLikeState(card, likeBtn, likeIcon, likeCount, serverLiked, serverLikes);
+      })
+      .catch(function(){});
+    });
+  });
 })();
 </script>

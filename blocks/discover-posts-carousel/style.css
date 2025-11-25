@@ -70,6 +70,7 @@
   border-radius: 24px;
   border: 2px solid rgba(128, 128, 128, 0.158);
   overflow: hidden;
+  position: relative;
 }
 
 .discover-card__link {
@@ -118,6 +119,36 @@
   margin: 0 0 0.35rem;
   font-size: var(--wp--preset--font-size--h-3);
   color: #fd593c;
+}
+
+.discover-card__like-wrap {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+}
+
+.discover-card__like-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid #fd593c;
+  background: rgba(253, 89, 60, 0.08);
+  color: #fd593c;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.discover-card__like-btn .fa-heart {
+  font-size: 0.95rem;
+}
+
+.discover-card__like-btn.is-liked,
+.discover-card__like-btn[aria-pressed="true"] {
+  background: #fd593c;
+  color: #fff;
 }
 
 .discover-card__excerpt {

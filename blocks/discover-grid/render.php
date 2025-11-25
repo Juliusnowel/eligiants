@@ -465,24 +465,22 @@ $aria_label = $title !== '' ? $title : __( 'Discover posts', 'child' );
 								</p>
 							<?php endif; ?>
 
-							<?php
-							$show_metrics = ( $age_days < $metrics_cutoff );
-							if ( $show_metrics ) :
-								?>
-								<div class="dg-card__meta-footer">
-									<span class="dg-card__meta-muted">
-										<?php echo esc_html( $likes ); ?> <?php esc_html_e( 'likes', 'child' ); ?>
-									</span>
+	
+							<div class="dg-card__meta-footer">
+								<span class="dg-card__meta-muted">
+									<?php echo esc_html( $likes ); ?> <?php esc_html_e( 'likes', 'child' ); ?>
+								</span>
 
-									<span class="dg-card__meta-muted">
-										<?php echo esc_html( $views ); ?> <?php esc_html_e( 'Views', 'child' ); ?>
-									</span>
+								<span class="dg-card__meta-muted">
+									<?php echo esc_html( $views ); ?> <?php esc_html_e( 'Views', 'child' ); ?>
+								</span>
 
+								<?php if ( $age_days < $metrics_cutoff ) : ?>
 									<span class="dg-card__meta-muted">
 										<?php echo esc_html( $time_ago ); ?>
 									</span>
-								</div>
-							<?php endif; ?>
+								<?php endif; ?>
+							</div>
 						</div>
 					</div>
 				</article>
