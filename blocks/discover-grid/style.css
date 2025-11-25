@@ -165,6 +165,7 @@
 /* Cards – shared */
 .dg-card {
   min-width: 0;
+  cursor: pointer;
 }
 
 .dg-card__inner {
@@ -175,11 +176,28 @@
   background: #ffffff;
   overflow: hidden;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.discover-grid-block:not(.discover-grid--images) .dg-card:hover .dg-card__inner,
+.discover-grid-block:not(.discover-grid--images) .dg-card:focus-within .dg-card__inner {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.12);
 }
 
 .dg-card__thumb-wrap {
   position: relative;
   background: #f0f0f0;
+}
+
+.dg-card__top-actions {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: center;
+  z-index: 2;
 }
 
 .dg-card__image {
@@ -309,9 +327,7 @@
 
 /* Download / Share pills (article mode) */
 .dg-card__actions {
-  position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
+  position: static;
   display: inline-flex;
   gap: 0.35rem;
 }
@@ -395,6 +411,29 @@
 .dg-card__meta-footer span {
   display: inline-flex;
   align-items: center;
+}
+
+.dg-card__like-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid #fd593c;
+  background: rgba(253, 89, 60, 0.08);
+  color: #fd593c;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.dg-card__like-btn .fa-heart {
+  font-size: 0.95rem;
+}
+
+.dg-card__like-btn.is-liked,
+.dg-card__like-btn[aria-pressed="true"] {
+  background: #fd593c;
+  color: #fff;
 }
 
 .dg-card__meta-muted {

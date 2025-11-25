@@ -415,10 +415,40 @@ $aria_label = $title !== '' ? $title : __( 'Discover posts', 'child' );
 			<?php else : ?>
 				<article class="dg-card"
 				         data-title="<?php echo esc_attr( strtolower( $title_safe ) ); ?>"
-				         data-cats="<?php echo esc_attr( $data_cats ); ?>">
+				         data-cats="<?php echo esc_attr( $data_cats ); ?>"
+				         data-post-id="<?php echo esc_attr( $item['post_id'] ); ?>"
+				         data-url="<?php echo esc_url( $url ); ?>"
+				         data-liked="<?php echo $item['liked_by_user'] ? '1' : '0'; ?>"
+				         data-likes="<?php echo esc_attr( $likes ); ?>">
 					<div class="dg-card__inner">
 
 						<div class="dg-card__thumb-wrap">
+							<div class="dg-card__top-actions">
+								<button type="button"
+								        class="dg-card__like-btn"
+								        aria-pressed="<?php echo $item['liked_by_user'] ? 'true' : 'false'; ?>">
+									<i class="fa<?php echo $item['liked_by_user'] ? 's' : 'r'; ?> fa-heart" aria-hidden="true"></i>
+									<span class="dg-card__like-count"><?php echo esc_html( $likes ); ?></span>
+									<span class="screen-reader-text"><?php esc_html_e( 'Toggle like', 'child' ); ?></span>
+								</button>
+
+								<?php if ( ! $is_author ) : ?>
+									<div class="dg-card__actions">
+										<a href="<?php echo esc_url( $download_url ); ?>"
+										   class="dg-card__pill dg-card__pill--download"
+										   download>
+											<?php esc_html_e( 'Download', 'child' ); ?>
+										</a>
+										<button type="button"
+										        class="dg-card__pill dg-card__pill--share"
+										        data-share-url="<?php echo esc_url( $url ); ?>"
+										        data-share-title="<?php echo esc_attr( $title_safe ); ?>">
+											<?php esc_html_e( 'Share', 'child' ); ?>
+										</button>
+									</div>
+								<?php endif; ?>
+							</div>
+
 							<div class="dg-card__image">
 								<?php if ( $img ) : ?>
 									<img src="<?php echo esc_url( $img ); ?>"
@@ -427,22 +457,6 @@ $aria_label = $title !== '' ? $title : __( 'Discover posts', 'child' );
 									<div class="dg-card__image-placeholder"></div>
 								<?php endif; ?>
 							</div>
-
-							<?php if ( ! $is_author ) : ?>
-								<div class="dg-card__actions">
-									<a href="<?php echo esc_url( $download_url ); ?>"
-									   class="dg-card__pill dg-card__pill--download"
-									   download>
-										<?php esc_html_e( 'Download', 'child' ); ?>
-									</a>
-									<button type="button"
-									        class="dg-card__pill dg-card__pill--share"
-									        data-share-url="<?php echo esc_url( $url ); ?>"
-									        data-share-title="<?php echo esc_attr( $title_safe ); ?>">
-										<?php esc_html_e( 'Share', 'child' ); ?>
-									</button>
-								</div>
-							<?php endif; ?>
 						</div>
 
 						<div class="dg-card__body">
@@ -465,12 +479,7 @@ $aria_label = $title !== '' ? $title : __( 'Discover posts', 'child' );
 								</p>
 							<?php endif; ?>
 
-	
 							<div class="dg-card__meta-footer">
-								<span class="dg-card__meta-muted">
-									<?php echo esc_html( $likes ); ?> <?php esc_html_e( 'likes', 'child' ); ?>
-								</span>
-
 								<span class="dg-card__meta-muted">
 									<?php echo esc_html( $views ); ?> <?php esc_html_e( 'Views', 'child' ); ?>
 								</span>
@@ -992,6 +1001,83 @@ $aria_label = $title !== '' ? $title : __( 'Discover posts', 'child' );
       }
     });
   });
+
+  // Make entire card clickable (article mode only)
+  if (!isImageMode) {
+    cards.forEach(function(card){
+      const url = card.dataset.url;
+      if (!url) return;
+
+      card.addEventListener('click', function(e){
+        const target = e.target;
+        if (!target) return;
+        const interactive = target.closest('a,button');
+        if (interactive && interactive.closest('.dg-card') === card) return;
+        window.location.href = url;
+      });
+    });
+  }
+
+  // Inline like buttons (article mode)
+  if (!isImageMode) {
+    const likeButtons = Array.from(root.querySelectorAll('.dg-card__like-btn'));
+
+    function setLikeState(card, btn, icon, countEl, liked, likes) {
+      const likeCount = Math.max(0, parseInt(likes || '0', 10) || 0);
+      card.dataset.liked = liked ? '1' : '0';
+      card.dataset.likes = String(likeCount);
+      btn.setAttribute('aria-pressed', liked ? 'true' : 'false');
+      btn.classList.toggle('is-liked', liked);
+      if (icon) {
+        icon.classList.toggle('fa-solid', liked);
+        icon.classList.toggle('fa-regular', !liked);
+      }
+      if (countEl) countEl.textContent = likeCount;
+    }
+
+    likeButtons.forEach(function(btn){
+      const card = btn.closest('.dg-card');
+      if (!card) return;
+      const icon  = btn.querySelector('.fa-heart');
+      const count = btn.querySelector('.dg-card__like-count');
+      const postId = card.dataset.postId || '';
+
+      // sync initial
+      setLikeState(card, btn, icon, count, card.dataset.liked === '1', card.dataset.likes || '0');
+
+      if (!postId) return;
+
+      btn.addEventListener('click', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+
+        const currentLiked = card.dataset.liked === '1';
+        const currentLikes = parseInt(card.dataset.likes || '0', 10) || 0;
+        const nextLiked    = !currentLiked;
+        const optimistic   = Math.max(0, currentLikes + (nextLiked ? 1 : -1));
+
+        setLikeState(card, btn, icon, count, nextLiked, optimistic);
+
+        fetch(dgAjax.url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+          body: new URLSearchParams({
+            action: 'ileg_toggle_like',
+            nonce: dgAjax.likeNonce,
+            post_id: postId
+          })
+        })
+        .then(function(res){ return res.json(); })
+        .then(function(data){
+          if (!data || !data.success || !data.data) return;
+          const serverLikes = parseInt(data.data.likes || '0', 10) || 0;
+          const serverLiked = !!data.data.liked;
+          setLikeState(card, btn, icon, count, serverLiked, serverLikes);
+        })
+        .catch(function(){});
+      });
+    });
+  }
 
   render();
 })();
