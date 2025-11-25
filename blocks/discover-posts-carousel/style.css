@@ -132,10 +132,11 @@
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
-  padding: 0.4rem 0.7rem;
+  padding: 0.2rem 0.75rem;
   border-radius: 999px;
-  border: 1px solid #fd593c;
-  background: rgba(253, 89, 60, 0.08);
+  border: 1px solid #fff;
+  /* background: rgba(253, 89, 60, 0.08); */
+  background: #fff;
   color: #fd593c;
   cursor: pointer;
   transition: background 0.2s ease, color 0.2s ease;
@@ -147,6 +148,7 @@
 
 .discover-card__like-btn.is-liked,
 .discover-card__like-btn[aria-pressed="true"] {
+  border: 1px solid #fd593c;
   background: #fd593c;
   color: #fff;
 }

@@ -432,21 +432,31 @@ $aria_label = $title !== '' ? $title : __( 'Discover posts', 'child' );
 									<span class="screen-reader-text"><?php esc_html_e( 'Toggle like', 'child' ); ?></span>
 								</button>
 
-								<?php if ( ! $is_author ) : ?>
-									<div class="dg-card__actions">
+								<div class="dg-card__more">
+									<button type="button" class="dg-card__more-btn" aria-haspopup="true" aria-expanded="false">
+										<i class="fa-solid fa-ellipsis" aria-hidden="true"></i>
+										<span class="screen-reader-text"><?php esc_html_e( 'Open actions', 'child' ); ?></span>
+									</button>
+									<div class="dg-card__more-menu" role="menu">
 										<a href="<?php echo esc_url( $download_url ); ?>"
 										   class="dg-card__pill dg-card__pill--download"
-										   download>
+										   download
+										   role="menuitem">
+											<i class="fa-solid fa-download" aria-hidden="true"></i>
 											<?php esc_html_e( 'Download', 'child' ); ?>
 										</a>
 										<button type="button"
-										        class="dg-card__pill dg-card__pill--share"
-										        data-share-url="<?php echo esc_url( $url ); ?>"
-										        data-share-title="<?php echo esc_attr( $title_safe ); ?>">
-											<?php esc_html_e( 'Share', 'child' ); ?>
+												class="dg-card__pill dg-card__pill--share"
+												data-share-url="<?php echo esc_url( $url ); ?>"
+												data-share-title="<?php echo esc_attr( $title_safe ); ?>"
+												role="menuitem">
+											<i class="fa-solid fa-share-nodes" aria-hidden="true"></i>
+											<span class="dg-card__share-label">
+												<?php esc_html_e( 'Share', 'child' ); ?>
+											</span>
 										</button>
 									</div>
-								<?php endif; ?>
+								</div>
 							</div>
 
 							<div class="dg-card__image">
@@ -525,9 +535,7 @@ $aria_label = $title !== '' ? $title : __( 'Discover posts', 'child' );
 
 					<div class="discover-grid__modal-body">
 						<h3 class="discover-grid__modal-title"></h3>
-
 						<div class="discover-grid__modal-excerpt"></div>
-
 						<div class="discover-grid__modal-footer">
 							<p class="discover-grid__modal-author-wrap">
 								<span class="discover-grid__modal-author-label">
@@ -990,17 +998,58 @@ $aria_label = $title !== '' ? $title : __( 'Discover posts', 'child' );
   }
 
   // Share buttons — always credit owner via canonical URL.
+  // Share buttons — copy URL to clipboard and show "Copied" feedback.
   root.querySelectorAll('.dg-card__pill--share').forEach(function(btn){
-    btn.addEventListener('click', function() {
-      const url   = btn.dataset.shareUrl;
-      const title = btn.dataset.shareTitle;
-      if (navigator.share) {
-        navigator.share({ title: title, url: url }).catch(function(){});
+    const labelEl = btn.querySelector('.dg-card__share-label') || btn;
+    const originalText = (labelEl.textContent || 'Share').trim();
+
+    function showCopiedFeedback() {
+      labelEl.textContent = 'Copied';
+      btn.classList.add('is-copied');
+
+      setTimeout(function(){
+        btn.classList.remove('is-copied');
+        labelEl.textContent = originalText;
+      }, 1000); // 1s then revert
+    }
+
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+
+      const url = btn.dataset.shareUrl || window.location.href;
+
+      // Modern clipboard API
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url)
+          .then(showCopiedFeedback)
+          .catch(function(){
+            // fallback
+            const ta = document.createElement('textarea');
+            ta.value = url;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy'); } catch (err) {}
+            document.body.removeChild(ta);
+            showCopiedFeedback();
+          });
       } else {
-        window.prompt('Copy this link to share:', url);
+        // older browsers fallback
+        const ta = document.createElement('textarea');
+        ta.value = url;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch (err) {}
+        document.body.removeChild(ta);
+        showCopiedFeedback();
       }
     });
   });
+
 
   // Make entire card clickable (article mode only)
   if (!isImageMode) {
@@ -1076,6 +1125,53 @@ $aria_label = $title !== '' ? $title : __( 'Discover posts', 'child' );
         })
         .catch(function(){});
       });
+    });
+
+    // meatball menu for download/share
+    const menus = Array.from(root.querySelectorAll('.dg-card__more'));
+
+    function closeMenus(except) {
+      menus.forEach(function(m){
+        if (m !== except) m.classList.remove('is-open');
+        const btn = m.querySelector('.dg-card__more-btn');
+        if (btn) btn.setAttribute('aria-expanded', m === except && m.classList.contains('is-open') ? 'true' : 'false');
+      });
+    }
+
+    menus.forEach(function(menu){
+      const btn  = menu.querySelector('.dg-card__more-btn');
+      const pane = menu.querySelector('.dg-card__more-menu');
+      if (!btn || !pane) return;
+
+      btn.addEventListener('click', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        const nowOpen = !menu.classList.contains('is-open');
+        closeMenus(nowOpen ? menu : null);
+        if (nowOpen) {
+          menu.classList.add('is-open');
+          btn.setAttribute('aria-expanded', 'true');
+        } else {
+          menu.classList.remove('is-open');
+          btn.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      pane.querySelectorAll('a,button').forEach(function(action){
+        action.addEventListener('click', function(){
+          if (action.classList.contains('dg-card__pill--share')) {
+            return;
+          }
+          closeMenus(null);
+        });
+      });
+    });
+
+    document.addEventListener('click', function(e){
+      const insideMenu = e.target.closest && e.target.closest('.dg-card__more');
+      if (!insideMenu) {
+        closeMenus(null);
+      }
     });
   }
 
