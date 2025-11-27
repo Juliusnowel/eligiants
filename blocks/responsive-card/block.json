@@ -1,0 +1,28 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "childtheme/responsive-card",
+  "title": "Responsive Card Grid",
+  "category": "design",
+  "icon": "screenoptions",
+  "description": "Responsive grid of cards that can be text or image.",
+  "supports": {
+    "align": [ "full", "wide" ],
+    "spacing": {
+      "padding": true,
+      "margin": [ "top", "bottom" ]
+    }
+  },
+  "style": "file:./style.css",
+  "render": "file:./render.php",
+  "attributes": {
+    "cards": {
+      "type": "array",
+      "default": []
+    },
+    "backgroundColor": {
+      "type": "string",
+      "default": ""
+    }
+  }
+}

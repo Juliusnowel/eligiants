@@ -1,0 +1,232 @@
+/* Grid wrapper */
+.responsive-card-grid {
+    display: grid;
+    gap: 24px;
+    padding: 50px var(--page-gutter-right) 50px var(--page-gutter-left);
+    max-width: 100%;
+}
+
+/* Desktop: ~51/49 then ~49/51 layout for first 4 cards */
+@media (min-width: 768px) {
+    .responsive-card-grid {
+        /* 25 columns; 24 gaps * 24px = 576px -> safe at 768px+ */
+        grid-template-columns: repeat(25, minmax(0, 1fr));
+    }
+
+    /* Top row: ≈ 52% / 48% */
+    .responsive-card-grid > .responsive-card:nth-child(1) {
+        grid-column: 1 / span 13;   /* ≈ 52% */
+    }
+
+    .responsive-card-grid > .responsive-card:nth-child(2) {
+        grid-column: 14 / span 12;  /* ≈ 48% */
+    }
+
+    /* Bottom row: ≈ 48% / 52% */
+    .responsive-card-grid > .responsive-card:nth-child(3) {
+        grid-column: 1 / span 12;   /* ≈ 48% */
+    }
+
+    .responsive-card-grid > .responsive-card:nth-child(4) {
+        grid-column: 13 / span 13;  /* ≈ 52% */
+    }
+}
+
+/* Base card styling */
+.responsive-card {
+	border-radius: 24px;
+	overflow: hidden;
+	background-color: #ffffff;
+}
+
+/* TEXT CARD
+   ------------------------------------------------------------------ */
+.responsive-card--text {
+	border: 3px solid #fdcd3b;
+	background-color: #fffdf2;
+	padding: 24px 28px;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+}
+
+.responsive-card__title {
+	margin: 0 0 0.75rem;
+	font-family: var(--wp--preset--font-family--outfit, system-ui, sans-serif);
+	font-size: clamp(1.25rem, 1.6vw, 1.6rem);
+	font-weight: 700;
+	color: #f24b27;
+}
+
+.responsive-card__text {
+	margin: 0;
+	font-family: var(--wp--preset--font-family--outfit, system-ui, sans-serif);
+	font-size: var(--wp--preset--font-size--body, 0.95rem);
+	line-height: 1.6;
+	color: #444444;
+}
+
+/* Content stack inside a text card */
+.responsive-card__content > * + * {
+    margin-top: 1.25rem;
+}
+
+/* Rich text paragraphs */
+.responsive-card__text,
+.responsive-card__text p {
+    margin: 0;
+    font-family: var(--wp--preset--font-family--outfit, system-ui, sans-serif);
+    font-size: var(--wp--preset--font-size--body, 0.95rem);
+    line-height: 1.6;
+    color: #444444;
+}
+
+.responsive-card__text p + p {
+    margin-top: 1rem;
+}
+
+.responsive-card__text b,
+.responsive-card__text strong {
+    font-weight: 700;
+}
+
+.responsive-card__text a {
+    color: #f24b27;
+    text-decoration: underline;
+    text-underline-offset: 0.08em;
+}
+
+.responsive-card__list-title {
+    margin: 0 0 0.35rem;
+    font-family: var(--wp--preset--font-family--outfit, system-ui, sans-serif);
+    font-size: var(--wp--preset--font-size--body);
+    font-weight: 700;
+    color: #f24b27;
+}
+
+.responsive-card__list {
+    margin: 0;
+    padding-left: 1.1rem;
+    list-style: disc;
+}
+
+.responsive-card__list-item {
+    margin: 0 0 0.35rem;
+    font-family: var(--wp--preset--font-family--outfit, system-ui, sans-serif);
+    font-size: var(--wp--preset--font-size--body, 0.95rem);
+    line-height: 1.6;
+    color: #444444;
+}
+
+/* Icon + text checklist rows (checktext) */
+.responsive-card__checktext {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.responsive-card__checktext-item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 16px;
+    align-items: flex-start;
+}
+
+.responsive-card__checktext-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    background-color: #f24b27;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    line-height: 1;
+    color: #ffffff;
+    flex-shrink: 0;
+}
+
+.responsive-card__checktext-text,
+.responsive-card__checktext-text p {
+    margin: 0;
+    font-family: var(--wp--preset--font-family--outfit, system-ui, sans-serif);
+    font-size: var(--wp--preset--font-size--body, 0.95rem);
+    line-height: 1.6;
+    color: #444444;
+}
+
+.responsive-card__checktext-text p + p {
+    margin-top: 0.5rem;
+}
+
+/* Title + body pairs (title-text) */
+.responsive-card__title-text-groups {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.responsive-card__title-text-title {
+    margin: 0 0 0.25rem;
+    font-family: var(--wp--preset--font-family--outfit, system-ui, sans-serif);
+    font-size: var(--wp--preset--font-size--body, 0.95rem);
+    font-weight: 700;
+    color: #f24b27;
+}
+
+.responsive-card__title-text-body,
+.responsive-card__title-text-body p {
+    margin: 0;
+    font-family: var(--wp--preset--font-family--outfit, system-ui, sans-serif);
+    font-size: var(--wp--preset--font-size--body, 0.95rem);
+    line-height: 1.6;
+    color: #444444;
+}
+
+.responsive-card__title-text-body p + p {
+    margin-top: 0.5rem;
+}
+
+
+/* IMAGE CARD
+   ------------------------------------------------------------------ */
+.responsive-card--image {
+	background-color: #e7e7e7;
+	display: flex;
+	align-items: stretch;
+	justify-content: center;
+}
+
+.responsive-card__figure {
+	margin: 0;
+	width: 100%;
+}
+
+.responsive-card__figure img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* Small screens: breathing room */
+@media (max-width: 767px) {
+	.responsive-card--text {
+		padding: 20px 18px;
+	}
+}
+
+.responsive-card__separator {
+    display: block;
+    border: 0;
+    height: 3px;
+    width: 100%;
+    margin: 0 0 1.5rem;
+    border-radius: 999px;
+    background-color: #FDCD3B !important;
+    opacity: 1 !important;
+}
