@@ -3,7 +3,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 $defaults = [
   'title'        => 'Travel Smarter, Wander Freely',
-  'tagline'      => 'Your travel buddy for smarter routes, cool hacks, and stories that make you say, “Wait, I can do that?!”',
+  'subtitle'     => 'Smart Prep, Stress-Free Adventures',
+  'tagline'      => 'Whether travelers are setting out on their first getaway or a long-awaited escape, the right strategies make every trip smoother.',
   'ctaText'      => "Let's Go!",
   'ctaUrl'       => '#',
   'overlay'      => 0.45,

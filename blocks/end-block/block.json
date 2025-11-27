@@ -19,8 +19,7 @@
     "buttons": {
       "type": "array",
       "default": [
-        { "text": "Share My Story", "url": "#", "accent": "#FD593C" },
-        { "text": "Message Us",     "url": "#", "accent": "#14B9D6" }
+        { "text": "", "url": "", "accent": "" }
       ],
       "items": {
         "type": "object",

@@ -48,8 +48,8 @@ $wrapper = get_block_wrapper_attributes( [
       <div class="end-block__actions" role="group" aria-label="<?= esc_attr__( 'Actions', 'childtheme' ); ?>">
         <?php foreach ( $buttons as $b ) :
           $text   = isset( $b['text'] ) ? (string) $b['text'] : '';
-          $url    = isset( $b['url'] ) ? (string) $b['url'] : '#';
-          $accent = isset( $b['accent'] ) ? (string) $b['accent'] : '#FD593C';
+          $url    = isset( $b['url'] ) ? (string) $b['url'] : '';
+          $accent = isset( $b['accent'] ) ? (string) $b['accent'] : '';
           if ( $text === '' ) { continue; }
 
           echo render_block( [

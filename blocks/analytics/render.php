@@ -145,6 +145,9 @@ $line_values = array_values(
 
 $line_max    = max( $line_values );
 $line_max    = $line_max > 0 ? $line_max : 1;
+$line_axis_step = 10;
+$line_axis_top  = (int) ceil( max( $line_max, $line_axis_step ) / $line_axis_step ) * $line_axis_step;
+$line_ticks     = range( $line_axis_top, 0, -$line_axis_step );
 $line_width  = 320;
 $line_height = 180;
 $line_pad    = 24;
@@ -152,7 +155,7 @@ $line_pad    = 24;
 $line_coords = [];
 for ( $i = 0, $count = count( $line_values ); $i < $count; $i++ ) {
 	$x = $line_pad + ( $i * ( ( $line_width - ( 2 * $line_pad ) ) / max( 1, $count - 1 ) ) );
-	$y = $line_height - $line_pad - ( ( $line_values[ $i ] / $line_max ) * ( $line_height - ( 2 * $line_pad ) ) );
+	$y = $line_height - $line_pad - ( ( $line_values[ $i ] / max( 1, $line_axis_top ) ) * ( $line_height - ( 2 * $line_pad ) ) );
 	$line_coords[] = [ 'x' => $x, 'y' => $y ];
 }
 
@@ -171,15 +174,13 @@ foreach ( $top_liked_posts as $post ) {
 // Prevent warnings if no posts yet.
 $bar_max = $bar_values ? max( $bar_values ) : 0;
 $bar_max = $bar_max > 0 ? $bar_max : 1;
+$bar_axis_step = 5;
+$bar_axis_top  = (int) ceil( max( $bar_max, $bar_axis_step ) / $bar_axis_step ) * $bar_axis_step;
+$bar_ticks     = range( $bar_axis_top, 0, -$bar_axis_step );
 
 ob_start();
 ?>
 <div class="wp-block-ileg-analytics ileg-analytics">
-	<header class="ileg-analytics__header">
-		<h3 class="ileg-analytics__title">Analytics</h3>
-		<p class="ileg-analytics__subtitle">Performance of your posts and images</p>
-	</header>
-
 	<section class="ileg-analytics__kpis">
 		<div class="ileg-analytics__kpi">
 			<div class="ileg-analytics__kpi-value"><?php echo esc_html( number_format_i18n( $total_views ) ); ?></div>
@@ -204,32 +205,46 @@ ob_start();
 			<div class="ileg-analytics__card-head">
 				<h4>Views Over Time</h4>
 			</div>
-			<div class="ileg-analytics__line-chart">
-				<svg viewBox="0 0 <?php echo esc_attr( $line_width ); ?> <?php echo esc_attr( $line_height ); ?>" role="img" aria-label="Views over time">
-					<g class="grid">
-						<line x1="<?php echo $line_pad; ?>" x2="<?php echo $line_width - $line_pad; ?>" y1="<?php echo $line_height - $line_pad; ?>" y2="<?php echo $line_height - $line_pad; ?>" />
-						<line x1="<?php echo $line_pad; ?>" x2="<?php echo $line_width - $line_pad; ?>" y1="<?php echo $line_pad; ?>" y2="<?php echo $line_pad; ?>" />
-					</g>
-					<path d="<?php echo esc_attr( implode( ' ', $path_segments ) ); ?>" />
-					<?php foreach ( $line_coords as $index => $coord ) : ?>
-						<?php
-						$line_label = $line_labels[ $index ] ?? '';
-						$line_value = $line_values[ $index ] ?? 0;
-						$tip_text   = sprintf( '%s - %s views', $line_label, number_format_i18n( $line_value ) );
-						?>
-						<circle
-							cx="<?php echo esc_attr( round( $coord['x'], 2 ) ); ?>"
-							cy="<?php echo esc_attr( round( $coord['y'], 2 ) ); ?>"
-							r="5"
-							data-ileg-tip="<?php echo esc_attr( $tip_text ); ?>"
-							role="presentation"
-						/>
+			<div class="ileg-analytics__chart-wrap">
+				<div class="ileg-analytics__axis">
+					<?php foreach ( $line_ticks as $tick ) : ?>
+						<span><?php echo esc_html( $tick ); ?></span>
 					<?php endforeach; ?>
-				</svg>
-				<div class="ileg-analytics__line-labels">
-					<?php foreach ( $line_labels as $label ) : ?>
-						<span><?php echo esc_html( $label ); ?></span>
-					<?php endforeach; ?>
+				</div>
+				<div class="ileg-analytics__line-chart">
+					<svg viewBox="0 0 <?php echo esc_attr( $line_width ); ?> <?php echo esc_attr( $line_height ); ?>" role="img" aria-label="Views over time">
+						<g class="grid">
+							<?php foreach ( $line_ticks as $tick ) : ?>
+								<?php
+								$y = $line_height - $line_pad - ( ( $tick / max( 1, $line_axis_top ) ) * ( $line_height - ( 2 * $line_pad ) ) );
+								?>
+								<line x1="<?php echo $line_pad; ?>" x2="<?php echo $line_width - $line_pad; ?>" y1="<?php echo esc_attr( $y ); ?>" y2="<?php echo esc_attr( $y ); ?>" />
+							<?php endforeach; ?>
+							<?php foreach ( $line_coords as $coord ) : ?>
+								<line x1="<?php echo esc_attr( round( $coord['x'], 2 ) ); ?>" x2="<?php echo esc_attr( round( $coord['x'], 2 ) ); ?>" y1="<?php echo $line_pad; ?>" y2="<?php echo $line_height - $line_pad; ?>" />
+							<?php endforeach; ?>
+						</g>
+						<path d="<?php echo esc_attr( implode( ' ', $path_segments ) ); ?>" />
+						<?php foreach ( $line_coords as $index => $coord ) : ?>
+							<?php
+							$line_label = $line_labels[ $index ] ?? '';
+							$line_value = $line_values[ $index ] ?? 0;
+							$tip_text   = sprintf( '%s - %s views', $line_label, number_format_i18n( $line_value ) );
+							?>
+							<circle
+								cx="<?php echo esc_attr( round( $coord['x'], 2 ) ); ?>"
+								cy="<?php echo esc_attr( round( $coord['y'], 2 ) ); ?>"
+								r="5"
+								data-ileg-tip="<?php echo esc_attr( $tip_text ); ?>"
+								role="presentation"
+							/>
+						<?php endforeach; ?>
+					</svg>
+					<div class="ileg-analytics__line-labels">
+						<?php foreach ( $line_labels as $label ) : ?>
+							<span><?php echo esc_html( $label ); ?></span>
+						<?php endforeach; ?>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -251,7 +266,7 @@ ob_start();
 						<div class="ileg-analytics__bar" data-ileg-tip="<?php echo esc_attr( $tip ); ?>" tabindex="0">
 							<div class="ileg-analytics__bar-fill" style="height: <?php echo esc_attr( round( $height, 2 ) ); ?>px;"></div>
 							<span class="ileg-analytics__bar-name"><?php echo esc_html( $short ); ?></span>
-							<span class="ileg-analytics__bar-value"><?php echo esc_html( number_format_i18n( $likes ) ); ?></span>
+							<!-- <span class="ileg-analytics__bar-value"><?php echo esc_html( number_format_i18n( $likes ) ); ?></span> -->
 						</div>
 					<?php endforeach; ?>
 				<?php else : ?>
@@ -259,6 +274,7 @@ ob_start();
 				<?php endif; ?>
 			</div>
 		</div>
+
 	</section>
 
 	<section class="ileg-analytics__grid">

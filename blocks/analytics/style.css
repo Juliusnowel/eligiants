@@ -69,6 +69,23 @@
   min-height: 240px;
 }
 
+.ileg-analytics__chart-wrap {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.ileg-analytics__axis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  color: #6b6b6b;
+  padding: 8px 4px 14px 0;
+  text-align: right;
+}
+
 .ileg-analytics__card-head {
   display: flex;
   align-items: center;
@@ -88,6 +105,7 @@
   background: radial-gradient(circle at 20% 20%, rgba(242, 75, 39, 0.05), transparent 40%), #fafafa;
   border-radius: 14px;
   padding: 8px;
+  overflow: hidden;
 }
 
 .ileg-analytics__line-chart svg {
@@ -98,6 +116,10 @@
 .ileg-analytics__line-chart .grid line {
   stroke: #e6e6e6;
   stroke-width: 1;
+}
+
+.ileg-analytics__line-chart .grid line:nth-child(odd) {
+  stroke: #efefef;
 }
 
 .ileg-analytics__line-chart path {
@@ -138,6 +160,8 @@
   background: #fbfbfb;
   border-radius: 14px;
   padding: 10px;
+  position: relative;
+  overflow: hidden;
 }
 
 .ileg-analytics__bar {
@@ -266,7 +290,12 @@
   .ileg-analytics__grid {
     grid-template-columns: 1fr;
   }
+
+  .ileg-analytics__charts {
+    grid-template-columns: 1fr;
+  }
 }
+
 
 @media (max-width: 640px) {
   .wp-block-ileg-analytics.ileg-analytics {
