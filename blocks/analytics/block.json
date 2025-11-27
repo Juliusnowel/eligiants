@@ -1,0 +1,13 @@
+{
+  "apiVersion": 2,
+  "name": "ileg/analytics",
+  "title": "Analytics",
+  "description": "Profile analytics for your posts and image posts.",
+  "category": "widgets",
+  "icon": "chart-area",
+  "supports": {
+    "html": false
+  },
+  "render": "file:./render.php",
+  "style": "file:./style.css"
+}

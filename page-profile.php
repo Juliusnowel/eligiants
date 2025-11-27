@@ -365,7 +365,7 @@ if ( function_exists( 'do_blocks' ) ) {
                     <p class="mb-4">These are the posts you’ve submitted.</p>
 
                     <?php
-                    echo do_blocks( '<!-- wp:ileg/card-gatherer-profile {"typeblock":"posts","postsPerPage":20} /-->' );
+                    echo do_blocks( '<!-- wp:ileg/card-gatherer-profile {"typeblock":"posts"} /-->' );
                     ?>
                 </div>
 
@@ -386,6 +386,16 @@ if ( function_exists( 'do_blocks' ) ) {
 
                     <?php
                     echo do_blocks( '<!-- wp:ileg/card-gatherer-profile {"typeblock":"drafts"} /-->' );
+                    ?>
+                </div>
+
+                <!-- Analytics -->
+                <div class="submit-card p-4 p-md-5 mt-4">
+                    <h2 class="mb-3">Analytics</h2>
+                    <p class="mb-4">These are the analytics for your posts and images.</p>
+
+                    <?php
+                    echo do_blocks( '<!-- wp:ileg/analytics {"typeblock":"analytics"} /-->' );
                     ?>
                 </div>
             </div>
