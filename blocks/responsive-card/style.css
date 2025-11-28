@@ -191,6 +191,47 @@
     margin-top: 0.5rem;
 }
 
+.responsive-card__body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.responsive-card__footer {
+    margin-top: auto; /* pushes footer to the bottom of the card body */
+    padding-top: 1rem;
+    font-family: var(--wp--preset--font-family--outfit, system-ui, sans-serif);
+    font-size: var(--wp--preset--font-size--body);
+    font-weight: 600;
+}
+
+/* Alignment variants */
+.responsive-card__footer--left {
+    text-align: left;
+}
+
+.responsive-card__footer--center {
+    text-align: center;
+}
+
+.responsive-card__footer--right {
+    text-align: right;
+}
+
+/* Link styling */
+.responsive-card__footer-link {
+    text-decoration: underline;
+    color: #f24b27;
+}
+
+.responsive-card__footer-link:hover {
+    color: #0eb6d1;
+    text-decoration: underline;
+}
+
+.responsive-card__footer-text {
+    color: #f24b27;
+}
+
 
 /* IMAGE CARD
    ------------------------------------------------------------------ */

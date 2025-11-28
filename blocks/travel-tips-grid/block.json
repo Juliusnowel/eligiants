@@ -1,0 +1,53 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "childtheme/travel-tips-grid",
+  "title": "Travel Tips Grid",
+  "category": "design",
+  "icon": "admin-site-alt3",
+  "description": "Responsive tip grid with heading, rule, description, icons, and side decor.",
+  "keywords": ["tips", "grid", "travel", "cards"],
+  "supports": {
+    "align": ["wide", "full"],
+    "anchor": true,
+    "spacing": {
+      "padding": true,
+      "margin": ["top", "bottom"]
+    },
+    "color": {
+      "background": false,
+      "text": false,
+      "link": false
+    }
+  },
+  "style": "file:./style.css",
+  "render": "file:./render.php",
+  "attributes": {
+    "heading": { "type": "string", "default": "Smart Travel Tips for Every Journey" },
+    "intro": { "type": "string", "default": "Whether heading out solo or with a crew, these strategies make traveling smoother, more flexible, and a lot more fun." },
+    "columns": { "type": "number", "default": 3 },
+    "items": {
+      "type": "array",
+      "default": [
+        { "iconUrl": "", "iconAlt": "", "title": "", "body": "", "list": [] },
+        { "iconUrl": "", "iconAlt": "", "title": "", "body": "", "list": [] },
+        { "iconUrl": "", "iconAlt": "", "title": "", "body": "", "list": [] },
+        { "iconUrl": "", "iconAlt": "", "title": "", "body": "", "list": [] },
+      { "iconUrl": "", "iconAlt": "", "title": "", "body": "", "list": [] }
+    ]
+  },
+    "decor": {
+      "type": "array",
+      "default": []
+    }
+  },
+  "example": {
+    "attributes": {
+      "decor": [
+        { "side": "left", "position": "center", "url": "https://picsum.photos/260?random=201", "alt": "Left travel line" },
+        { "side": "right", "position": "center", "url": "https://picsum.photos/260?random=202", "alt": "Right travel line" }
+      ]
+    }
+  },
+  "textdomain": "childtheme"
+}

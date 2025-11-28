@@ -1,0 +1,92 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "childtheme/safety-tips-panels",
+  "title": "Safety Tips Panels",
+  "category": "design",
+  "icon": "screenoptions",
+  "description": "One or two tall safety panels with heading, intro, and icon rows.",
+  "keywords": ["safety", "tips", "travel", "panels"],
+  "supports": {
+    "align": ["wide", "full"],
+    "anchor": true,
+    "spacing": {
+      "padding": true,
+      "margin": ["top", "bottom"]
+    },
+    "color": {
+      "background": false,
+      "text": false,
+      "link": false
+    }
+  },
+  "style": "file:./style.css",
+  "render": "file:./render.php",
+  "attributes": {
+    "backgroundColor": {
+      "type": "string",
+      "default": ""
+    },
+    "columns": {
+      "type": "number",
+      "default": 2
+    },
+    "panels": {
+      "type": "array",
+      "default": [
+        {
+          "title": "",
+          "intro": "",
+          "backgroundColor": "",
+          "items": []
+        },
+        {
+          "title": "",
+          "intro": "",
+          "backgroundColor": "",
+          "items": []
+        }
+      ]
+    }
+  },
+  "example": {
+    "attributes": {
+      "columns": 2,
+      "panels": [
+        {
+          "title": "Safety Tips and Hacks: Stay Secure, Stay Empowered",
+          "intro": "Safety doesn’t have to feel complicated. With a few simple habits, travelers can stay confident and protect their belongings wherever they go.",
+          "backgroundColor": "#fffdf2",
+          "items": [
+            {
+              "iconUrl": "/wp-content/themes/ilegiants/assets/images/piggy.png",
+              "iconAlt": "Safety icon",
+              "title": "Be Aware, Not Anxious",
+              "body": "Situational awareness is the best defense. Paying attention, blending in, and limiting distractions help avoid unnecessary risks."
+            },
+            {
+              "iconUrl": "/wp-content/themes/ilegiants/assets/images/piggy.png",
+              "iconAlt": "Safety icon",
+              "title": "Gear That Guards",
+              "body": "Anti-theft bags, RFID wallets, and a decoy wallet can add real peace of mind when moving through busy areas."
+            }
+          ]
+        },
+        {
+          "title": "What and Why to Prepare: Confidence Through Planning",
+          "intro": "Good preparation builds confidence. It means fewer worries, more memories, and a smoother journey all around.",
+          "backgroundColor": "#ffe7ab",
+          "items": [
+            {
+              "iconUrl": "/wp-content/themes/ilegiants/assets/images/piggy.png",
+              "iconAlt": "Planning icon",
+              "title": "Avoid the Last-Minute Panic",
+              "body": "Packing early prevents forgotten chargers and misplaced passports. A clear plan means less stress at departure."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "textdomain": "childtheme"
+}

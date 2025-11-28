@@ -1,0 +1,129 @@
+/* Wrapper */
+.safety-panels {
+  --accent: #f24b27;
+  --rule: #f1c13f;
+  --panel-radius: 24px;
+  --panel-gap: clamp(1.5rem, 3vw, 2.5rem);
+
+  padding: clamp(2.5rem, 4vw, 3.75rem)
+           var(--page-gutter-right, 1.5rem)
+           clamp(3rem, 5vw, 4rem)
+           var(--page-gutter-left, 1.5rem);
+}
+
+/* Two panels side-by-side, shorter one vertically centered */
+.safety-panels__grid {
+  display: flex;
+  gap: var(--panel-gap);
+  justify-content: center;   
+  align-items: center;      
+  flex-wrap: nowrap;
+}
+
+@media (max-width: 900px) {
+  .safety-panels__grid {
+    flex-direction: column;
+    align-items: stretch;    
+  }
+}
+
+
+/* Individual panel */
+.safety-panel {
+  border-radius: var(--panel-radius);
+  background-color: #fffdf2;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+
+  /* NEW: flex sizing based on --cols (1 or 2) */
+  flex: 0 1 calc(100% / var(--cols, 2));
+  max-width: calc(100% / var(--cols, 2));
+}
+
+
+/* Let height be fully content-driven */
+.safety-panel__inner {
+  padding: clamp(1.75rem, 3vw, 2.25rem);
+}
+
+/* Panel heading + intro */
+.safety-panel__title {
+  margin: 0 0 0.35rem;
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.safety-panel__intro {
+  margin: 0 0 1.25rem;
+  font-size: var(--wp--preset--font-size--body, 0.98rem);
+  line-height: 1.6;
+  color: #333333;
+}
+
+/* Divider line like your design */
+.safety-panel__title + .safety-panel__intro::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 3px;
+  border-radius: 999px;
+  background-color: var(--rule);
+  margin: 0 0 0.85rem;
+}
+
+/* Items stack */
+.safety-panel__items {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+/* Single row: icon left, text right */
+.safety-panel__item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 0.85rem;
+  align-items: flex-start;
+}
+
+.safety-panel__item-icon {
+  width: 82px;
+  height: 82px;
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.safety-panel__item-icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.safety-panel__item-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.safety-panel__item-title {
+  margin: 0;
+  font-size: var(--wp--preset--font-size--h-3);
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.safety-panel__item-body,
+.safety-panel__item-body p {
+  margin: 0;
+  font-size: var(--wp--preset--font-size--body, 0.95rem);
+  line-height: 1.6;
+  color: #333333;
+}
+
+/* Compact spacing on narrow screens */
+@media (max-width: 600px) {
+  .safety-panel__inner {
+    padding: 1.5rem 1.25rem 1.75rem;
+  }
+}

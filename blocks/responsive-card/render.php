@@ -11,6 +11,14 @@ $cards = isset( $attributes['cards'] ) && is_array( $attributes['cards'] )
 	? $attributes['cards']
 	: [];
 
+$default_footer_align = isset( $attributes['footerAlign'] ) ? $attributes['footerAlign'] : 'center';
+
+// Normalize default alignment.
+$valid_alignments = [ 'left', 'center', 'right' ];
+if ( ! in_array( $default_footer_align, $valid_alignments, true ) ) {
+	$default_footer_align = 'center';
+}
+
 if ( empty( $cards ) ) {
 	return '';
 }
@@ -55,6 +63,15 @@ $allowed_text_tags = [
 
 		$title     = isset( $card['title'] ) ? $card['title'] : '';
 		$raw_text  = isset( $card['text'] ) ? $card['text'] : '';
+
+		$footer_text  = isset( $card['footerText'] ) ? $card['footerText'] : '';
+		$footer_url   = isset( $card['footerUrl'] ) ? $card['footerUrl'] : '';
+		$footer_align = isset( $card['footerAlign'] ) ? $card['footerAlign'] : $default_footer_align;
+
+		// Normalize per-card alignment.
+		if ( ! in_array( $footer_align, $valid_alignments, true ) ) {
+			$footer_align = 'center';
+		}
 
 		$image_url = isset( $card['imageUrl'] ) ? $card['imageUrl'] : '';
 		$image_alt = isset( $card['imageAlt'] ) ? $card['imageAlt'] : '';
@@ -311,6 +328,21 @@ $allowed_text_tags = [
 										</section>
 									<?php endforeach; ?>
 								</div>
+							<?php endif; ?>
+
+						</div>
+					<?php endif; ?>
+
+					<?php if ( $footer_text ) : ?>
+						<div class="responsive-card__footer responsive-card__footer--<?php echo esc_attr( $footer_align ); ?>">
+							<?php if ( $footer_url ) : ?>
+								<a class="responsive-card__footer-link" href="<?php echo esc_url( $footer_url ); ?>">
+									<?php echo esc_html( $footer_text ); ?>
+								</a>
+							<?php else : ?>
+								<span class="responsive-card__footer-text">
+									<?php echo esc_html( $footer_text ); ?>
+								</span>
 							<?php endif; ?>
 						</div>
 					<?php endif; ?>

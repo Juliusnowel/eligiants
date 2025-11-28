@@ -23,6 +23,10 @@
     "backgroundColor": {
       "type": "string",
       "default": ""
+    },
+    "footerAlign": {
+      "type": "string",
+      "default": "center"
     }
   }
 }
