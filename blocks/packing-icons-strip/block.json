@@ -5,7 +5,7 @@
   "title": "Packing Icons Strip",
   "category": "design",
   "icon": "star-filled",
-  "description": "Single wide panel with heading, intro, icon+label grid, and closing line.",
+  "description": "Single wide panel with heading, intro, subtitle, icon grid, closing line, and optional side decor.",
   "keywords": ["packing", "icons", "grid", "travel"],
   "supports": {
     "align": ["wide", "full"],
@@ -24,74 +24,62 @@
   "render": "file:./render.php",
   "attributes": {
     "backgroundColor": {
-        "type": "string",
-        "default": "#FDCD3B"
+      "type": "string",
+      "default": "#FDCD3B"
     },
     "panelBackgroundColor": {
-        "type": "string",
-        "default": "#ffffff"
+      "type": "string",
+      "default": "#ffffff"
     },
     "heading": {
-        "type": "string",
-        "default": "Pack Smarter to Avoid Extra Costs"
+      "type": "string",
+      "default": "Pack Smarter to Avoid Extra Costs"
     },
     "intro": {
-        "type": "string",
-        "default": "Packing well isn’t just convenient; it saves money. Overpacked bags often lead to overweight fees and unnecessary purchases abroad. A thoughtful, organized travel bag helps travelers stay agile and prepared."
+      "type": "string",
+      "default": "Packing well isn’t just convenient; it saves money. Overpacked bags often lead to overweight fees and unnecessary purchases abroad. A thoughtful, organized travel bag helps travelers stay agile and prepared."
+    },
+    "subtitle": {
+      "type": "string",
+      "default": ""
     },
     "footer": {
-        "type": "string",
-        "default": "Travelers who pack smart travel light, stress-free, and fee-free."
+      "type": "string",
+      "default": "Travelers who pack smart travel light, stress-free, and fee-free."
     },
     "columns": {
-        "type": "number",
-        "default": 3
+      "type": "number",
+      "default": 3
     },
     "items": {
-        "type": "array",
-        "default": [
-        { "iconUrl": "", "iconAlt": "", "text": "" },
-        { "iconUrl": "", "iconAlt": "", "text": "" },
-        { "iconUrl": "", "iconAlt": "", "text": "" },
-        { "iconUrl": "", "iconAlt": "", "text": "" },
-        { "iconUrl": "", "iconAlt": "", "text": "" },
-        { "iconUrl": "", "iconAlt": "", "text": "" }
-        ]
+      "type": "array",
+      "default": [
+        { "iconType": "image", "iconUrl": "", "iconAlt": "", "iconClass": "", "text": "" },
+        { "iconType": "image", "iconUrl": "", "iconAlt": "", "iconClass": "", "text": "" },
+        { "iconType": "image", "iconUrl": "", "iconAlt": "", "iconClass": "", "text": "" },
+        { "iconType": "image", "iconUrl": "", "iconAlt": "", "iconClass": "", "text": "" },
+        { "iconType": "image", "iconUrl": "", "iconAlt": "", "iconClass": "", "text": "" },
+        { "iconType": "image", "iconUrl": "", "iconAlt": "", "iconClass": "", "text": "" }
+      ]
+    },
+    "decor": {
+      "type": "array",
+      "default": []
     }
   },
   "example": {
     "attributes": {
+      "heading": "Use Rewards, Points & Travel Cards Wisely",
+      "subtitle": "Why Rewards Matters?",
+      "columns": 3,
       "items": [
-        {
-          "iconUrl": "/wp-content/themes/ilegiants/assets/images/piggy.png",
-          "iconAlt": "Packing icon",
-          "text": "Versatile, mix-and-match outfits"
-        },
-        {
-          "iconUrl": "/wp-content/themes/ilegiants/assets/images/piggy.png",
-          "iconAlt": "Packing icon",
-          "text": "Packing cubes for organization"
-        },
-        {
-          "iconUrl": "/wp-content/themes/ilegiants/assets/images/piggy.png",
-          "iconAlt": "Packing icon",
-          "text": "Reusable water bottle"
-        },
-        {
-          "iconUrl": "/wp-content/themes/ilegiants/assets/images/piggy.png",
-          "iconAlt": "Packing icon",
-          "text": "Refillable toiletries"
-        },
-        {
-          "iconUrl": "/wp-content/themes/ilegiants/assets/images/piggy.png",
-          "iconAlt": "Packing icon",
-          "text": "A lightweight jacket for layering"
-        },
-        {
-          "iconUrl": "/wp-content/themes/ilegiants/assets/images/piggy.png",
-          "iconAlt": "Packing icon",
-          "text": "Extra space for souvenirs"
-        }
+        { "iconType": "fa", "iconClass": "fas fa-check", "text": "Free or discounted flights" },
+        { "iconType": "fa", "iconClass": "fas fa-check", "text": "Special hotel rates" },
+        { "iconType": "fa", "iconClass": "fas fa-check", "text": "Lounge access" }
+      ],
+      "decor": [
+        { "side": "left", "position": "center", "url": "/wp-content/themes/ilegiants/assets/images/arrow-left.png", "alt": "Left travel line" },
+        { "side": "right", "position": "center", "url": "/wp-content/themes/ilegiants/assets/images/arrow-right.png", "alt": "Right travel line" }
       ]
     }
   },

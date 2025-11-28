@@ -1,0 +1,103 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "childtheme/budget-panels",
+  "title": "Budget Summary Panels",
+  "category": "design",
+  "icon": "columns",
+  "description": "Two-column budget panels with title, copy, subtitle, bullets, footer, and side decor.",
+  "keywords": ["budget", "summary", "columns", "panels"],
+  "supports": {
+    "align": ["wide", "full"],
+    "anchor": true,
+    "spacing": {
+      "padding": true,
+      "margin": ["top", "bottom"]
+    },
+    "color": {
+      "background": false,
+      "text": false,
+      "link": false
+    }
+  },
+  "style": "file:./style.css",
+  "render": "file:./render.php",
+  "attributes": {
+    "backgroundColor": {
+      "type": "string",
+      "default": ""
+    },
+    "columns": {
+      "type": "number",
+      "default": 2
+    },
+    "panels": {
+      "type": "array",
+      "default": [
+        {
+          "title": "",
+          "text": "",
+          "subTitle": "",
+          "list": [],
+          "footer": "",
+          "backgroundColor": ""
+        },
+        {
+          "title": "",
+          "text": "",
+          "subTitle": "",
+          "list": [],
+          "footer": "",
+          "backgroundColor": ""
+        }
+      ]
+    },
+    "decor": {
+      "type": "array",
+      "default": []
+    }
+  },
+  "example": {
+    "attributes": {
+      "backgroundColor": "#FDCD3B",
+      "columns": 2,
+      "panels": [
+        {
+          "title": "Eat Like a Local and Save More",
+          "text": "Eating locally is one of the easiest ways to explore culture on a budget.\nTravelers can also cut food costs by preparing simple meals if their accommodation has a kitchen.",
+          "subTitle": "Budget dining hacks:",
+          "list": [
+            { "text": "Walk a few streets away from tourist hotspots" },
+            { "text": "Try street food favorites" },
+            { "text": "Grab fresh snacks from local markets" }
+          ],
+          "footer": "Authenticity tastes better and costs less.",
+          "backgroundColor": "#ffffff"
+        },
+        {
+          "title": "Start Your Budget-Savvy Adventure Today",
+          "text": "Budget travel isn’t about cutting corners, it’s about making smarter choices.\nWith the right strategies, travelers can stretch their money while expanding their experiences.",
+          "subTitle": "",
+          "list": [],
+          "footer": "Every step becomes part of a smarter, more affordable adventure.",
+          "backgroundColor": "#ffffff"
+        }
+      ],
+      "decor": [
+        {
+          "side": "left",
+          "position": "center",
+          "url": "https://example.com/decor-left.png",
+          "alt": "Decor left"
+        },
+        {
+          "side": "right",
+          "position": "center",
+          "url": "https://example.com/decor-right.png",
+          "alt": "Decor right"
+        }
+      ]
+    }
+  },
+  "textdomain": "childtheme"
+}

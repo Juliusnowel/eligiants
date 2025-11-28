@@ -72,6 +72,18 @@ header.wp-block-template-part { margin: 0; padding: 0; }
   line-height: 1.6;
 }
 
+/* Kill accidental horizontal scroll from decorative elements */
+/* html,
+body {
+  overflow-x: hidden;
+} */
+
+/* If your theme uses wp-site-blocks as the main wrapper, this is even safer */
+/* .wp-site-blocks {
+  overflow-x: hidden;
+} */
+
+
 /* contact page */
 /* ===== CONTACT (2-column + cards) ===== */
 

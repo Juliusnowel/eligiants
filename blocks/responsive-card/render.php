@@ -218,7 +218,10 @@ $allowed_text_tags = [
 														}
 														?>
 														<li class="responsive-card__list-item">
-															<?php echo esc_html( $item_text ); ?>
+															<?php
+															$item_text_clean = wp_kses( $item_text, $allowed_text_tags );
+															echo $item_text_clean; 
+															?>
 														</li>
 													<?php endforeach; ?>
 												</ul>
@@ -260,8 +263,12 @@ $allowed_text_tags = [
 													}
 													?>
 													<li class="responsive-card__list-item">
-														<?php echo esc_html( $item_text ); ?>
+														<?php
+														$item_text_clean = wp_kses( $item_text, $allowed_text_tags );
+														echo $item_text_clean;
+														?>
 													</li>
+
 												<?php endforeach; ?>
 											</ul>
 										<?php endif; ?>
