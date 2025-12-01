@@ -51,59 +51,59 @@
     } /-->
 
     <!-- wp:childtheme/travel-tips-grid {
-  "heading": "Reliable Safety Strategies and Everyday Hacks",
-  "intro": "Safe travel is about consistent habits that create both confidence and comfort.",
-  "columns": 3,
-  "items": [
-    {
-      "iconUrl": "/wp-content/themes/ilegiants/assets/images/piggy.png",
-      "iconAlt": "Digital protection icon",
-      "title": "Digital Protection",
-      "body": "Online safety matters just as much:",
-      "list": [
-        "A VPN is essential for using public Wi-Fi securely.",
-        "App permissions and location sharing should be managed carefully.",
-        "Emergency contact information should be saved locally on devices.",
-        "Back up important files and photos to a secure cloud service."
+      "heading": "Reliable Safety Strategies and Everyday Hacks",
+      "intro": "Safe travel is about consistent habits that create both confidence and comfort.",
+      "columns": 3,
+      "items": [
+        {
+          "iconUrl": "/wp-content/themes/ilegiants/assets/images/piggy.png",
+          "iconAlt": "Digital protection icon",
+          "title": "Digital Protection",
+          "body": "Online safety matters just as much:",
+          "list": [
+            "A VPN is essential for using public Wi-Fi securely.",
+            "App permissions and location sharing should be managed carefully.",
+            "Emergency contact information should be saved locally on devices.",
+            "Back up important files and photos to a secure cloud service."
+          ]
+        },
+        {
+          "iconUrl": "/wp-content/themes/ilegiants/assets/images/piggy.png",
+          "iconAlt": "Gear essentials icon",
+          "title": "Gear Essentials",
+          "body": "Smart gear adds layers of protection:",
+          "list": [
+            "Anti-theft bags with secure zippers.",
+            "RFID-blocking wallets for cards and IDs.",
+            "A decoy wallet to divert attention if needed.",
+            "Backup copies of key documents in both physical and digital form."
+          ]
+        },
+        {
+          "iconUrl": "/wp-content/themes/ilegiants/assets/images/piggy.png",
+          "iconAlt": "Awareness icon",
+          "title": "Behavioral Awareness",
+          "body": "Everyday habits reduce risk on the road:",
+          "list": [
+            "Stay aware in public and avoid unnecessary distractions.",
+            "Keep valuables out of sight and avoid flashing expensive items.",
+            "Learn local norms to avoid drawing unwanted attention.",
+            "Trust your instincts and leave situations that feel off."
+          ]
+        }
+      ],
+      "decor": [
+        {
+          "side": "left",
+          "position": "center",
+          "url": "/wp-content/themes/ilegiants/assets/images/arrow-left.png",
+          "alt": "Decorative travel path left"
+        },
+        {
+          "side": "right",
+          "position": "center",
+          "url": "/wp-content/themes/ilegiants/assets/images/arrow-right.png",
+          "alt": "Decorative travel path right"
+        }
       ]
-    },
-    {
-      "iconUrl": "/wp-content/themes/ilegiants/assets/images/piggy.png",
-      "iconAlt": "Gear essentials icon",
-      "title": "Gear Essentials",
-      "body": "Smart gear adds layers of protection:",
-      "list": [
-        "Anti-theft bags with secure zippers.",
-        "RFID-blocking wallets for cards and IDs.",
-        "A decoy wallet to divert attention if needed.",
-        "Backup copies of key documents in both physical and digital form."
-      ]
-    },
-    {
-      "iconUrl": "/wp-content/themes/ilegiants/assets/images/piggy.png",
-      "iconAlt": "Awareness icon",
-      "title": "Behavioral Awareness",
-      "body": "Everyday habits reduce risk on the road:",
-      "list": [
-        "Stay aware in public and avoid unnecessary distractions.",
-        "Keep valuables out of sight and avoid flashing expensive items.",
-        "Learn local norms to avoid drawing unwanted attention.",
-        "Trust your instincts and leave situations that feel off."
-      ]
-    }
-  ],
-  "decor": [
-    {
-      "side": "left",
-      "position": "center",
-      "url": "/wp-content/themes/ilegiants/assets/images/arrow-left.png",
-      "alt": "Decorative travel path left"
-    },
-    {
-      "side": "right",
-      "position": "center",
-      "url": "/wp-content/themes/ilegiants/assets/images/arrow-right.png",
-      "alt": "Decorative travel path right"
-    }
-  ]
-} /-->
+    } /-->
