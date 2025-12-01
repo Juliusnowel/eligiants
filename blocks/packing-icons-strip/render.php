@@ -82,9 +82,13 @@ if ( $panel_bg ) {
 		$pos  = strtolower( $d['position'] ?? 'center' );
 		$alt  = isset( $d['alt'] ) ? (string) $d['alt'] : '';
 		?>
-		<div class="packing-strip__decor packing-strip__decor--<?php echo esc_attr( $side ); ?> packing-strip__decor--pos-<?php echo esc_attr( $pos ); ?>" aria-hidden="<?php echo $alt === '' ? 'true' : 'false'; ?>">
-			<img class="packing-strip__decor-img" src="<?php echo esc_url( $d['url'] ); ?>" alt="<?php echo esc_attr( $alt ); ?>" loading="lazy" decoding="async" />
-		</div>
+		<img
+			class="packing-strip__decor packing-strip__decor--<?php echo esc_attr( $side ); ?> packing-strip__decor--pos-<?php echo esc_attr( $pos ); ?>"
+			src="<?php echo esc_url( $d['url'] ); ?>"
+			alt="<?php echo esc_attr( $alt ); ?>"
+			loading="lazy"
+			decoding="async"
+		/>
 	<?php endforeach; ?>
 
 	<div class="packing-strip__panel"<?php echo $panel_style_attr; ?>>

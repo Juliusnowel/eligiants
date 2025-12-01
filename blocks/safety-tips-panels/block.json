@@ -31,6 +31,7 @@
       "type": "number",
       "default": 2
     },
+    "decor": { "type": "array", "default": [] },
     "panels": {
       "type": "array",
       "default": [
@@ -52,6 +53,7 @@
   "example": {
     "attributes": {
       "columns": 2,
+      "backgroundColor": "#fff7d9",
       "panels": [
         {
           "title": "Safety Tips and Hacks: Stay Secure, Stay Empowered",
@@ -84,6 +86,18 @@
               "body": "Packing early prevents forgotten chargers and misplaced passports. A clear plan means less stress at departure."
             }
           ]
+        }
+      ],
+      "decor": [
+        {
+          "url": "/wp-content/themes/ilegiants/assets/images/decor-left-red-jp.png",
+          "alt": "Left motif",
+          "side": "left"
+        },
+        {
+          "url": "/wp-content/themes/ilegiants/assets/images/decor-right-red-jp.png",
+          "alt": "Right motif",
+          "side": "right"
         }
       ]
     }

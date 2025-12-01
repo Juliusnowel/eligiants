@@ -3,12 +3,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$background   = isset( $attributes['backgroundColor'] ) ? (string) $attributes['backgroundColor'] : '';
-$cols_raw     = isset( $attributes['columns'] ) ? (int) $attributes['columns'] : 2;
-$columns      = max( 1, min( 2, $cols_raw ) ); // you only need 1 or 2
+// Wrapper-level background
+$background_raw   = isset( $attributes['backgroundColor'] ) ? (string) $attributes['backgroundColor'] : '';
+$background_clean = $background_raw ? sanitize_hex_color( $background_raw ) : '';
 
-$panels_raw   = isset( $attributes['panels'] ) && is_array( $attributes['panels'] ) ? $attributes['panels'] : [];
-$panels       = array_values( $panels_raw ); // reindex
+$cols_raw = isset( $attributes['columns'] ) ? (int) $attributes['columns'] : 2;
+$columns  = max( 1, min( 2, $cols_raw ) ); // only 1 or 2 supported
+
+$panels_raw = isset( $attributes['panels'] ) && is_array( $attributes['panels'] ) ? $attributes['panels'] : [];
+$panels     = array_values( $panels_raw ); // reindex
+
+// Optional side decor (like card-2-text-image-responsive)
+$decor_raw = isset( $attributes['decor'] ) && is_array( $attributes['decor'] ) ? $attributes['decor'] : [];
+$decor     = array_values(
+	array_filter(
+		$decor_raw,
+		function( $d ) {
+			$url  = isset( $d['url'] ) ? trim( (string) $d['url'] ) : '';
+			$side = isset( $d['side'] ) ? strtolower( (string) $d['side'] ) : '';
+			return $url !== '' && in_array( $side, [ 'left', 'right' ], true );
+		}
+	)
+);
 
 // Wrapper class / style
 $align_class = isset( $attributes['align'] ) ? 'align' . $attributes['align'] : '';
@@ -20,21 +36,19 @@ $wrapper_classes = implode(
 			'safety-panels',
 			'child-block',
 			$align_class,
+			$columns === 1 ? 'safety-panels--single' : 'safety-panels--multi',
 		]
 	)
 );
 
 $style_parts = [ '--cols:' . $columns . ';' ];
 
-if ( $background ) {
-	$bg = sanitize_hex_color( $background );
-	if ( $bg ) {
-		$style_parts[] = 'background-color:' . $bg . ';';
-	}
+if ( $background_clean ) {
+	$style_parts[] = 'background-color:' . $background_clean . ';';
 }
 
-$wrapper_style       = implode( '', $style_parts );
-$wrapper_attributes  = get_block_wrapper_attributes(
+$wrapper_style      = implode( '', $style_parts );
+$wrapper_attributes = get_block_wrapper_attributes(
 	[
 		'class' => $wrapper_classes,
 		'style' => $wrapper_style,
@@ -43,29 +57,55 @@ $wrapper_attributes  = get_block_wrapper_attributes(
 ?>
 
 <div <?php echo $wrapper_attributes; ?>>
+	<?php if ( ! empty( $decor ) ) : ?>
+		<?php foreach ( $decor as $d ) : ?>
+			<?php
+			$url  = esc_url( $d['url'] );
+			$alt  = isset( $d['alt'] ) ? esc_attr( $d['alt'] ) : '';
+			$side = strtolower( $d['side'] );
+			$side = in_array( $side, [ 'left', 'right' ], true ) ? $side : 'right';
+			?>
+			<img
+				class="safety-panels__decor safety-panels__decor--<?php echo esc_attr( $side ); ?>"
+				src="<?php echo $url; ?>"
+				alt="<?php echo $alt; ?>"
+				loading="lazy"
+				decoding="async"
+			/>
+		<?php endforeach; ?>
+	<?php endif; ?>
+
 	<div class="safety-panels__grid">
 		<?php foreach ( $panels as $panel ) : ?>
 			<?php
-			$title      = isset( $panel['title'] ) ? (string) $panel['title'] : '';
-			$intro      = isset( $panel['intro'] ) ? (string) $panel['intro'] : '';
-			$panel_bg   = isset( $panel['backgroundColor'] ) ? (string) $panel['backgroundColor'] : '';
-			$items_raw  = isset( $panel['items'] ) && is_array( $panel['items'] ) ? $panel['items'] : [];
-
-			$panel_style = '';
-
-			if ( $panel_bg ) {
-				$panel_bg_clean = sanitize_hex_color( $panel_bg );
-				if ( $panel_bg_clean ) {
-					$panel_style .= 'background-color:' . $panel_bg_clean . ';';
-				}
-			}
+			$title    = isset( $panel['title'] ) ? (string) $panel['title'] : '';
+			$intro    = isset( $panel['intro'] ) ? (string) $panel['intro'] : '';
+			$panel_bg = isset( $panel['backgroundColor'] ) ? (string) $panel['backgroundColor'] : '';
+			$items_raw = isset( $panel['items'] ) && is_array( $panel['items'] ) ? $panel['items'] : [];
 
 			// Skip completely empty panels
 			if ( ! $title && ! $intro && empty( $items_raw ) ) {
 				continue;
 			}
+
+			$panel_bg_clean = $panel_bg ? sanitize_hex_color( $panel_bg ) : '';
+			$panel_style    = '';
+
+			if ( $panel_bg_clean ) {
+				$panel_style .= 'background-color:' . $panel_bg_clean . ';';
+			}
+
+			$panel_classes = [ 'safety-panel' ];
+
+			// If wrapper bg and panel bg match, mark as "flat" (no shadow)
+			if ( $panel_bg_clean && $background_clean && $panel_bg_clean === $background_clean ) {
+				$panel_classes[] = 'safety-panel--flat';
+			}
 			?>
-			<article class="safety-panel" <?php echo $panel_style ? 'style="' . esc_attr( $panel_style ) . '"' : ''; ?>>
+			<article
+				class="<?php echo esc_attr( implode( ' ', $panel_classes ) ); ?>"
+				<?php echo $panel_style ? 'style="' . esc_attr( $panel_style ) . '"' : ''; ?>
+			>
 				<div class="safety-panel__inner">
 					<?php if ( $title ) : ?>
 						<h3 class="safety-panel__title">
@@ -83,8 +123,8 @@ $wrapper_attributes  = get_block_wrapper_attributes(
 						<div class="safety-panel__items">
 							<?php foreach ( $items_raw as $item ) : ?>
 								<?php
-								$icon_url = isset( $item['iconUrl'] ) ? (string) $item['iconUrl'] : '';
-								$icon_alt = isset( $item['iconAlt'] ) ? (string) $item['iconAlt'] : '';
+								$icon_url   = isset( $item['iconUrl'] ) ? (string) $item['iconUrl'] : '';
+								$icon_alt   = isset( $item['iconAlt'] ) ? (string) $item['iconAlt'] : '';
 								$item_title = isset( $item['title'] ) ? (string) $item['title'] : '';
 								$item_body  = isset( $item['body'] ) ? (string) $item['body'] : '';
 

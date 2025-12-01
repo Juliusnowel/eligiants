@@ -1,71 +1,40 @@
-    <!-- wp:childtheme/packing-icons-strip {
-        "backgroundColor": "#FDCD3B",
-        "panelBackgroundColor": "#ffffff",
-        "heading": "Pack Smarter to Avoid Extra Costs",
-        "intro": "Packing well isn’t just convenient; it saves money. Overpacked bags often lead to overweight fees and unnecessary purchases abroad. A thoughtful, organized travel bag helps travelers stay agile and prepared.",
-        "footer": "Travelers who pack smart travel light, stress-free, and fee-free.",
-        "columns": 3,
-        "items": [
-            {
-            "iconUrl": "/wp-content/themes/ilegiants/assets/images/piggy.png",
-            "iconAlt": "Packing icon",
-            "text": "Versatile, mix-and-match outfits"
-            },
-            {
-            "iconUrl": "/wp-content/themes/ilegiants/assets/images/piggy.png",
-            "iconAlt": "Packing icon",
-            "text": "Packing cubes for organization"
-            },
-            {
-            "iconUrl": "/wp-content/themes/ilegiants/assets/images/piggy.png",
-            "iconAlt": "Packing icon",
-            "text": "Reusable water bottle"
-            },
-            {
-            "iconUrl": "/wp-content/themes/ilegiants/assets/images/piggy.png",
-            "iconAlt": "Packing icon",
-            "text": "Refillable toiletries"
-            },
-            {
-            "iconUrl": "/wp-content/themes/ilegiants/assets/images/piggy.png",
-            "iconAlt": "Packing icon",
-            "text": "A lightweight jacket for layering"
-            },
-            {
-            "iconUrl": "/wp-content/themes/ilegiants/assets/images/piggy.png",
-            "iconAlt": "Packing icon",
-            "text": "Extra space for souvenirs"
-            }
-        ]
-        } /-->
+<!-- wp:childtheme/card-2-text-image-responsive {
+        "align": "wide",
+        "imagePosition": "right",
+        "headingIconUrl": "/wp-content/themes/ilegiants/assets/images/piggy.png",
+        "headingIconAlt": "Japan badge",
+        "headingIconAlign": "left",
 
-<!-- wp:childtheme/packing-icons-strip {
-  "backgroundColor": "#FFFFFF",
-  "panelBackgroundColor": "#FFFFFF",
-  "heading": "Use Rewards, Points & Travel Cards Wisely",
-  "intro": "Budget travelers know the secret: <b>free travel is real when points do the work.</b> Travel credit cards and reward programs transform everyday spending into travel perks, miles, and hotel nights. Platforms like Amex Travel offer substantial value, allowing travelers to turn groceries, gas, and small purchases into discounted flights or upgrades.",
-  "subtitle": "Why Rewards Matters?",
-  "footer": "Travelers who maximize points enjoy premium perks without paying premium prices.",
-  "columns": 3,
-  "items": [
-    { "iconType": "fa", "iconClass": "fas fa-check", "text": "Free or discounted flights" },
-    { "iconType": "fa", "iconClass": "fas fa-check", "text": "Special hotel rates" },
-    { "iconType": "fa", "iconClass": "fas fa-check", "text": "Lounge access" },
-    { "iconType": "fa", "iconClass": "fas fa-check", "text": "Free checked baggage" },
-    { "iconType": "fa", "iconClass": "fas fa-check", "text": "Bonus multipliers for travel purchases" }
-  ],
-  "decor": [
-    {
-      "side": "left",
-      "position": "center",
-      "url": "/wp-content/themes/ilegiants/assets/images/arrow-left.png",
-      "alt": "Decorative travel path left"
-    },
-    {
-      "side": "right",
-      "position": "center",
-      "url": "/wp-content/themes/ilegiants/assets/images/arrow-right.png",
-      "alt": "Decorative travel path right"
-    }
-  ]
-} /-->
+        "headline": "Seasonal Highlights for Every Traveler",
+        "paragraphOne": "Japan transforms with the seasons, offering new adventures and landscapes throughout the year.",
+
+        "bulletGroups": [
+            {
+                "title": "",
+                "items": [
+                    "<strong style=\"font-weight: bold; color:#FD593C\">Spring (March–May):</strong> Cherry blossoms (일본 벚꽃 여행) bloom across cities and parks, especially in Tokyo, Kyoto, and Himeji.",
+                    "<strong style=\"font-weight: bold; color:#FD593C\">Summer (June–August):</strong> Fireworks festivals, Mount Fuji climbing season, and island getaways define this lively period.",
+                    "<strong style=\"font-weight: bold; color:#FD593C\">Autumn (September–November):</strong> Fiery red and gold foliage turns places like Nikko and Arashiyama into nature’s masterpiece.",
+                    "<strong style=\"font-weight: bold; color:#FD593C\">Winter (December–February):</strong> Travelers can experience world-class ski resorts in Hokkaido, onsen bathing in Nagano, and snow festivals in Sapporo."
+                ]
+            },
+            {
+                "title": "",
+                "items": [
+                    "<i class=\"fas fa-check\" aria-hidden=\"true\"></i>Spring (March–May): Cherry blossoms (일본 벚꽃 여행) bloom across cities and parks, especially in Tokyo, Kyoto, and Himeji.",
+                    "<i class=\"fas fa-check\" aria-hidden=\"true\"></i>Summer (June–August): Fireworks festivals, Mount Fuji climbing season, and island getaways define this lively period.",
+                    "<i class=\"fas fa-check\" aria-hidden=\"true\"></i>Autumn (September–November): Fiery red and gold foliage turns places like Nikko and Arashiyama into nature’s masterpiece.",
+                    "<i class=\"fas fa-check\" aria-hidden=\"true\"></i>Winter (December–February): Travelers can experience world-class ski resorts in Hokkaido, onsen bathing in Nagano, and snow festivals in Sapporo."
+                ]
+            }
+        ],
+
+        "decor":[
+            { "url":"/wp-content/themes/ilegiants/assets/images/decor-left-red-jp.png", "alt":"left motif", "side":"left" },
+            { "url":"/wp-content/themes/ilegiants/assets/images/decor-right-yellow-jp.png", "alt":"right motif", "side":"right" }
+        ],
+
+        "footerText": "Choosing a travel season based on these highlights allows visitors to align their interests with Japan’s dynamic landscapes.",
+        "imageUrl": "https://picsum.photos/960/540?random=99",
+        "imageAlt": "Japan torii path"
+    } /-->

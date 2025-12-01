@@ -1,5 +1,6 @@
 /* Wrapper */
 .safety-panels {
+  position: relative;  /* for side decor */
   --accent: #f24b27;
   --rule: #f1c13f;
   --panel-radius: 24px;
@@ -15,15 +16,46 @@
 .safety-panels__grid {
   display: flex;
   gap: var(--panel-gap);
-  justify-content: center;   
-  align-items: center;      
+  justify-content: center;
+  align-items: center;
   flex-wrap: nowrap;
+  position: relative;
+  z-index: 1;   /* content above side decor */
 }
 
 @media (max-width: 900px) {
   .safety-panels__grid {
     flex-direction: column;
-    align-items: stretch;    
+    align-items: stretch;
+  }
+}
+
+/* Tall side decor – mirror card-2-text-image-responsive */
+.safety-panels__decor {
+  position: absolute;
+  top: 50%;                  /* vertically centered */
+  transform: translateY(-50%);
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  height: 180%;              /* make it tall, stretch past section height */
+  width: auto;
+  max-width: clamp(80px, 10vw, 280px); /* nice big width like card block */
+  object-fit: contain;
+}
+
+.safety-panels__decor--left {
+  left: 0;
+}
+
+.safety-panels__decor--right {
+  right: 0;
+}
+
+/* Hide side decor on small screens */
+@media (max-width: 720px) {
+  .safety-panels__decor {
+    display: none;
   }
 }
 
@@ -34,13 +66,17 @@
   background-color: #fffdf2;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
 
-  /* NEW: flex sizing based on --cols (1 or 2) */
+  /* flex sizing based on --cols (1 or 2) */
   flex: 0 1 calc(100% / var(--cols, 2));
   max-width: calc(100% / var(--cols, 2));
 }
 
+/* Flat panels (wrapper + panel bg match) */
+.safety-panel--flat {
+  box-shadow: none;
+}
 
-/* Let height be fully content-driven */
+/* Inner */
 .safety-panel__inner {
   padding: clamp(1.75rem, 3vw, 2.25rem);
 }
@@ -60,7 +96,7 @@
   color: #333333;
 }
 
-/* Divider line like your design */
+/* Divider line */
 .safety-panel__title + .safety-panel__intro::before {
   content: "";
   display: block;
@@ -69,6 +105,18 @@
   border-radius: 999px;
   background-color: var(--rule);
   margin: 0 0 0.85rem;
+}
+
+/* Single-column layout: center heading/intro */
+.safety-panels--single .safety-panel__title,
+.safety-panels--single .safety-panel__intro {
+  text-align: center;
+}
+
+.safety-panels--single .safety-panel__title + .safety-panel__intro::before {
+  margin-left: auto;
+  margin-right: auto;
+  /* max-width: 280px; */
 }
 
 /* Items stack */

@@ -50,7 +50,22 @@
     "enterAnim":         { "type": "string", "default": "none" },
     "textDecorAnim":     { "type": "string", "default": "none" },
 
-    "textDecorPosition": { "type": "string", "default": "auto" }  
+    "textDecorPosition": { "type": "string", "default": "auto" },
+
+    "headingIconUrl":  { "type": "string", "default": "" },
+    "headingIconAlt":  { "type": "string", "default": "" },
+    "headingIconAlign":{ "type": "string", "default": "none" },
+
+    "bulletGroups": {
+      "type": "array",
+      "default": []
+    },
+
+    "footerText": {
+      "type": "string",
+      "default": ""
+    }
+
   }
   ,
 

@@ -55,15 +55,20 @@ $wrapper_attributes = get_block_wrapper_attributes(
 ?>
 
 <div <?php echo $wrapper_attributes; ?>>
+
 	<?php foreach ( $decor_items as $d ) : ?>
 		<?php
 		$side = strtolower( $d['side'] );
 		$pos  = strtolower( $d['position'] ?? 'center' );
 		$alt  = isset( $d['alt'] ) ? (string) $d['alt'] : '';
 		?>
-		<div class="budget-panels__decor budget-panels__decor--<?php echo esc_attr( $side ); ?> budget-panels__decor--pos-<?php echo esc_attr( $pos ); ?>" aria-hidden="<?php echo $alt === '' ? 'true' : 'false'; ?>">
-			<img class="budget-panels__decor-img" src="<?php echo esc_url( $d['url'] ); ?>" alt="<?php echo esc_attr( $alt ); ?>" loading="lazy" decoding="async" />
-		</div>
+		<img
+			class="budget-panels__decor budget-panels__decor--<?php echo esc_attr( $side ); ?> budget-panels__decor--pos-<?php echo esc_attr( $pos ); ?>"
+			src="<?php echo esc_url( $d['url'] ); ?>"
+			alt="<?php echo esc_attr( $alt ); ?>"
+			loading="lazy"
+			decoding="async"
+		/>
 	<?php endforeach; ?>
 
 	<div class="budget-panels__grid">

@@ -35,6 +35,21 @@
   $decor          = is_array($attributes['decor']     ?? null) ? $attributes['decor']     : [];
   $textDecor      = is_array($attributes['textDecor'] ?? null) ? $attributes['textDecor'] : [];
 
+  $headingIconUrlRaw   = $attributes['headingIconUrl']   ?? '';
+  $headingIconAltRaw   = $attributes['headingIconAlt']   ?? '';
+  $headingIconAlignRaw = $attributes['headingIconAlign'] ?? 'none';
+
+  $headingIconUrl   = trim((string) $headingIconUrlRaw);
+  $headingIconAlt   = trim((string) $headingIconAltRaw);
+  $headingIconAlign = in_array($headingIconAlignRaw, ['none','left'], true)
+    ? $headingIconAlignRaw
+    : 'none';
+
+  $bulletGroupsRaw = $attributes['bulletGroups'] ?? [];
+  $bulletGroups    = is_array($bulletGroupsRaw) ? $bulletGroupsRaw : [];
+
+  $footerText = trim((string) ($attributes['footerText'] ?? ''));
+
   /** Anim attributes */
   $enterAnimRaw     = $attributes['enterAnim']     ?? 'none';
   $enterAnim        = in_array($enterAnimRaw, ['none','left','right','up','down'], true) ? $enterAnimRaw : 'none';
@@ -125,16 +140,96 @@
           <?php endforeach; endif; ?>
 
           <?php if ($headline !== ''): ?>
-            <h2 class="card-2-text-img-resp__headline"><?= esc_html($headline); ?></h2>
+            <?php
+              $has_icon_left = ($headingIconAlign === 'left' && $headingIconUrl !== '');
+              $headline_classes_wrap = 'card-2-text-img-resp__headline-wrap';
+              if ($has_icon_left) {
+                $headline_classes_wrap .= ' has-icon-left';
+              }
+            ?>
+            <div class="<?= esc_attr($headline_classes_wrap); ?>">
+              <?php if ($has_icon_left): ?>
+                <span class="card-2-text-img-resp__headline-icon">
+                  <img src="<?= esc_url($headingIconUrl); ?>"
+                      alt="<?= esc_attr($headingIconAlt); ?>"
+                      loading="lazy" decoding="async" />
+                </span>
+              <?php endif; ?>
+
+              <h2 class="card-2-text-img-resp__headline">
+                <?php
+                  // allow <b>, <strong>, etc. and support \n via CSS
+                  echo wp_kses(
+                    $headline,
+                    [
+                      'b'      => [],
+                      'strong' => [],
+                      'em'     => [],
+                      'i'      => [],
+                      'span'   => ['class' => []],
+                    ]
+                  );
+                ?>
+              </h2>
+            </div>
           <?php endif; ?>
 
           <?php if ($paragraphOne !== ''): ?>
             <p class="card-2-text-img-resp__copy"><?= wp_kses_post($paragraphOne); ?></p>
           <?php endif; ?>
+  
+          <?php if (!empty($bulletGroups)): ?>
+            <div class="card-2-text-img-resp__lists">
+              <?php foreach ($bulletGroups as $group):
+                $groupTitleRaw = $group['title'] ?? '';
+                $groupTitle    = trim((string) $groupTitleRaw);
 
-          <?php if ($paragraphTwo !== ''): ?>
-            <p class="card-2-text-img-resp__copy"><?= wp_kses_post($paragraphTwo); ?></p>
+                $itemsRaw = (isset($group['items']) && is_array($group['items'])) ? $group['items'] : [];
+                $items    = array_values(array_filter(array_map('trim', $itemsRaw)));
+
+                if ($groupTitle === '' && empty($items)) {
+                  continue;
+                }
+              ?>
+                <div class="card-2-text-img-resp__list-group">
+                  <?php if ($groupTitle !== ''): ?>
+                    <p class="card-2-text-img-resp__list-heading">
+                      <?= wp_kses(
+                        $groupTitle,
+                        [
+                          'b'      => ['class' => [], 'style' => []],
+                          'strong' => ['class' => [], 'style' => []],
+                          'em'     => ['class' => [], 'style' => []],
+                          'i'      => ['class' => [], 'style' => []],
+                          'span'   => ['class' => [], 'style' => []],
+                        ]
+                      ); ?>
+                    </p>
+                  <?php endif; ?>
+
+                  <?php if (!empty($items)): ?>
+                    <ul class="card-2-text-img-resp__list">
+                      <?php foreach ($items as $li): ?>
+                        <li class="card-2-text-img-resp__list-item">
+                          <?= wp_kses(
+                            $li,
+                            [
+                              'b'      => ['class' => [], 'style' => []],
+                              'strong' => ['class' => [], 'style' => []],
+                              'em'     => ['class' => [], 'style' => []],
+                              'i'      => ['class' => [], 'style' => []],
+                              'span'   => ['class' => [], 'style' => []],
+                            ]
+                          ); ?>
+                        </li>
+                      <?php endforeach; ?>
+                    </ul>
+                  <?php endif; ?>
+                </div>
+              <?php endforeach; ?>
+            </div>
           <?php endif; ?>
+
 
           <?php if ( ($buttonText !== '' || $button2Text !== '') && $ctaAlign !== 'hidden' ): ?>
             <div class="card-2-text-img-resp__cta-wrap card-2-text-img-resp__cta-wrap--<?= esc_attr($ctaAlign); ?>">
@@ -175,6 +270,13 @@
 
             </div>
           <?php endif; ?>
+
+          <?php if ($footerText !== ''): ?>
+            <p class="card-2-text-img-resp__footer">
+              <?= wp_kses_post($footerText); ?>
+            </p>
+          <?php endif; ?>
+
         </div>
       </div>
 
