@@ -1,0 +1,304 @@
+<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+
+<!-- wp:group {"tagName":"main","className":"alignfull","style":{"spacing":{"padding":{"top":"4rem"}}}} -->
+<main class="wp-block-group alignfull" style="padding-top: 2rem !important">
+  <!-- Breadcrumbs OUTSIDE the image -->
+  <!-- wp:group {"className":"content-wrap crumbs-wrap","style":{"spacing":{"padding":{"left":"var(--page-gutter-left)","right":"var(--page-gutter-right)"},"margin":{"bottom":"0.5rem"}}},"layout":{"type":"constrained"}} -->
+  <div
+    class="wp-block-group content-wrap crumbs-wrap"
+    style="
+      padding-left: var(--page-gutter-left);
+      padding-right: var(--page-gutter-right);
+      margin-bottom: 0.5rem;
+    "
+  >
+    <!-- wp:shortcode -->[rank_math_breadcrumb]<!-- /wp:shortcode -->
+  </div>
+  <!-- /wp:group -->
+
+  <!-- HERO: featured image + author chip (INSIDE, bottom-left) -->
+  <!-- wp:group {"align":"full","className":"single-hero"} -->
+  <div class="wp-block-group alignfull single-hero">
+    <!-- Featured image -->
+    <!-- wp:post-featured-image {"isLink":false,"align":"full","className":"single-hero__media"} /-->
+
+    <!-- Author chip (inside / bottom-left) -->
+    <!-- wp:group {"className":"author-chip","layout":{"type":"flex","verticalAlignment":"center"}} -->
+    <div class="wp-block-group author-chip">
+      <!-- Avatar -->
+      <!-- wp:avatar {"size":48,"className":"author-chip__avatar"} /-->
+
+      <!-- Name + date (special corners) -->
+      <!-- wp:group {"className":"author-chip__card"} -->
+      <div class="wp-block-group author-chip__card">
+        <!-- wp:post-author-name {"isLink":false,"className":"author-chip__name"} /-->
+        <!-- wp:post-date {"format":"F j, Y","className":"author-chip__date"} /-->
+      </div>
+
+      <!-- decorative image (no alt, hidden for a11y) -->
+      <img
+        class="author-chip__decor"
+        src="http://allinclusivevacationpackages.org/wp-content/uploads/2025/10/author.png"
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        decoding="async"
+      />
+      <!-- /wp:group -->
+    </div>
+    <!-- /wp:group -->
+  </div>
+  <!-- /wp:group -->
+
+  <!-- BODY: content + ToC -->
+  <!-- wp:group {"className":"content-wrap","style":{"spacing":{"padding":{"left":"var(--page-gutter-left)","right":"var(--page-gutter-right)"}}},"layout":{"type":"constrained"}} -->
+  <div
+    class="wp-block-group content-wrap"
+    style="
+      padding-left: var(--page-gutter-left);
+      padding-right: var(--page-gutter-right);
+    "
+  >
+    <!-- wp:columns {"className":"single-body","verticalAlignment":"top"} -->
+    <div class="wp-block-columns single-body">
+      <!-- LEFT -->
+      <!-- wp:column {"width":"66.66%"} -->
+      <div class="wp-block-column" style="flex-basis: 66.66%">
+        <!-- wp:post-title {"level":1} /-->
+        <!-- wp:post-content {"layout":{"type":"constrained"}} /-->
+      </div>
+      <!-- /wp:column -->
+
+      <!-- RIGHT (ToC + Tags) -->
+      <!-- wp:column {"width":"31.33%"} -->
+      <div class="wp-block-column toc-column" style="flex-basis: 31.33%">
+        <!-- Table of Contents block -->
+        <!-- wp:child/table-of-content {"title":"Table of Contents","intro":true,"levels":["h2","h3"]} /-->
+
+        <div class="wp-block-group tags-card" style="margin-top: 1rem">
+          <h3>Tags</h3>
+          <!-- wp:post-terms {"term":"post_tag","separator":"","className":"tag-list"} /-->
+        </div>
+
+        <!-- wp:child/related-blog-col {"title":"Related Blogs","limit":3,"showAuthor":true,"showExcerpt":true,"btnText":"Read More","types":["sea","eu"]} /-->
+      </div>
+      <!-- /wp:column -->
+
+    </div>
+    <!-- /wp:columns -->
+  </div>
+  <!-- /wp:group -->
+
+  <!-- Floating actions: Social + Scroll-to-top -->
+  <div class="floating-actions" aria-live="polite">
+    <!-- Social toggle -->
+    <button
+      id="socialToggleBtn"
+      class="fabtn"
+      aria-expanded="false"
+      aria-controls="socialMenu"
+      aria-label="Open social links"
+    >
+      <i class="fas fa-share-alt" aria-hidden="true"></i>
+    </button>
+
+    <!-- Social menu -->
+    <nav id="socialMenu" class="social-menu" aria-label="Share on">
+      <a
+        class="sm sm-fb"
+        href="#"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Facebook"
+      >
+        <i class="fab fa-facebook-f" aria-hidden="true"></i>
+      </a>
+      <a
+        class="sm sm-x"
+        href="#"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="X (Twitter)"
+      >
+        <!-- If you use FA6 use: fa-brands fa-x-twitter; FA5: fab fa-twitter -->
+        <i class="fa-brands fa-x-twitter" aria-hidden="true"></i>
+      </a>
+      <a
+        class="sm sm-ig"
+        href="#"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Instagram"
+      >
+        <i class="fab fa-instagram" aria-hidden="true"></i>
+      </a>
+    </nav>
+
+    <!-- Scroll to top (Font Awesome icon) -->
+    <button id="scrollToTopBtn" aria-label="Scroll to top">
+      <i class="fas fa-chevron-up" aria-hidden="true"></i>
+    </button>
+  </div>
+</main>
+<script>
+  (function () {
+    const btn = document.getElementById('scrollToTopBtn');
+    if (!btn) return;
+
+    const THRESHOLD = Math.max(240, Math.round(window.innerHeight * 0.33)); // show after ~1/3 viewport or 240px
+    const reduce = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
+
+    function onScroll() {
+      if (window.scrollY > THRESHOLD) {
+        btn.classList.add('is-visible');
+      } else {
+        btn.classList.remove('is-visible');
+      }
+    }
+
+    function scrollTop() {
+      if (reduce) {
+        window.scrollTo(0, 0);
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    // events
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    window.addEventListener('load', onScroll, { passive: true });
+    btn.addEventListener('click', scrollTop);
+  })();
+</script>
+<script>
+  (function () {
+    const topBtn = document.getElementById('scrollToTopBtn');
+    const socialBtn = document.getElementById('socialToggleBtn');
+    const socialMenu = document.getElementById('socialMenu');
+
+    // --- scroll-to-top visibility (reuse your threshold idea)
+    const THRESHOLD = Math.max(240, Math.round(window.innerHeight * 0.33));
+    const reduce = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
+
+    function onScroll() {
+      if (!topBtn) return;
+      if (window.scrollY > THRESHOLD) topBtn.classList.add('is-visible');
+      else topBtn.classList.remove('is-visible');
+    }
+
+    function scrollTop() {
+      if (reduce) window.scrollTo(0, 0);
+      else window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // --- social toggle (click, Esc, outside click)
+    function toggleSocial(open) {
+      const isOpen =
+        open != null ? open : !socialMenu.classList.contains('is-open');
+      socialMenu.classList.toggle('is-open', isOpen);
+      socialBtn.setAttribute('aria-expanded', String(isOpen));
+    }
+
+    function onDocClick(e) {
+      if (!socialMenu.classList.contains('is-open')) return;
+      if (!e.target.closest('#socialMenu, #socialToggleBtn'))
+        toggleSocial(false);
+    }
+
+    function onKey(e) {
+      if (e.key === 'Escape') toggleSocial(false);
+    }
+
+    // Wire up
+    if (topBtn) {
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+      window.addEventListener('load', onScroll, { passive: true });
+      topBtn.addEventListener('click', scrollTop);
+    }
+    if (socialBtn && socialMenu) {
+      socialBtn.addEventListener('click', () => toggleSocial());
+      document.addEventListener('click', onDocClick);
+      document.addEventListener('keydown', onKey);
+    }
+
+    // OPTIONAL: populate your social links dynamically (replace '#' with real URLs)
+    // document.querySelector('.sm-fb')?.setAttribute('href', 'https://facebook.com/YourPage');
+    // document.querySelector('.sm-x') ?.setAttribute('href', 'https://twitter.com/YourHandle'); // or X link
+    // document.querySelector('.sm-ig')?.setAttribute('href', 'https://instagram.com/YourHandle');
+  })();
+</script>
+<script>
+  (function () {
+    const wrap = document.getElementById('comments-module');
+    if (!wrap) return;
+
+    const btn = wrap.querySelector('.comments-toggle');
+    if (!btn) return;
+
+    // WordPress may not render the <ol> at all when there are no comments.
+    const list = wrap.querySelector('ol.wp-block-comment-template');
+    const items = list
+      ? Array.from(list.children).filter((li) => li.matches('li'))
+      : [];
+    const initial = parseInt(btn.dataset.initial || '3', 10);
+
+    // Helper
+    function setCollapsed(collapsed) {
+      if (!list) return;
+      if (collapsed) {
+        items.forEach((li, i) => {
+          li.style.display = i < initial ? '' : 'none';
+        });
+        btn.textContent = 'Read more comments';
+        btn.setAttribute('aria-expanded', 'false');
+      } else {
+        items.forEach((li) => (li.style.display = ''));
+        btn.textContent = 'Show less';
+        btn.setAttribute('aria-expanded', 'true');
+      }
+      wrap.dataset.collapsed = String(collapsed);
+    }
+
+    // Hide the button if there are no comments OR not enough to collapse
+    if (!list || items.length === 0 || items.length <= initial) {
+      btn.hidden = true; // cleaner than display:none
+      return; // nothing else to do
+    }
+
+    // Otherwise, set initial collapsed state and wire up toggle
+    setCollapsed(true);
+    btn.addEventListener('click', () => {
+      const collapsed = wrap.dataset.collapsed !== 'true';
+      setCollapsed(collapsed);
+    });
+  })();
+</script>
+<script>
+  (function () {
+    const wrap = document.getElementById('comments-module');
+    if (!wrap) return;
+
+    // the <ol> that WordPress renders for top-level comments
+    const list = wrap.querySelector('ol.wp-block-comment-template');
+    const count = list ? list.children.length : 0;
+
+    // Only add a heading if there is at least one comment
+    if (count > 0 && !wrap.querySelector('.comments-heading')) {
+      const h = document.createElement('h3');
+      h.className = 'comments-heading has-h-3-font-size';
+      h.textContent = 'Comments';
+
+      // Insert heading right before the list
+      const listParent = list.parentNode; // usually .wp-block-comments
+      listParent.insertBefore(h, list);
+    }
+  })();
+</script>
+<!-- /wp:group -->
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->

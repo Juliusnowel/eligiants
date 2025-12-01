@@ -39,3 +39,69 @@
             }
         ]
     } /-->
+
+
+    <!-- wp:childtheme/budget-panels {
+        "backgroundColor":"#fff",
+        "columns":2,
+
+        "headingIconUrl":"/wp-content/themes/ilegiants/assets/images/piggy.png",
+        "headingIconAlt":"Japan badge",
+        "headingIconAlign":"left",
+
+        "panels":[
+            {
+            "title":"Peak Season Colors, Cool Weather & Food Adventures",
+            "text":"Autumn (September–November) is often considered the most beautiful season in Japan. Forests, temples, shrines, and city parks explode with vibrant reds, oranges, and golds.",
+            "subTitle":"Japan Climate Guide — Autumn Weather",
+            "list":[
+                {"text":"15°C–25°C (59°F–77°F)"},
+                {"text":"Dry and comfortable"},
+                {"text":"Occasional typhoons in early September"}
+            ],
+            "subTitle2":"Why autumn stands out",
+            "list2":[
+                {"text":"Stunning koyo (fall foliage) viewing"},
+                {"text":"Seasonal foods: roasted sweet potatoes, mushrooms, chestnuts"},
+                {"text":"Comfortable sightseeing temperatures"},
+                {"text":"Fewer crowds than spring"}
+            ],
+            "footer":"Many travelers prefer autumn because it combines perfect weather, beautiful scenery, and delicious seasonal dining without the density of spring tourism.",
+            "backgroundColor":"#fff"
+            },
+            {
+            "title":"Japan Travel in December, Snow Festivals & Onsen Escapes",
+            "text":"Winter (December–February) is peaceful, atmospheric, and surprisingly magical. <b>Japan travel in December</b> kicks off with winter illuminations, Christmas markets, warm street foods, and cozy nighttime strolls.",
+            "subTitle":"Japan Climate Guide — Winter Weather",
+            "list":[
+                {"text":"0°C–10°C (32°F–50°F), colder in the north"},
+                {"text":"Heavy snowfall in Hokkaido and Nagano"},
+                {"text":"Dry, crisp air ideal for sightseeing"}
+            ],
+            "subTitle2":"Why autumn stands out",
+            "list2":[
+                {"text":"Skiing and snowboarding in Japan’s world-class powder snow"},
+                {"text":"Onsen (hot spring) experiences"},
+                {"text":"Sapporo Snow Festival"},
+                {"text":"Snow monkeys in Nagano"},
+                {"text":"New Year temple visits"}
+            ],
+            "footer":"This season is especially appealing to travelers who enjoy quiet atmospheres, scenic snowscapes, and soaking in steaming hot springs surrounded by mountains. \n Winter is also the most underrated time to visit, crowds shrink, prices drop, and the country becomes peaceful and charming.",
+            "backgroundColor":"#fff"
+            }
+        ],
+        "decor":[
+            {
+            "side":"left",
+            "position":"center",
+            "url":"/wp-content/themes/ilegiants/assets/images/arrow-left.png",
+            "alt":"Decorative travel path left"
+            },
+            {
+            "side":"right",
+            "position":"center",
+            "url":"/wp-content/themes/ilegiants/assets/images/arrow-right.png",
+            "alt":"Decorative travel path right"
+            }
+        ]
+    } /-->

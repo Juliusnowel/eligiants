@@ -504,3 +504,94 @@ add_action('wp_enqueue_scripts', function () {
 
 add_filter( 'show_admin_bar', '__return_false' );
 
+// this is test only for comment
+/* =========================================================
+ * COMMENTS UX — HTML5, tidy fields, rating, badges, relative dates
+ * =======================================================*/
+add_action('after_setup_theme', function () { add_theme_support('html5', ['comment-form','comment-list']); });
+
+add_filter('comment_form_default_fields', function ($fields) {
+  unset($fields['url']);
+  $req = get_option('require_name_email'); $aria = $req ? " aria-required='true' required" : '';
+  $fields['author'] = '<p class="comment-form-author"><label for="author">Your name'.($req?' *':'').'</label><input id="author" name="author" type="text"'.$aria.'></p>';
+  $fields['email']  = '<p class="comment-form-email"><label for="email">Email'.($req?' *':'').'</label><input id="email" name="email" type="email"'.$aria.'></p>';
+  return $fields;
+});
+
+add_filter('comment_form_defaults', function ($d) {
+  $d['title_reply'] = 'Give Feedback';
+  $d['label_submit']= 'Submit Feedback';
+  $d['comment_notes_before'] = $d['comment_notes_after'] = '';
+
+  $rating = 
+  '<fieldset class="ai-rate" aria-describedby="ai-rate-help">
+    <legend class="ai-legend">How helpful was this article?</legend>
+    <div class="ai-rate-options">
+      <input type="radio" id="ai_rate_1" name="ai_rating" value="1"><label for="ai_rate_1"><i class="far fa-thumbs-down" aria-hidden="true"></i><span>Not Helpful</span></label>
+      <input type="radio" id="ai_rate_2" name="ai_rating" value="2"><label for="ai_rate_2"><i class="far fa-frown" aria-hidden="true"></i><span>Needs Improvement</span></label>
+      <input type="radio" id="ai_rate_3" name="ai_rating" value="3" checked><label for="ai_rate_3"><i class="far fa-smile" aria-hidden="true"></i><span>Helpful</span></label>
+      <input type="radio" id="ai_rate_4" name="ai_rating" value="4"><label for="ai_rate_4"><i class="far fa-grin-stars" aria-hidden="true"></i><span>Very Helpful</span></label>
+      <input type="radio" id="ai_rate_5" name="ai_rating" value="5"><label for="ai_rate_5"><i class="far fa-laugh-beam" aria-hidden="true"></i><span>Excellent</span></label>
+    </div>
+    <p id="ai-rate-help" class="ai-help">Pick one, then tell us why.</p>
+  </fieldset>';
+
+  $textarea = '
+  <p class="comment-form-comment">
+    <label for="comment">Share your feedback:</label>
+    <textarea id="comment" name="comment" cols="45" rows="6" required placeholder="Your feedback helps us improve future content."></textarea>
+  </p>';
+
+  $nonce = wp_nonce_field('ai_comment_meta', 'ai_comment_nonce', true, false);
+  $d['comment_field'] = $rating . $textarea . $nonce;
+
+  $d['class_submit']  = 'ai-btn ai-btn-primary';
+  $d['submit_field']  = '<p class="form-submit">%1$s %2$s</p>';
+  $d['submit_button'] = '<button type="submit" class="%3$s">%4$s</button>';
+  return $d;
+});
+
+add_filter('preprocess_comment', function ($data) {
+  if (is_admin()) return $data;
+  if (!isset($_POST['ai_comment_nonce']) || !wp_verify_nonce($_POST['ai_comment_nonce'], 'ai_comment_meta')) return $data;
+  $rating = isset($_POST['ai_rating']) ? intval($_POST['ai_rating']) : 0;
+  if ($rating < 1 || $rating > 5) wp_die(__('Please select a rating before submitting.'), '', ['back_link' => true]);
+  return $data;
+});
+
+add_action('comment_post', function ($comment_ID) {
+  if (!isset($_POST['ai_comment_nonce']) || !wp_verify_nonce($_POST['ai_comment_nonce'], 'ai_comment_meta')) return;
+  $rating   = isset($_POST['ai_rating']) ? max(1, min(5, intval($_POST['ai_rating']))) : '';
+  $contact  = !empty($_POST['ai_contact_ok']) ? 1 : 0;
+  $research = !empty($_POST['ai_research_ok']) ? 1 : 0;
+  if ($rating) add_comment_meta($comment_ID, 'ai_rating', $rating, true);
+  add_comment_meta($comment_ID, 'ai_contact_ok',  $contact,  true);
+  add_comment_meta($comment_ID, 'ai_research_ok', $research, true);
+});
+
+add_filter('get_comment_text', function ($text, $comment) {
+  $rating = get_comment_meta($comment->comment_ID, 'ai_rating', true);
+  if ($rating) {
+    $labels = [1=>'Not Helpful',2=>'Needs Improvement',3=>'Helpful',4=>'Very Helpful',5=>'Excellent'];
+    $label  = $labels[intval($rating)] ?? (string)$rating;
+    $badge  = '<p class="ai-rating-badge ai-rating-'.intval($rating).'" aria-label="Rating: '.$label.'"><span>'.$label.'</span></p>';
+    $text   = $badge . $text;
+  }
+  return $text;
+}, 10, 2);
+
+add_filter('comment_form_logged_in','__return_empty_string');
+
+add_filter('get_comment_date', function ($date, $format, $comment) {
+  if (is_admin() || !($comment instanceof WP_Comment)) return $date;
+  $now = (int) current_time('timestamp');
+  $ts  = (int) get_comment_time('U'); if (!$ts) $ts = (int) mysql2date('U', $comment->comment_date); if (!$ts) return $date;
+  $diff = max(0, $now - $ts); $days = (int) floor($diff / DAY_IN_SECONDS);
+
+  if ($days === 0) { if ($diff >= HOUR_IN_SECONDS) { $h=(int)floor($diff/HOUR_IN_SECONDS); return sprintf(_n('%s hour ago','%s hours ago',$h,'your-textdomain'),$h);} $m=max(1,(int)floor($diff/MINUTE_IN_SECONDS)); return sprintf(_n('%s minute ago','%s minutes ago',$m,'your-textdomain'),$m); }
+  if ($days === 1) return __('Yesterday','your-textdomain');
+  if ($days < 7)   return sprintf(_n('%s day ago','%s days ago',$days,'your-textdomain'),$days);
+  if ($days < 30)  { $w=(int)floor($days/7); return $w===1?__('A week ago','your-textdomain'):sprintf(_n('%s week ago','%s weeks ago',$w,'your-textdomain'),$w); }
+  if ($days < 365) { $mo=(int)floor($days/30); return $mo===1?__('A month ago','your-textdomain'):sprintf(_n('%s months ago','%s months ago',$mo,'your-textdomain'),$mo); }
+  $y=(int)floor($days/365); return $y===1?__('A year ago','your-textdomain'):sprintf(_n('%s years ago','%s years ago',$y,'your-textdomain'),$y);
+}, 10, 3);

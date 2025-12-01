@@ -10,6 +10,16 @@ $columns   = max( 1, min( 2, $cols_raw ) ); // 1 or 2 only
 $panels_raw = isset( $attributes['panels'] ) && is_array( $attributes['panels'] ) ? $attributes['panels'] : [];
 $panels     = array_values( $panels_raw );
 
+// Heading icon (global)
+$heading_icon_url_raw   = $attributes['headingIconUrl']   ?? '';
+$heading_icon_alt_raw   = $attributes['headingIconAlt']   ?? '';
+$heading_icon_align_raw = $attributes['headingIconAlign'] ?? 'none';
+
+$heading_icon_url   = trim( (string) $heading_icon_url_raw );
+$heading_icon_alt   = trim( (string) $heading_icon_alt_raw );
+$heading_icon_align = in_array( $heading_icon_align_raw, [ 'none', 'left' ], true ) ? $heading_icon_align_raw : 'none';
+
+// Side decor
 $decor_raw = $attributes['decor'] ?? [];
 $decor_items = array_values(
 	array_filter(
@@ -76,15 +86,18 @@ $wrapper_attributes = get_block_wrapper_attributes(
 			<?php
 			$title     = isset( $panel['title'] ) ? (string) $panel['title'] : '';
 			$text_raw  = isset( $panel['text'] ) ? (string) $panel['text'] : '';
-			$subtitle  = isset( $panel['subTitle'] ) ? (string) $panel['subTitle'] : '';
-			$list_raw  = isset( $panel['list'] ) && is_array( $panel['list'] ) ? $panel['list'] : [];
 			$footer    = isset( $panel['footer'] ) ? (string) $panel['footer'] : '';
 			$panel_bg  = isset( $panel['backgroundColor'] ) ? (string) $panel['backgroundColor'] : '';
 
-			if ( ! $title && ! $text_raw && ! $subtitle && empty( $list_raw ) && ! $footer ) {
+			// Early skip if panel is totally empty.
+			if ( ! $title && ! $text_raw && ! $footer
+				&& empty( $panel['subTitle'] ) && empty( $panel['list'] )
+				&& empty( $panel['subTitle2'] ) && empty( $panel['list2'] )
+			) {
 				continue;
 			}
 
+			// Panel background
 			$panel_style = '';
 			if ( $panel_bg ) {
 				$panel_bg_clean = sanitize_hex_color( $panel_bg );
@@ -93,17 +106,84 @@ $wrapper_attributes = get_block_wrapper_attributes(
 				}
 			}
 
-			// handle newlines in text
+			// Main text with paragraphs
 			$text_html = '';
 			if ( $text_raw ) {
 				$text_html = wpautop( wp_kses_post( $text_raw ) );
 			}
+
+			$has_icon_left = ( $heading_icon_align === 'left' && $heading_icon_url !== '' );
+
+			/**
+			 * Collect ALL subTitle + list pairs into $sections.
+			 * Supports:
+			 *   - subTitle + list   (your existing structure)
+			 *   - subTitle2 + list2 (new)
+			 *   - subTitle3 + list3, etc. if you add them later
+			 */
+			$sections = [];
+
+			// Keys to scan in order. First pair keeps old naming.
+			$pairs = [
+				[ 'subTitle',  'list'  ],
+				[ 'subTitle2', 'list2' ],
+				[ 'subTitle3', 'list3' ],
+				[ 'subTitle4', 'list4' ],
+			];
+
+			foreach ( $pairs as $pair ) {
+				list( $sub_key, $list_key ) = $pair;
+
+				$sub = isset( $panel[ $sub_key ] ) ? trim( (string) $panel[ $sub_key ] ) : '';
+
+				$list_raw = ( isset( $panel[ $list_key ] ) && is_array( $panel[ $list_key ] ) )
+					? $panel[ $list_key ]
+					: [];
+
+				// Normalize list items to simple text strings.
+				$items = [];
+				foreach ( $list_raw as $li ) {
+					if ( is_array( $li ) ) {
+						$item_text = isset( $li['text'] ) ? trim( (string) $li['text'] ) : '';
+					} else {
+						$item_text = trim( (string) $li );
+					}
+					if ( $item_text !== '' ) {
+						$items[] = $item_text;
+					}
+				}
+
+				// Skip truly empty sections.
+				if ( $sub === '' && empty( $items ) ) {
+					continue;
+				}
+
+				$sections[] = [
+					'title' => $sub,
+					'items' => $items,
+				];
+			}
 			?>
 			<article class="budget-panel" <?php echo $panel_style ? 'style="' . esc_attr( $panel_style ) . '"' : ''; ?>>
 				<div class="budget-panel__inner">
+
 					<?php if ( $title ) : ?>
-						<h3 class="budget-panel__title"><?php echo esc_html( $title ); ?></h3>
-						<span class="budget-panel__rule" aria-hidden="true"></span>
+						<div class="budget-panel__title-wrap<?php echo $has_icon_left ? ' budget-panel__title-wrap--has-icon' : ''; ?>">
+							<?php if ( $has_icon_left ) : ?>
+								<span class="budget-panel__title-icon">
+									<img
+										src="<?php echo esc_url( $heading_icon_url ); ?>"
+										alt="<?php echo esc_attr( $heading_icon_alt ); ?>"
+										loading="lazy"
+										decoding="async"
+									/>
+								</span>
+							<?php endif; ?>
+
+							<h3 class="budget-panel__title">
+								<?php echo esc_html( $title ); ?>
+							</h3>
+						</div>
 					<?php endif; ?>
 
 					<?php if ( $text_html ) : ?>
@@ -112,24 +192,28 @@ $wrapper_attributes = get_block_wrapper_attributes(
 						</div>
 					<?php endif; ?>
 
-					<?php if ( $subtitle ) : ?>
-						<h4 class="budget-panel__subtitle"><?php echo esc_html( $subtitle ); ?></h4>
-					<?php endif; ?>
+					<?php if ( ! empty( $sections ) ) : ?>
+						<div class="budget-panel__sections">
+							<?php foreach ( $sections as $section ) : ?>
+								<div class="budget-panel__section">
+									<?php if ( $section['title'] !== '' ) : ?>
+										<h4 class="budget-panel__subtitle">
+											<?php echo esc_html( $section['title'] ); ?>
+										</h4>
+									<?php endif; ?>
 
-					<?php if ( ! empty( $list_raw ) ) : ?>
-						<ul class="budget-panel__list">
-							<?php foreach ( $list_raw as $item ) : ?>
-								<?php
-								$item_text = isset( $item['text'] ) ? (string) $item['text'] : '';
-								if ( ! $item_text ) {
-									continue;
-								}
-								?>
-								<li class="budget-panel__list-item">
-									<?php echo esc_html( $item_text ); ?>
-								</li>
+									<?php if ( ! empty( $section['items'] ) ) : ?>
+										<ul class="budget-panel__list">
+											<?php foreach ( $section['items'] as $item_text ) : ?>
+												<li class="budget-panel__list-item">
+													<?php echo esc_html( $item_text ); ?>
+												</li>
+											<?php endforeach; ?>
+										</ul>
+									<?php endif; ?>
+								</div>
 							<?php endforeach; ?>
-						</ul>
+						</div>
 					<?php endif; ?>
 
 					<?php if ( $footer ) : ?>

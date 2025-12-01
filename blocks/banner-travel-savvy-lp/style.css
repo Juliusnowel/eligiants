@@ -1,9 +1,8 @@
 .banner-travel-savvy-lp {
     position: relative;
-    /* more “section” feel, similar to your screenshot */
     padding: clamp(32px, 4vw, 56px) 0;
-    background-color: #ffffff; /* white, like the screenshot */
-    text-align: left;          /* left-align everything */
+    background-color: #ffffff;
+    text-align: left;
 }
 
 .banner-travel-savvy-lp__content {
@@ -11,14 +10,30 @@
     padding-right: var(--page-gutter-right, 1rem);
 }
 
-/* Big orange headline */
+/* Shared heading styles */
 .banner-travel-savvy-lp__title {
     font-family: var(--wp--preset--font-family--outfit, sans-serif);
-    font-size: var(--wp--preset--font-size--h-1);
     font-weight: 700;
-    color: #f24b27; /* strong orange */
+    color: #f24b27;
     margin: 0 0 0.75rem;
     line-height: 1.2;
+}
+
+/* Size by headingTag / element */
+h1.banner-travel-savvy-lp__title {
+    font-size: var(--wp--preset--font-size--h-1);
+}
+
+h2.banner-travel-savvy-lp__title {
+    font-size: var(--wp--preset--font-size--h-2);
+}
+
+h3.banner-travel-savvy-lp__title {
+    font-size: var(--wp--preset--font-size--h-3);
+}
+
+p.banner-travel-savvy-lp__title {
+    font-size: var(--wp--preset--font-size--body);
 }
 
 .banner-travel-savvy-lp__separator {
@@ -31,7 +46,6 @@
     background-color: #FDCD3B !important;
     opacity: 1 !important;
 }
-
 
 .banner-travel-savvy-lp__text {
     font-family: var(--wp--preset--font-family--outfit, sans-serif);

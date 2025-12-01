@@ -31,6 +31,20 @@
       "type": "number",
       "default": 2
     },
+
+    "headingIconUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "headingIconAlt": {
+      "type": "string",
+      "default": ""
+    },
+    "headingIconAlign": {
+      "type": "string",
+      "default": "none"
+    },
+
     "panels": {
       "type": "array",
       "default": [
@@ -61,28 +75,33 @@
     "attributes": {
       "backgroundColor": "#FDCD3B",
       "columns": 2,
+
+      "headingIconUrl": "/wp-content/themes/ilegiants/assets/images/piggy.png",
+      "headingIconAlt": "Budget badge",
+      "headingIconAlign": "left",
+
       "panels": [
         {
-          "title": "Eat Like a Local and Save More",
-          "text": "Eating locally is one of the easiest ways to explore culture on a budget.\nTravelers can also cut food costs by preparing simple meals if their accommodation has a kitchen.",
-          "subTitle": "Budget dining hacks:",
+          "title": "Peak Season Colors, Cool Weather & Food Adventures",
+          "text": "Autumn ...",
+          "subTitle": "Japan Climate Guide — Autumn Weather",
           "list": [
-            { "text": "Walk a few streets away from tourist hotspots" },
-            { "text": "Try street food favorites" },
-            { "text": "Grab fresh snacks from local markets" }
+            {"text": "15°C–25°C (59°F–77°F)"},
+            {"text": "Dry and comfortable"},
+            {"text": "Occasional typhoons in early September"}
           ],
-          "footer": "Authenticity tastes better and costs less.",
-          "backgroundColor": "#ffffff"
-        },
-        {
-          "title": "Start Your Budget-Savvy Adventure Today",
-          "text": "Budget travel isn’t about cutting corners, it’s about making smarter choices.\nWith the right strategies, travelers can stretch their money while expanding their experiences.",
-          "subTitle": "",
-          "list": [],
-          "footer": "Every step becomes part of a smarter, more affordable adventure.",
-          "backgroundColor": "#ffffff"
+          "subTitle2": "Why autumn stands out",
+          "list2": [
+            {"text": "Stunning koyo (fall foliage) viewing"},
+            {"text": "Seasonal foods: roasted sweet potatoes, mushrooms, chestnuts"},
+            {"text": "Comfortable sightseeing temperatures"},
+            {"text": "Fewer crowds than spring"}
+          ],
+          "footer": "Many travelers prefer autumn ...",
+          "backgroundColor": "#fff"
         }
       ],
+
       "decor": [
         {
           "side": "left",
