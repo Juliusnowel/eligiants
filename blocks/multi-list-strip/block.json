@@ -1,0 +1,121 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "childtheme/multi-list-strip",
+  "title": "Multi List Strip",
+  "category": "design",
+  "icon": "editor-ol",
+  "description": "Single wide panel with heading, intro, multi-column subheadings with bullet lists, closing line, and optional side decor.",
+  "keywords": ["lists", "columns", "travel", "destinations"],
+  "supports": {
+    "align": ["wide", "full"],
+    "anchor": true,
+    "spacing": {
+      "padding": true,
+      "margin": ["top", "bottom"]
+    },
+    "color": {
+      "background": false,
+      "text": false,
+      "link": false
+    }
+  },
+  "style": "file:./style.css",
+  "render": "file:./render.php",
+  "attributes": {
+    "backgroundColor": {
+      "type": "string",
+      "default": "#FDCD3B"
+    },
+    "panelBackgroundColor": {
+      "type": "string",
+      "default": "#ffffff"
+    },
+    "heading": {
+      "type": "string",
+      "default": "Top Destinations to Consider in Japan"
+    },
+    "intro": {
+      "type": "string",
+      "default": "Not all destinations shine the same way every season. Here’s a seasonal breakdown of top spots."
+    },
+    "footer": {
+      "type": "string",
+      "default": "These aren’t just beautiful, they’re seasonal experiences."
+    },
+    "columns": {
+      "type": "number",
+      "default": 4
+    },
+    "items": {
+      "type": "array",
+      "default": [
+        { "title": "", "list": [] },
+        { "title": "", "list": [] },
+        { "title": "", "list": [] },
+        { "title": "", "list": [] }
+      ]
+    },
+    "decor": {
+      "type": "array",
+      "default": []
+    }
+  },
+  "example": {
+    "attributes": {
+      "heading": "Top Destinations to Consider in Japan",
+      "intro": "Not all destinations shine the same way every season. Here’s a seasonal breakdown of top spots:",
+      "footer": "These aren’t just beautiful, they’re seasonal experiences.",
+      "columns": 4,
+      "items": [
+        {
+          "title": "Spring Highlights",
+          "list": [
+            { "text": "Kyoto: Sakura-lined temples and historic streets" },
+            { "text": "Nara: Cherry blossoms and friendly deer" },
+            { "text": "Tokyo: Ueno Park & Shinjuku Gyoen in full bloom" }
+          ]
+        },
+        {
+          "title": "Summer Getaways",
+          "list": [
+            { "text": "Okinawa: Beach season escape" },
+            { "text": "Hokkaido: Lavender fields and cool hikes" },
+            { "text": "Atami & Izu: Coastal vibes without flights" }
+          ]
+        },
+        {
+          "title": "Autumn Favorites",
+          "list": [
+            { "text": "Nikko: Dramatic foliage in the mountains" },
+            { "text": "Kyoto: Temples glowing with fall colors" },
+            { "text": "Takayama: Cozy streets and crisp air" }
+          ]
+        },
+        {
+          "title": "Winter Wonders",
+          "list": [
+            { "text": "Sapporo: Snow Festival in February" },
+            { "text": "Hakone: Onsen views of Mt. Fuji" },
+            { "text": "Nagano: Snow monkeys & skiing" }
+          ]
+        }
+      ],
+      "decor": [
+        {
+          "side": "left",
+          "position": "center",
+          "url": "/wp-content/themes/ilegiants/assets/images/arrow-left.png",
+          "alt": "Left travel line"
+        },
+        {
+          "side": "right",
+          "position": "center",
+          "url": "/wp-content/themes/ilegiants/assets/images/arrow-right.png",
+          "alt": "Right travel line"
+        }
+      ]
+    }
+  },
+  "textdomain": "childtheme"
+}
