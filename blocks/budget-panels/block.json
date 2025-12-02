@@ -106,13 +106,13 @@
         {
           "side": "left",
           "position": "center",
-          "url": "https://example.com/decor-left.png",
+          "url": "",
           "alt": "Decor left"
         },
         {
           "side": "right",
           "position": "center",
-          "url": "https://example.com/decor-right.png",
+          "url": "",
           "alt": "Decor right"
         }
       ]
