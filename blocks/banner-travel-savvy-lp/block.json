@@ -26,6 +26,14 @@
     "headingTag": {
       "type": "string",
       "default": ""
+    },
+    "footerUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "footerLabel": {
+      "type": "string",
+      "default": ""
     }
   }
 }

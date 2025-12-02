@@ -103,6 +103,7 @@
   flex-direction: column;
 }
 
+
 /* Responsive tweaks */
 @media (max-width: 720px){
   .banner-strip__inner{

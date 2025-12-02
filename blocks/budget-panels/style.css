@@ -119,6 +119,21 @@
   color: #333333;
 }
 
+.budget-panel__group {
+  margin-bottom: 0.75rem;
+}
+
+.budget-panel__group-text {
+  margin: 0 0 0.6rem;
+  font-size: var(--wp--preset--font-size--body, 0.95rem);
+  line-height: 1.6;
+  color: #333333;
+  white-space: pre-line;
+  line-height: 1.4;      
+  margin-top: -1.5em;  
+}
+
+
 /* Footer */
 .budget-panel__footer {
   margin: 0.75rem 0 0;

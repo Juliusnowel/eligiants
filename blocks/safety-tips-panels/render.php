@@ -13,6 +13,9 @@ $columns  = max( 1, min( 2, $cols_raw ) ); // only 1 or 2 supported
 $panels_raw = isset( $attributes['panels'] ) && is_array( $attributes['panels'] ) ? $attributes['panels'] : [];
 $panels     = array_values( $panels_raw ); // reindex
 
+$footerText_raw = isset( $attributes['footerText'] ) ? (string) $attributes['footerText'] : '';
+$footerText     = $footerText_raw ? wp_kses_post( $footerText_raw ) : '';
+
 // Optional side decor (like card-2-text-image-responsive)
 $decor_raw = isset( $attributes['decor'] ) && is_array( $attributes['decor'] ) ? $attributes['decor'] : [];
 $decor     = array_values(
@@ -165,4 +168,11 @@ $wrapper_attributes = get_block_wrapper_attributes(
 			</article>
 		<?php endforeach; ?>
 	</div>
+
+	<?php if ( $footerText !== '' ) : ?>
+		<p class="safety-panels__footer">
+			<?php echo wp_kses_post( $footerText ); ?>
+		</p>
+	<?php endif; ?>
+
 </div>

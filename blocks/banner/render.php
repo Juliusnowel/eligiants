@@ -18,6 +18,8 @@ $defaults = [
   'bgImageUrl'      => '',
   'bgImagePosition' => 'center center',
   'minHeight'       => 0,
+  'footerUrl'       => '',
+  'footerLabel'  => '',
 ];
 
 $attrs = wp_parse_args( $attributes ?? [], $defaults );
@@ -61,13 +63,13 @@ $wrapper = get_block_wrapper_attributes([
 $title        = $attrs['title'] ?? '';
 $subtitle     = $attrs['subtitle'] ?? '';
 $tagline      = $attrs['tagline'] ?? '';
+$text         = $attrs['text'] ?? ''; 
 $cta_text     = $attrs['ctaText'] ?? '';
 $cta_url      = $attrs['ctaUrl']  ?? '#';
 $cta2_text    = $attrs['cta2Text'] ?? '';
 $cta2_url     = $attrs['cta2Url']  ?? '#';
 $cta2_accent  = $attrs['cta2Accent'] ?: '#ffffff';
 $title_shadow = ! empty( $attrs['titleShadow'] ) ? ' has-title-shadow' : '';
-
 ?>
 <div <?php echo $wrapper; ?>>
   <div class="banner-strip__outer">
@@ -132,6 +134,7 @@ $title_shadow = ! empty( $attrs['titleShadow'] ) ? ' has-title-shadow' : '';
           <?php endif; ?>
         </div>
       <?php endif; ?>
+      
     </div>
   </div>
 </div>

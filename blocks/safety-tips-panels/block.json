@@ -48,6 +48,10 @@
           "items": []
         }
       ]
+    },
+    "footerText": {
+      "type": "string",
+      "default": ""
     }
   },
   "example": {

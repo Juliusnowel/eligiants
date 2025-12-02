@@ -11,8 +11,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$title = isset( $attributes['title'] ) ? (string) $attributes['title'] : '';
-$text  = isset( $attributes['text'] )  ? (string) $attributes['text']  : '';
+$title        = isset( $attributes['title'] ) ? (string) $attributes['title'] : '';
+$text         = isset( $attributes['text'] )  ? (string) $attributes['text']  : '';
+$footer_url   = isset( $attributes['footerUrl'] ) ? (string) $attributes['footerUrl'] : '';
+$footer_label = isset( $attributes['footerLabel'] ) ? (string) $attributes['footerLabel'] : '';
 
 // New: heading tag control.
 $heading_tag_raw = isset( $attributes['headingTag'] ) ? strtolower( (string) $attributes['headingTag'] ) : '';
@@ -57,6 +59,14 @@ $wrapper_attributes = get_block_wrapper_attributes(
 			?>
 			<div class="banner-travel-savvy-lp__text">
 				<?php echo $text_html; ?>
+			</div>
+		<?php endif; ?>
+
+		<?php if ( $footer_url && $footer_label ) : ?>
+			<div class="banner-travel-savvy-lp__footer">
+				<a class="banner-travel-savvy-lp__footer-link" href="<?php echo esc_url( $footer_url ); ?>">
+					<?php echo esc_html( $footer_label ); ?>
+				</a>
 			</div>
 		<?php endif; ?>
 	</div>

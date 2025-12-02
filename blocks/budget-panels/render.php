@@ -93,6 +93,7 @@ $wrapper_attributes = get_block_wrapper_attributes(
 			if ( ! $title && ! $text_raw && ! $footer
 				&& empty( $panel['subTitle'] ) && empty( $panel['list'] )
 				&& empty( $panel['subTitle2'] ) && empty( $panel['list2'] )
+				&& empty( $panel['groupText'] )
 			) {
 				continue;
 			}
@@ -114,16 +115,21 @@ $wrapper_attributes = get_block_wrapper_attributes(
 
 			$has_icon_left = ( $heading_icon_align === 'left' && $heading_icon_url !== '' );
 
+			// Inline HTML allowed in subtitles / list items / groupText
+			$allowed_inline = [
+				'b'      => [ 'class' => [], 'style' => [] ],
+				'strong' => [ 'class' => [], 'style' => [] ],
+				'em'     => [ 'class' => [], 'style' => [] ],
+				'i'      => [ 'class' => [], 'style' => [] ],
+				'span'   => [ 'class' => [], 'style' => [] ],
+				'br'     => [],
+			];
+
 			/**
 			 * Collect ALL subTitle + list pairs into $sections.
-			 * Supports:
-			 *   - subTitle + list   (your existing structure)
-			 *   - subTitle2 + list2 (new)
-			 *   - subTitle3 + list3, etc. if you add them later
 			 */
 			$sections = [];
 
-			// Keys to scan in order. First pair keeps old naming.
 			$pairs = [
 				[ 'subTitle',  'list'  ],
 				[ 'subTitle2', 'list2' ],
@@ -140,7 +146,7 @@ $wrapper_attributes = get_block_wrapper_attributes(
 					? $panel[ $list_key ]
 					: [];
 
-				// Normalize list items to simple text strings.
+				// Normalize list items to simple strings
 				$items = [];
 				foreach ( $list_raw as $li ) {
 					if ( is_array( $li ) ) {
@@ -153,7 +159,6 @@ $wrapper_attributes = get_block_wrapper_attributes(
 					}
 				}
 
-				// Skip truly empty sections.
 				if ( $sub === '' && empty( $items ) ) {
 					continue;
 				}
@@ -161,6 +166,34 @@ $wrapper_attributes = get_block_wrapper_attributes(
 				$sections[] = [
 					'title' => $sub,
 					'items' => $items,
+				];
+			}
+
+			/**
+			 * groupText: multiple titled paragraphs, no bullets.
+			 * Example shape:
+			 * "groupText": [
+			 *   { "title": "Chopsticks rules", "text": "..." },
+			 *   { "title": "Slurping is okay", "text": "..." }
+			 * ]
+			 */
+			$group_text_raw   = isset( $panel['groupText'] ) && is_array( $panel['groupText'] ) ? $panel['groupText'] : [];
+			$group_text_items = [];
+
+			foreach ( $group_text_raw as $g ) {
+				if ( ! is_array( $g ) ) {
+					continue;
+				}
+				$g_title = isset( $g['title'] ) ? trim( (string) $g['title'] ) : '';
+				$g_text  = isset( $g['text'] ) ? trim( (string) $g['text'] ) : '';
+
+				if ( $g_title === '' && $g_text === '' ) {
+					continue;
+				}
+
+				$group_text_items[] = [
+					'title' => $g_title,
+					'text'  => $g_text,
 				];
 			}
 			?>
@@ -192,13 +225,14 @@ $wrapper_attributes = get_block_wrapper_attributes(
 						</div>
 					<?php endif; ?>
 
-					<?php if ( ! empty( $sections ) ) : ?>
+					<?php if ( ! empty( $sections ) || ! empty( $group_text_items ) ) : ?>
 						<div class="budget-panel__sections">
+
 							<?php foreach ( $sections as $section ) : ?>
 								<div class="budget-panel__section">
 									<?php if ( $section['title'] !== '' ) : ?>
 										<h4 class="budget-panel__subtitle">
-											<?php echo esc_html( $section['title'] ); ?>
+											<?php echo wp_kses( $section['title'], $allowed_inline ); ?>
 										</h4>
 									<?php endif; ?>
 
@@ -206,13 +240,32 @@ $wrapper_attributes = get_block_wrapper_attributes(
 										<ul class="budget-panel__list">
 											<?php foreach ( $section['items'] as $item_text ) : ?>
 												<li class="budget-panel__list-item">
-													<?php echo esc_html( $item_text ); ?>
+													<?php echo wp_kses( $item_text, $allowed_inline ); ?>
 												</li>
 											<?php endforeach; ?>
 										</ul>
 									<?php endif; ?>
 								</div>
 							<?php endforeach; ?>
+
+							<?php if ( ! empty( $group_text_items ) ) : ?>
+								<?php foreach ( $group_text_items as $group ) : ?>
+									<div class="budget-panel__group">
+										<?php if ( $group['title'] !== '' ) : ?>
+											<h4 class="budget-panel__subtitle budget-panel__group-title">
+												<?php echo wp_kses( $group['title'], $allowed_inline ); ?>
+											</h4>
+										<?php endif; ?>
+
+										<?php if ( $group['text'] !== '' ) : ?>
+											<p class="budget-panel__group-text">
+												<?php echo wp_kses_post( $group['text'] ); ?>
+											</p>
+										<?php endif; ?>
+									</div>
+								<?php endforeach; ?>
+							<?php endif; ?>
+
 						</div>
 					<?php endif; ?>
 

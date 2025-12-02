@@ -326,6 +326,12 @@ body {
   margin: 0;
 }
 
+.logo-img-kr {
+  width: 240px;
+  height: auto;
+  margin: 0;
+}
+
 @media (max-width: 768px) {
   .logo-wrapper {
       padding: 40px 0 0 0;    

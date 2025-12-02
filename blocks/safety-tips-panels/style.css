@@ -30,17 +30,16 @@
   }
 }
 
-/* Tall side decor – mirror card-2-text-image-responsive */
 .safety-panels__decor {
   position: absolute;
-  top: 50%;                  /* vertically centered */
+  top: 50%;                 
   transform: translateY(-50%);
   pointer-events: none;
   user-select: none;
   z-index: 0;
-  height: 180%;              /* make it tall, stretch past section height */
+  height: 180%;              
   width: auto;
-  max-width: clamp(80px, 10vw, 280px); /* nice big width like card block */
+  max-width: clamp(80px, 10vw, 280px); 
   object-fit: contain;
 }
 
@@ -97,7 +96,7 @@
 }
 
 /* Divider line */
-.safety-panel__title + .safety-panel__intro::before {
+/* .safety-panel__title + .safety-panel__intro::before {
   content: "";
   display: block;
   width: 100%;
@@ -105,7 +104,7 @@
   border-radius: 999px;
   background-color: var(--rule);
   margin: 0 0 0.85rem;
-}
+} */
 
 /* Single-column layout: center heading/intro */
 .safety-panels--single .safety-panel__title,
@@ -113,11 +112,16 @@
   text-align: center;
 }
 
-.safety-panels--single .safety-panel__title + .safety-panel__intro::before {
+.safety-panels--single .safety-panel__title {
+  padding-bottom: 0.85rem;
+  border-bottom: 3px solid var(--rule);
+}
+
+/* .safety-panels--single .safety-panel__title + .safety-panel__intro::before {
   margin-left: auto;
   margin-right: auto;
-  /* max-width: 280px; */
-}
+  /* max-width: 280px; 
+} */
 
 /* Items stack */
 .safety-panel__items {
@@ -168,6 +172,16 @@
   line-height: 1.6;
   color: #333333;
 }
+
+.safety-panels__footer {
+  margin: 0 auto;
+  max-width: 46rem;
+  text-align: center;
+  font-size: var(--wp--preset--font-size--body, 0.98rem);
+  color: #333333;
+  white-space: pre-line;
+}
+
 
 /* Compact spacing on narrow screens */
 @media (max-width: 600px) {

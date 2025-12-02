@@ -55,3 +55,24 @@ p.banner-travel-savvy-lp__title {
     margin: 0;
     word-break: normal;
 }
+
+.banner-travel-savvy-lp__footer {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.banner-travel-savvy-lp__footer-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--wp--preset--font-family--outfit, sans-serif);
+    font-weight: 700;
+    color: #f24b27;
+    text-decoration: underline;
+}
+
+.banner-travel-savvy-lp__footer-link:hover,
+.banner-travel-savvy-lp__footer-link:focus {
+    text-decoration: none;
+}
