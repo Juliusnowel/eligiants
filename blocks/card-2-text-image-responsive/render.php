@@ -181,13 +181,25 @@
           <?php if (!empty($bulletGroups)): ?>
             <div class="card-2-text-img-resp__lists">
               <?php foreach ($bulletGroups as $group):
+
+                // Title
                 $groupTitleRaw = $group['title'] ?? '';
                 $groupTitle    = trim((string) $groupTitleRaw);
 
+                // New: body text inside the group
+                $groupTextRaw  = $group['text'] ?? '';
+                $groupText     = trim((string) $groupTextRaw);
+
+                // Items
                 $itemsRaw = (isset($group['items']) && is_array($group['items'])) ? $group['items'] : [];
                 $items    = array_values(array_filter(array_map('trim', $itemsRaw)));
 
-                if ($groupTitle === '' && empty($items)) {
+                // New: footer text for this group only
+                $groupFooterRaw = $group['footerText'] ?? '';
+                $groupFooter    = trim((string) $groupFooterRaw);
+
+                // If EVERYTHING is empty, skip the group
+                if ($groupTitle === '' && $groupText === '' && empty($items) && $groupFooter === '') {
                   continue;
                 }
               ?>
@@ -204,6 +216,12 @@
                           'span'   => ['class' => [], 'style' => []],
                         ]
                       ); ?>
+                    </p>
+                  <?php endif; ?>
+
+                  <?php if ($groupText !== ''): ?>
+                    <p class="card-2-text-img-resp__list-text">
+                      <?= wp_kses_post($groupText); ?>
                     </p>
                   <?php endif; ?>
 
@@ -225,11 +243,16 @@
                       <?php endforeach; ?>
                     </ul>
                   <?php endif; ?>
+
+                  <?php if ($groupFooter !== ''): ?>
+                    <p class="card-2-text-img-resp__list-footer">
+                      <?= wp_kses_post($groupFooter); ?>
+                    </p>
+                  <?php endif; ?>
                 </div>
               <?php endforeach; ?>
             </div>
           <?php endif; ?>
-
 
           <?php if ( ($buttonText !== '' || $button2Text !== '') && $ctaAlign !== 'hidden' ): ?>
             <div class="card-2-text-img-resp__cta-wrap card-2-text-img-resp__cta-wrap--<?= esc_attr($ctaAlign); ?>">

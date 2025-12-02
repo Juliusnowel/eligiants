@@ -388,6 +388,23 @@
   font-size: var(--wp--preset--font-size--body);
 }
 
+.card-2-text-img-resp__list-text{
+  text-align: start;
+  font-size: var(--wp--preset--font-size--body);
+  color: var(--wp--preset--color--ink, #212529);
+  white-space: pre-line;
+  line-height: 1.4;      
+  margin-top: -1.5em;  
+}
+
+
+.card-2-text-img-resp__list-footer{
+  font-size: var(--wp--preset--font-size--body);
+  color: var(--wp--preset--color--ink, #212529);
+  opacity: .9;
+  white-space: pre-line;
+}
+
 /* ===== Font Awesome icon variant (only if li contains FA icon) ===== */
 
 /* When li has a FA icon, switch to “icon + text” layout and remove bullet */
