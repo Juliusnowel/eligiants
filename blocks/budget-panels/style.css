@@ -68,7 +68,7 @@
 .budget-panel__title {
   margin: 0;
   font-size: var(--wp--preset--font-size--h-2);
-  font-weight: 800;
+  font-weight: 700;
   color: var(--accent);
   border-bottom: 3px solid #f1c13f;
   padding-bottom: 10px;

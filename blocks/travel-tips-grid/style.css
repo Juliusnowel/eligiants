@@ -104,6 +104,7 @@
   color: #2e2e2e;
   font-size: var(--wp--preset--font-size--body, 1rem);
   line-height: 1.6;
+  white-space: pre-line;
 }
 
 .travel-tips__card-body p + p {
