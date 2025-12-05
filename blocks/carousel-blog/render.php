@@ -2,6 +2,7 @@
 if ( ! defined('ABSPATH') ) { exit; }
 
 /** Helpers */
+if (!function_exists('cb_map_terms_to_ids')) {
 function cb_map_terms_to_ids($maybe_ids_or_slugs, $taxonomy){
   if (!is_array($maybe_ids_or_slugs) || empty($maybe_ids_or_slugs)) return [];
   $ids = [];
@@ -12,18 +13,21 @@ function cb_map_terms_to_ids($maybe_ids_or_slugs, $taxonomy){
   }
   return array_values(array_unique(array_filter($ids)));
 }
-function cb_render_dotlist($uid, $ids, $per_view, $suffix){
-  $n = count($ids);
-  $per = max(1, intval($per_view));
-  $pages = (int) ceil($n / $per);
-  if ($pages < 1) return;
-  echo '<ol class="carousel-blog__dots carousel-blog__dots--' . esc_attr($suffix) . '" role="tablist" aria-label="Select slide">';
+}
+if (!function_exists('cb_render_dotlist')) {
+  function cb_render_dotlist($uid, $ids, $per_view, $suffix){
+    $n = count($ids);
+    $per = max(1, intval($per_view));
+    $pages = (int) ceil($n / $per);
+    if ($pages < 1) return;
+    echo '<ol class="carousel-blog__dots carousel-blog__dots--' . esc_attr($suffix) . '" role="tablist" aria-label="Select slide">';
   for ($p = 0; $p < $pages; $p++) {
     $center_index = min($n - 1, $p * $per + (int) floor(($per - 1) / 2));
     $target_id = $ids[$center_index];
     echo '<li><a class="carousel-blog__dot" role="tab" href="#' . esc_attr($target_id) . '" aria-label="' . esc_attr(sprintf(__('Go to page %d','childtheme'), $p+1)) . '"></a></li>';
   }
   echo '</ol>';
+}
 }
 
 /** Attributes */
@@ -41,6 +45,10 @@ $imageSize   = (string)($attributes['imageSize'] ?? 'large');
 $per_m = max(1, intval($attributes['perViewMobile']  ?? 1));
 $per_t = max(1, intval($attributes['perViewTablet']  ?? 2));
 $per_d = max(1, intval($attributes['perViewDesktop'] ?? 3));
+
+$imageIcon         = esc_url((string)($attributes['imageIcon'] ?? ''));
+$cardBackgroundColor = sanitize_hex_color_no_hash($attributes['cardBackgroundColor'] ?? ''); // Use sanitize_hex_color for safety, assuming it's a hex code
+$background_style  = $cardBackgroundColor ? 'style="--card-bg: #' . $cardBackgroundColor . ';"' : '';
 
 /** Build slides */
 $slides = [];
@@ -94,7 +102,7 @@ $wrapper_attributes = get_block_wrapper_attributes([
 $ids = [];
 for ($i=0; $i<$count; $i++) $ids[$i] = $uid . '-s' . ($i+1);
 ?>
-<div <?php echo $wrapper_attributes; ?>>
+<div <?php echo $wrapper_attributes; ?> <?php echo $background_style; ?>>
 
   <?php if ($heading || $subheading): ?>
     <div class="carousel-blog__header">
@@ -102,6 +110,12 @@ for ($i=0; $i<$count; $i++) $ids[$i] = $uid . '-s' . ($i+1);
       <?php if ($subheading): ?><p class="carousel-blog__sub"><?php echo wp_kses_post($subheading); ?></p><?php endif; ?>
     </div>
   <?php endif; ?>
+
+  <?php // --- NEW: Image Icon Display (placed inside the main wrapper) --- ?>
+  <?php if ($imageIcon): ?>
+    <img class="carousel-blog__icon" src="<?php echo $imageIcon; ?>" alt="" loading="lazy" decoding="async" aria-hidden="true" />
+  <?php endif; ?>
+  <?php // ----------------------------------------------------------------- ?>
 
   <div class="carousel-blog__viewport" role="region" aria-label="<?php esc_attr_e('Blog Carousel','childtheme'); ?>">
     <div class="carousel-blog__track">

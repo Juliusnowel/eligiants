@@ -97,53 +97,67 @@ body {
 }
 .contact-split {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  align-items: stretch;
+  grid-template-columns: minmax(420px, 2fr) minmax(280px, 1fr);
+  gap: 2.5rem 2rem;
+  align-items: center;
 }
 @media (max-width: 1349px) {
   .contact-split {
     grid-template-columns: 1fr;
+    justify-items: stretch;
+  }
+  .contact-col--right {
+    max-width: none;
+    justify-self: stretch;
   }
 }
 
-/* Right column = two equal-height cards */
 .contact-col--right {
-  display: grid;
-  grid-template-rows: 1fr 1fr;
-  gap: 1.25rem;
-  height: 100%;
+  display: block;
+  max-width: 420px;
+  justify-self: center;
+  align-self: center;
 }
-.contact-col--right .card + .card {
-  margin-top: 0;
-} /* grid gap controls spacing */
 
 .contact-col--left {
   display: grid;
-  height: 100%;
 }
 /* Cards */
 .card {
   background: #fff;
-  border: 1px solid #ececec;
-  border-radius: 8px;
-  padding: 22px;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12), 0 12px 24px rgba(0, 0, 0, 0.1),
-    0 0 0 1px rgba(0, 0, 0, 0.04);
+  border: none !important;
+  border-radius: 32px !important;
+  padding: 42px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px !important;
 }
 .card + .card {
   margin-top: 1.25rem;
 }
+/* .card--form {
+  background: linear-gradient(180deg, #fcfcfc 0%, #f7f7f7 100%);
+} */
 .card-title {
-  margin: 0 0 1rem;
+  margin: 0 0 1.75rem;
   font-weight: 700;
-  text-transform: uppercase;
-  font-size: var(--wp--preset--font-size--h-3);
-  letter-spacing: 0.05em;
+  color: #ff5e3a !important; /* Orange color */
+  font-size: 1.75rem;
+  position: relative;
+  display: block;
+  padding-bottom: 12px;
+}
+.card-title::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #f7b733; /* Yellow underline */
+  border-radius: 999px;
 }
 .card-title + * {
-  border-top: 1px solid #eee;
-  padding-top: 1rem !important;
+  border-top: none;
+  padding-top: 0 !important;
 }
 
 /* ===== CF7 form ===== */
@@ -170,57 +184,122 @@ body {
 }
 
 .cf7-grid .field label {
-  margin: 0 0 0.35rem !important;
+  margin: 0 0 0.5rem !important;
   line-height: 1.2;
   font-size: 1rem;
-  font-weight: 600;
-  text-transform: uppercase;
+  font-weight: 700;
+  color: #333;
 }
 
 .cf7-grid input[type='text'],
 .cf7-grid input[type='email'],
-.cf7-grid input[type='tel'],
-.cf7-grid textarea,
-.wpcf7 form .form-control {
+.cf7-grid input[type='tel'] {
   width: 100%;
   margin: 0;
-  background: #f7f7f7;
+  background: #f3f3f3;
   border: 1px solid #e6e6e6;
-  border-radius: 6px;
-  padding: 12px 14px;
+  border-radius: 999px;
+  padding: 16px 20px;
   font-size: var(--wp--preset--font-size--body);
+  transition: border-color 0.2s;
+}
+
+.cf7-grid input:focus,
+.cf7-grid textarea:focus {
+  border-color: #ff5e3a;
+  outline: none;
 }
 .cf7-grid textarea {
-  min-height: 140px;
+  min-height: 160px;
+  border-radius: 18px;
   resize: vertical;
 }
 #cf7-message {
   min-height: 6.5rem;
   resize: none;
   overflow-y: auto;
+  background: #F5F5F5;
 }
 .cf7-grid .actions {
   grid-column: 1/-1;
   margin-top: 4px;
 }
+
+/* Make the default CF7 contact form mimic the two-column layout */
+.cf7-contact {
+  display: grid;
+  /* grid-template-columns: 1fr; */
+  gap: 18px 16px;
+}
+.cf7-contact p {
+  margin: 0;
+}
+.cf7-contact p:nth-of-type(1),
+.cf7-contact p:nth-of-type(2) {
+  grid-column: auto;
+}
+.cf7-contact p:nth-of-type(3),
+.cf7-contact p:nth-of-type(4) {
+  grid-column: 1 / -1;
+}
+.cf7-contact input[type='text'],
+.cf7-contact input[type='email'],
+.cf7-contact input[type='tel'],
+.cf7-contact textarea {
+  width: 100%;
+  margin: 0;
+  /* --- EDITED: Lighter background, softer border (to match image) --- */
+  border: 1px solid #ededed; /* Light grey border */
+  /* ----------------------------------------------------------------- */
+  border-radius: 999px;
+  padding: 16px 20px;
+  font-size: var(--wp--preset--font-size--body);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.cf7-contact textarea {
+  min-height: 160px;
+  border-radius: 24px;
+  resize: vertical;
+}
+.cf7-contact input:focus,
+.cf7-contact textarea:focus {
+  border-color: #ff5e3a;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 94, 58, 0.12);
+}
+.cf7-contact ::placeholder {
+  color: #9a9a9a;
+}
+@media (max-width: 720px) {
+  .cf7-contact {
+    grid-template-columns: 1fr;
+  }
+  .cf7-contact p {
+    grid-column: 1 / -1 !important;
+  }
+}
+
 .cf7-grid .btn,
 .wpcf7 form .btn-primary {
   display: inline-block;
-  background: #e31d24;
+  background: #ff5e3a;
   color: #fff;
-  border: 1px solid #e31d24;
-  border-radius: 6px;
-  padding: 12px 16px;
+  border: 1px solid #ff5e3a;
+  border-radius: 14px;
+  padding: 14px 24px;
   font-weight: 700;
   text-transform: uppercase;
   cursor: pointer;
-  width: 180px;
-  font-size: var(--wp--preset--font-size--body);
+  width: 100%; /* Full width button looks better in card */
+  font-size: 1rem;
+  transition: all 0.2s ease;
 }
 .wpcf7 form .btn-primary:hover {
-  background: #fff;
-  border-color: #e31d24;
-  color: #e31d24;
+  background: #e04828;
+  border-color: #e04828;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 94, 58, 0.3);
 }
 .wpcf7-response-output {
   display: none;
@@ -231,16 +310,9 @@ body {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 28px;
-  row-gap: 16px;
-  align-items: start;
-}
-@media (max-width: 700px) {
-  .card--info .info-list {
-    grid-template-columns: 1fr;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
 }
 
 .card--info .info-item {
@@ -249,11 +321,15 @@ body {
   gap: 12px;
 }
 .card--info .icon {
-  flex: 0 0 22px;
-  font-size: 20px;
+  flex: 0 0 44px;
+  width: 54px;
+  height: 54px;
+  display: inline-grid;
+  place-items: center;
+  font-size: 28px;
   line-height: 1;
-  color: #e31d24;
-  margin-top: 3px;
+  color: #ff5e3a;
+  margin-top: 2px;
   text-align: center;
 }
 .card--info .info-item > div {
@@ -262,10 +338,9 @@ body {
 
 .card--info .label {
   margin: 0 0 4px;
-  font-size: var(--wp--preset--font-size--body);
+  font-size: 1rem;
   font-weight: 700;
-  text-transform: uppercase;
-  color: #7a7a7a;
+  color: #333;
 }
 .card--info .info-item p,
 .card--info .info-item address {
@@ -867,7 +942,6 @@ ol.wp-block-comment-template .children > li {
   border: 1px solid var(--card-border);
   border-radius: 12px;
   padding: 0.75rem 0.9rem;
-  background: #fff;
   font: inherit;
   font-size: var(--wp--preset--font-size--body);
 }

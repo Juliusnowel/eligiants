@@ -14,9 +14,26 @@
   --dot: #e2e6ea;
   --dot-active: #FD593C;
   --arrow-inset: clamp(40px, 9vw, 140px);
+  background: var(--card-bg, #ffffff); 
   position: relative;
+  padding-top: 1rem; 
+  padding-bottom: 1rem;
   --arrow-top: 28%;
 }
+
+.carousel-blog__icon {
+  position: absolute;
+  left: 10%;
+  transform: translateX(0);
+  top: 120px;
+
+  width: clamp(120px, 15vw, 250px);
+  height: auto;
+
+  z-index: 0;
+  pointer-events: none;
+}
+
 
 /* Header */
 .carousel-blog__header{ text-align:center; margin:0 auto 1.25rem;}
@@ -126,5 +143,11 @@
   .carousel-blog{
     --card-w: clamp(300px, 26vw, 380px);
     --card-h: clamp(360px, 32vw, 460px);
+  }
+}
+
+@media (max-width: 1199.98px) {
+  .carousel-blog__icon {
+    display: none;
   }
 }

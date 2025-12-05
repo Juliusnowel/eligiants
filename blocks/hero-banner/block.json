@@ -10,9 +10,9 @@
   "render": "file:./render.php",
   "usesContext": ["postType","postId"],
   "attributes": {
-    "title":       { "type": "string",  "default": "Travel Smarter, Wander Freely" },
-    "subtitle":    { "type": "string",  "default": "Smart Prep, Stress-Free Adventures" },
-    "tagline":     { "type": "string",  "default": "Whether travelers are setting out on their first getaway or a long-awaited escape, the right strategies make every trip smoother." },
+    "title":       { "type": "string",  "default": "" },
+    "subtitle":    { "type": "string",  "default": "" },
+    "tagline":     { "type": "string",  "default": "" },
     "ctaText":     { "type": "string",  "default": "" },
     "ctaUrl":      { "type": "string",  "default": "#" },
     "cta2Text":    { "type": "string",  "default": "" },         

@@ -1,7 +1,7 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "ilegiants/banner",
+  "name": "childtheme/banner",
   "title": "Banner Strip",
   "category": "design",
   "icon": "align-center",

@@ -1,5 +1,5 @@
 {
-  "apiVersion": 2,
+  "apiVersion": 3,
   "name": "childtheme/carousel-blog",
   "title": "Carousel – Blog",
   "category": "widgets",
@@ -20,6 +20,9 @@
     "categories": { "type": "array", "default": [] },
     "tags": { "type": "array", "default": [] },
 
+    "imageIcon": { "type": "string", "default": "" },     
+    "cardBackgroundColor": { "type": "string", "default": "" }, 
+    
     "items": {
       "type": "array",
       "default": [],
