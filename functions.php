@@ -77,6 +77,20 @@ add_action('wp_enqueue_scripts', function () {
   }
 }, 20);
 
+// /wp-content/themes/LEAFLET-CHILD-THEME/functions.php
+add_action('wp_enqueue_scripts', function () {
+    // Leaflet core
+    wp_enqueue_style('leaflet', 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css', [], '1.9.4');
+    wp_enqueue_script('leaflet', 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js', [], '1.9.4', true);
+
+    // Font Awesome 6 (solid)
+    wp_enqueue_style(
+    'fa6',
+    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css',
+    [],
+    '6.5.2'
+    );
+});
 
 add_action('after_setup_theme', function () {
   add_theme_support('title-tag');

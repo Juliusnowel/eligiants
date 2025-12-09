@@ -1,0 +1,23 @@
+[
+  {
+    "id": "c1",
+    "segment": "coffee",
+    "name": "Fritz Coffee Company",
+    "city": "Seoul",
+    "lat": 37.5383,
+    "lng": 126.9727,
+    "rating": 4.7,
+    "address": "161 Sajik-ro, Jongno-gu, Seoul",
+    "image": "https://example.com/fritz.jpg"
+  },
+  {
+    "id": "b1",
+    "segment": "beaches",
+    "name": "Haeundae Beach",
+    "city": "Busan",
+    "lat": 35.158698,
+    "lng": 129.160384,
+    "rating": 4.6,
+    "address": "Haeundae-gu, Busan"
+  }
+]

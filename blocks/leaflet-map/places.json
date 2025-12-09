@@ -1,0 +1,1569 @@
+[
+  {
+    "id": "c1",
+    "segment": "coffee",
+    "name": "Onion Anguk",
+    "city": "Seoul",
+    "lat": 37.577,
+    "lng": 126.986,
+    "rating": 4.6,
+    "price_range": "100-200"
+  },
+  {
+    "id": "c2",
+    "segment": "coffee",
+    "name": "Fritz Coffee Company",
+    "city": "Seoul",
+    "lat": 37.541,
+    "lng": 126.946,
+    "rating": 4.7,
+    "price_range": "100-200"
+  },
+  {
+    "id": "c3",
+    "segment": "coffee",
+    "name": "Momos Coffee",
+    "city": "Busan",
+    "lat": 35.221,
+    "lng": 129.086,
+    "rating": 4.8,
+    "price_range": "100-200"
+  },
+  {
+    "id": "c4",
+    "segment": "coffee",
+    "name": "Terarosa Coffee (Gangneung)",
+    "city": "Gangneung",
+    "lat": 37.747,
+    "lng": 128.892,
+    "rating": 4.6,
+    "price_range": "100-200"
+  },
+  {
+    "id": "c5",
+    "segment": "coffee",
+    "name": "Anthracite Coffee",
+    "city": "Jeju",
+    "lat": 33.393,
+    "lng": 126.24,
+    "rating": 4.5,
+    "price_range": "600-810"
+  },
+  {
+    "id": "c6",
+    "segment": "coffee",
+    "name": "Blue Bottle Samcheong",
+    "city": "Seoul",
+    "lat": 37.58,
+    "lng": 126.981,
+    "rating": 4.5,
+    "price_range": "600-800"
+  },
+  {
+    "id": "c7",
+    "segment": "coffee",
+    "name": "Camel Coffee",
+    "city": "Seoul",
+    "lat": 37.525,
+    "lng": 127.037,
+    "rating": 4.4
+  },
+  {
+    "id": "c8",
+    "segment": "coffee",
+    "name": "Low Key",
+    "city": "Seoul",
+    "lat": 37.545,
+    "lng": 127.054,
+    "rating": 4.6
+  },
+  {
+    "id": "c9",
+    "segment": "coffee",
+    "name": "Dorrell Coffee",
+    "city": "Jeju",
+    "lat": 33.456,
+    "lng": 126.908,
+    "rating": 4.4
+  },
+  {
+    "id": "c10",
+    "segment": "coffee",
+    "name": "Coffee Libre",
+    "city": "Seoul",
+    "lat": 37.562,
+    "lng": 126.984,
+    "rating": 4.6
+  },
+  {
+    "id": "s1",
+    "segment": "samgyup",
+    "name": "Geumpigajok",
+    "city": "Seoul",
+    "lat": 37.555,
+    "lng": 126.923,
+    "rating": 4.5
+  },
+  {
+    "id": "s2",
+    "segment": "samgyup",
+    "name": "Yukjeon Sikdang",
+    "city": "Seoul",
+    "lat": 37.574,
+    "lng": 127.025,
+    "rating": 4.7
+  },
+  {
+    "id": "s3",
+    "segment": "samgyup",
+    "name": "Hanam Pig House",
+    "city": "Seoul",
+    "lat": 37.504,
+    "lng": 127.025,
+    "rating": 4.4
+  },
+  {
+    "id": "s4",
+    "segment": "samgyup",
+    "name": "Sukseongdo",
+    "city": "Jeju",
+    "lat": 33.499,
+    "lng": 126.531,
+    "rating": 4.8
+  },
+  {
+    "id": "s5",
+    "segment": "samgyup",
+    "name": "Janguhjin",
+    "city": "Busan",
+    "lat": 35.1532,
+    "lng": 129.1181,
+    "rating": 4.3
+  },
+  {
+    "id": "s6",
+    "segment": "samgyup",
+    "name": "Wangbijib",
+    "city": "Seoul",
+    "lat": 37.5636,
+    "lng": 126.983,
+    "rating": 4.4
+  },
+  {
+    "id": "s7",
+    "segment": "samgyup",
+    "name": "Samgyeop Story",
+    "city": "Seoul",
+    "lat": 37.5569,
+    "lng": 126.9239,
+    "rating": 4.2
+  },
+  {
+    "id": "s8",
+    "segment": "samgyup",
+    "name": "Baetjang",
+    "city": "Seoul",
+    "lat": 37.4986,
+    "lng": 127.0276,
+    "rating": 4.3
+  },
+  {
+    "id": "s9",
+    "segment": "samgyup",
+    "name": "Palsaik Samgyupsal",
+    "city": "Seoul",
+    "lat": 37.556,
+    "lng": 126.936,
+    "rating": 4.1
+  },
+  {
+    "id": "s10",
+    "segment": "samgyup",
+    "name": "Donsadon",
+    "city": "Jeju",
+    "lat": 33.485,
+    "lng": 126.476,
+    "rating": 4.6
+  },
+  {
+    "id": "n1",
+    "segment": "noodles",
+    "name": "Myeongdong Kyoja",
+    "city": "Seoul",
+    "lat": 37.562,
+    "lng": 126.985,
+    "rating": 4.6
+  },
+  {
+    "id": "n2",
+    "segment": "noodles",
+    "name": "Gogung Naengmyeon",
+    "city": "Jeonju",
+    "lat": 35.815,
+    "lng": 127.15,
+    "rating": 4.3
+  },
+  {
+    "id": "n3",
+    "segment": "noodles",
+    "name": "Eulji Myeonok",
+    "city": "Seoul",
+    "lat": 37.566,
+    "lng": 126.993,
+    "rating": 4.4
+  },
+  {
+    "id": "n4",
+    "segment": "noodles",
+    "name": "Woo Lae Oak",
+    "city": "Seoul",
+    "lat": 37.568,
+    "lng": 126.998,
+    "rating": 4.5
+  },
+  {
+    "id": "n5",
+    "segment": "noodles",
+    "name": "Guksu Geori",
+    "city": "Damyang",
+    "lat": 35.321,
+    "lng": 127.0,
+    "rating": 4.4
+  },
+  {
+    "id": "n6",
+    "segment": "noodles",
+    "name": "Jamae Guksu",
+    "city": "Jeju",
+    "lat": 33.516,
+    "lng": 126.526,
+    "rating": 4.6
+  },
+  {
+    "id": "n7",
+    "segment": "noodles",
+    "name": "Noodle Tree",
+    "city": "Busan",
+    "lat": 35.1645,
+    "lng": 129.16,
+    "rating": 4.3
+  },
+  {
+    "id": "n8",
+    "segment": "noodles",
+    "name": "Naengmyeon Alley",
+    "city": "Daegu",
+    "lat": 35.869,
+    "lng": 128.594,
+    "rating": 4.2
+  },
+  {
+    "id": "n9",
+    "segment": "noodles",
+    "name": "Kalguksu Alley",
+    "city": "Seoul",
+    "lat": 37.561,
+    "lng": 126.982,
+    "rating": 4.2
+  },
+  {
+    "id": "n10",
+    "segment": "noodles",
+    "name": "Jjolmyeon Street",
+    "city": "Incheon",
+    "lat": 37.456,
+    "lng": 126.705,
+    "rating": 4.0
+  },
+  {
+    "id": "k1",
+    "segment": "chicken",
+    "name": "Kyochon Chicken Hongdae",
+    "city": "Seoul",
+    "lat": 37.556,
+    "lng": 126.923,
+    "rating": 4.5
+  },
+  {
+    "id": "k2",
+    "segment": "chicken",
+    "name": "BHC Chicken Myeongdong",
+    "city": "Seoul",
+    "lat": 37.563,
+    "lng": 126.984,
+    "rating": 4.4
+  },
+  {
+    "id": "k3",
+    "segment": "chicken",
+    "name": "Nene Chicken",
+    "city": "Seoul",
+    "lat": 37.555,
+    "lng": 126.923,
+    "rating": 4.3
+  },
+  {
+    "id": "k4",
+    "segment": "chicken",
+    "name": "Suwon Galbi Chicken Street",
+    "city": "Suwon",
+    "lat": 37.279,
+    "lng": 127.017,
+    "rating": 4.7
+  },
+  {
+    "id": "k5",
+    "segment": "chicken",
+    "name": "Outdark",
+    "city": "Busan",
+    "lat": 35.158,
+    "lng": 129.06,
+    "rating": 4.6
+  },
+  {
+    "id": "k6",
+    "segment": "chicken",
+    "name": "Kkanbu Chicken",
+    "city": "Seoul",
+    "lat": 37.525,
+    "lng": 127.025,
+    "rating": 4.3
+  },
+  {
+    "id": "k7",
+    "segment": "chicken",
+    "name": "BBQ Olive Chicken",
+    "city": "Seoul",
+    "lat": 37.575,
+    "lng": 126.973,
+    "rating": 4.2
+  },
+  {
+    "id": "k8",
+    "segment": "chicken",
+    "name": "Puradak Chicken",
+    "city": "Seoul",
+    "lat": 37.558,
+    "lng": 126.936,
+    "rating": 4.2
+  },
+  {
+    "id": "k9",
+    "segment": "chicken",
+    "name": "Goobne Chicken",
+    "city": "Seoul",
+    "lat": 37.5645,
+    "lng": 126.985,
+    "rating": 4.1
+  },
+  {
+    "id": "k10",
+    "segment": "chicken",
+    "name": "Hyodo Chicken",
+    "city": "Jeju",
+    "lat": 33.4895,
+    "lng": 126.4985,
+    "rating": 4.0
+  },
+  {
+    "id": "a7",
+    "segment": "attractions",
+    "name": "COEX & Starfield Library",
+    "city": "Seoul",
+    "lat": 37.512563,
+    "lng": 127.058887,
+    "rating": 4.6,
+    "address": "513 Yeongdong-daero, Gangnam-gu, Seoul"
+  },
+  {
+    "id": "a8",
+    "segment": "attractions",
+    "name": "Gwanghwamun Square",
+    "city": "Seoul",
+    "lat": 37.572173,
+    "lng": 126.976906,
+    "rating": 4.5,
+    "address": "Sejong-daero, Jongno-gu, Seoul"
+  },
+  {
+    "id": "h5",
+    "segment": "hidden_gems",
+    "name": "Seonyudo Park (Han River Island)",
+    "city": "Seoul",
+    "lat": 37.543633,
+    "lng": 126.898227,
+    "rating": 4.6,
+    "address": "Seonyu-ro, Yeongdeungpo-gu, Seoul"
+  },
+  {
+    "id": "h6",
+    "segment": "hidden_gems",
+    "name": "Buam-dong Café Street",
+    "city": "Seoul",
+    "lat": 37.593136,
+    "lng": 126.97187,
+    "rating": 4.4,
+    "address": "Buam-dong, Jongno-gu, Seoul"
+  },
+  {
+    "id": "ntr3",
+    "segment": "nature",
+    "name": "Bukhansan National Park",
+    "city": "Seoul",
+    "lat": 37.6584,
+    "lng": 126.9808,
+    "rating": 4.7,
+    "address": "Bogukmun-ro, Gangbuk-gu, Seoul"
+  },
+  {
+    "id": "ntr4",
+    "segment": "nature",
+    "name": "Naejangsan National Park",
+    "city": "Jeongeup",
+    "lat": 35.4875,
+    "lng": 126.8907,
+    "rating": 4.7,
+    "address": "Naejangsan-ro, Jeongeup-si"
+  },
+  {
+    "id": "b1",
+    "segment": "beaches",
+    "name": "Haeundae Beach",
+    "city": "Busan",
+    "lat": 35.158698,
+    "lng": 129.160384,
+    "rating": 4.6,
+    "address": "Haeundae-gu, Busan"
+  },
+  {
+    "id": "b2",
+    "segment": "beaches",
+    "name": "Gwangalli Beach",
+    "city": "Busan",
+    "lat": 35.153145,
+    "lng": 129.118617,
+    "rating": 4.6,
+    "address": "Suyeong-gu, Busan"
+  },
+  {
+    "id": "b10",
+    "segment": "beaches",
+    "name": "Naksan Beach",
+    "city": "Yangyang",
+    "lat": 38.12405,
+    "lng": 128.62708,
+    "rating": 4.5,
+    "address": "Yangyang-gun, Gangwon"
+  },
+  {
+    "id": "sf1",
+    "segment": "street_food",
+    "name": "Gwangjang Market",
+    "city": "Seoul",
+    "lat": 37.5702,
+    "lng": 127.0001,
+    "rating": 4.6,
+    "address": "88 Changgyeonggung-ro, Jongno-gu"
+  },
+  {
+    "id": "sf8",
+    "segment": "street_food",
+    "name": "Jagalchi Market",
+    "city": "Busan",
+    "lat": 35.0979,
+    "lng": 129.03,
+    "rating": 4.5,
+    "address": "52 Jagalchihaean-ro, Jung-gu"
+  },
+  {
+    "id": "sf9",
+    "segment": "street_food",
+    "name": "Sokcho Tourist & Fishery Market",
+    "city": "Sokcho",
+    "lat": 38.2063,
+    "lng": 128.5915,
+    "rating": 4.4,
+    "address": "12-1 Jungang-ro, Sokcho-si"
+  },
+  {
+    "id": "tr6",
+    "segment": "trad_restaurants",
+    "name": "Gogung (Jeonju Bibimbap)",
+    "city": "Jeonju",
+    "lat": 35.8155,
+    "lng": 127.1499,
+    "rating": 4.4,
+    "address": "15-6 Jeonjucheondong-ro, Wansan-gu"
+  },
+  {
+    "id": "sh2",
+    "segment": "shopping",
+    "name": "Hongdae Shopping Street",
+    "city": "Seoul",
+    "lat": 37.555,
+    "lng": 126.923,
+    "rating": 4.5
+  },
+  {
+    "id": "sh3",
+    "segment": "shopping",
+    "name": "Gangnam Station Area",
+    "city": "Seoul",
+    "lat": 37.498,
+    "lng": 127.027,
+    "rating": 4.4
+  },
+  {
+    "id": "sh4",
+    "segment": "shopping",
+    "name": "Garosu-gil (Sinsa)",
+    "city": "Seoul",
+    "lat": 37.5195,
+    "lng": 127.0235,
+    "rating": 4.4
+  },
+  {
+    "id": "sh5",
+    "segment": "shopping",
+    "name": "Dongdaemun Fashion Town",
+    "city": "Seoul",
+    "lat": 37.566,
+    "lng": 127.007,
+    "rating": 4.4
+  },
+  {
+    "id": "sh6",
+    "segment": "shopping",
+    "name": "COEX Mall",
+    "city": "Seoul",
+    "lat": 37.5125,
+    "lng": 127.0588,
+    "rating": 4.6
+  },
+  {
+    "id": "sh7",
+    "segment": "shopping",
+    "name": "Itaewon Street",
+    "city": "Seoul",
+    "lat": 37.5347,
+    "lng": 126.9947,
+    "rating": 4.3
+  },
+  {
+    "id": "sh8",
+    "segment": "shopping",
+    "name": "Insadong (Ssamziegil)",
+    "city": "Seoul",
+    "lat": 37.574,
+    "lng": 126.9853,
+    "rating": 4.4
+  },
+  {
+    "id": "sh9",
+    "segment": "shopping",
+    "name": "Seomyeon District",
+    "city": "Busan",
+    "lat": 35.1579,
+    "lng": 129.0595,
+    "rating": 4.4
+  },
+  {
+    "id": "sh10",
+    "segment": "shopping",
+    "name": "Centum City",
+    "city": "Busan",
+    "lat": 35.1686,
+    "lng": 129.1295,
+    "rating": 4.5
+  },
+  {
+    "id": "bs1",
+    "segment": "bookstores",
+    "name": "Kyobo Bookstore Gwanghwamun",
+    "city": "Seoul",
+    "lat": 37.5714,
+    "lng": 126.9785,
+    "rating": 4.7
+  },
+  {
+    "id": "bs2",
+    "segment": "bookstores",
+    "name": "Arc N Book Euljiro",
+    "city": "Seoul",
+    "lat": 37.5669,
+    "lng": 126.9832,
+    "rating": 4.5
+  },
+  {
+    "id": "bs3",
+    "segment": "bookstores",
+    "name": "Book Park (Blue Square)",
+    "city": "Seoul",
+    "lat": 37.5391,
+    "lng": 127.0049,
+    "rating": 4.5
+  },
+  {
+    "id": "bs4",
+    "segment": "bookstores",
+    "name": "Kyobo Bookstore Gangnam",
+    "city": "Seoul",
+    "lat": 37.5047,
+    "lng": 127.025,
+    "rating": 4.6
+  },
+  {
+    "id": "bs5",
+    "segment": "bookstores",
+    "name": "Aladin Used Books Hongdae",
+    "city": "Seoul",
+    "lat": 37.5557,
+    "lng": 126.9236,
+    "rating": 4.4
+  },
+  {
+    "id": "bs6",
+    "segment": "bookstores",
+    "name": "Bandi & Luni’s (Lotte World Mall)",
+    "city": "Seoul",
+    "lat": 37.5113,
+    "lng": 127.0981,
+    "rating": 4.4
+  },
+  {
+    "id": "bs7",
+    "segment": "bookstores",
+    "name": "Seoul Selection Bookstore",
+    "city": "Seoul",
+    "lat": 37.5787,
+    "lng": 126.9738,
+    "rating": 4.3
+  },
+  {
+    "id": "bs8",
+    "segment": "bookstores",
+    "name": "Arc N Book City Hall",
+    "city": "Seoul",
+    "lat": 37.5662,
+    "lng": 126.9826,
+    "rating": 4.4
+  },
+  {
+    "id": "bs9",
+    "segment": "bookstores",
+    "name": "10×10 Hongdae (Stationery)",
+    "city": "Seoul",
+    "lat": 37.5559,
+    "lng": 126.9239,
+    "rating": 4.3
+  },
+  {
+    "id": "bs10",
+    "segment": "bookstores",
+    "name": "YP Books Times Square",
+    "city": "Seoul",
+    "lat": 37.5172,
+    "lng": 126.9064,
+    "rating": 4.3
+  },
+  {
+    "id": "kp1",
+    "segment": "kpop",
+    "name": "Music Korea Myeongdong",
+    "city": "Seoul",
+    "lat": 37.5626,
+    "lng": 126.9856,
+    "rating": 4.4
+  },
+  {
+    "id": "kp2",
+    "segment": "kpop",
+    "name": "Soundwave Myeongdong",
+    "city": "Seoul",
+    "lat": 37.5609,
+    "lng": 126.9854,
+    "rating": 4.3
+  },
+  {
+    "id": "kp3",
+    "segment": "kpop",
+    "name": "KTown4U Jamsil",
+    "city": "Seoul",
+    "lat": 37.511,
+    "lng": 127.103,
+    "rating": 4.3
+  },
+  {
+    "id": "kp4",
+    "segment": "kpop",
+    "name": "SMTOWN &STORE (COEX)",
+    "city": "Seoul",
+    "lat": 37.5118,
+    "lng": 127.0592,
+    "rating": 4.4
+  },
+  {
+    "id": "kp5",
+    "segment": "kpop",
+    "name": "Line Friends/BT21 Hongdae",
+    "city": "Seoul",
+    "lat": 37.5553,
+    "lng": 126.9227,
+    "rating": 4.4
+  },
+  {
+    "id": "kp6",
+    "segment": "kpop",
+    "name": "Line Friends/BT21 Itaewon",
+    "city": "Seoul",
+    "lat": 37.5343,
+    "lng": 126.9943,
+    "rating": 4.3
+  },
+  {
+    "id": "kp7",
+    "segment": "kpop",
+    "name": "WithMuu Store",
+    "city": "Seoul",
+    "lat": 37.566,
+    "lng": 126.985,
+    "rating": 4.2
+  },
+  {
+    "id": "kp8",
+    "segment": "kpop",
+    "name": "Myeongdong Underground Shopping Center",
+    "city": "Seoul",
+    "lat": 37.563,
+    "lng": 126.985,
+    "rating": 4.2
+  },
+  {
+    "id": "kp9",
+    "segment": "kpop",
+    "name": "Everline Myeongdong",
+    "city": "Seoul",
+    "lat": 37.5657,
+    "lng": 126.9867,
+    "rating": 4.2
+  },
+  {
+    "id": "kp10",
+    "segment": "kpop",
+    "name": "Centum City K-pop Shops",
+    "city": "Busan",
+    "lat": 35.1686,
+    "lng": 129.1295,
+    "rating": 4.2
+  },
+  {
+    "id": "hb1",
+    "segment": "hanbok",
+    "name": "Oneday Hanbok",
+    "city": "Seoul",
+    "lat": 37.5755,
+    "lng": 126.9855,
+    "rating": 4.5
+  },
+  {
+    "id": "hb2",
+    "segment": "hanbok",
+    "name": "Hanboknam (Gyeongbokgung)",
+    "city": "Seoul",
+    "lat": 37.5792,
+    "lng": 126.9738,
+    "rating": 4.5
+  },
+  {
+    "id": "hb3",
+    "segment": "hanbok",
+    "name": "Seoul Hanbok (Bukchon)",
+    "city": "Seoul",
+    "lat": 37.5817,
+    "lng": 126.983,
+    "rating": 4.4
+  },
+  {
+    "id": "hb4",
+    "segment": "hanbok",
+    "name": "Hanboknam (Changdeokgung)",
+    "city": "Seoul",
+    "lat": 37.5796,
+    "lng": 126.991,
+    "rating": 4.4
+  },
+  {
+    "id": "hb5",
+    "segment": "hanbok",
+    "name": "Gogung Hanbok",
+    "city": "Seoul",
+    "lat": 37.5759,
+    "lng": 126.985,
+    "rating": 4.4
+  },
+  {
+    "id": "hb6",
+    "segment": "hanbok",
+    "name": "3355 Hanbok Rental",
+    "city": "Seoul",
+    "lat": 37.5782,
+    "lng": 126.9853,
+    "rating": 4.3
+  },
+  {
+    "id": "hb7",
+    "segment": "hanbok",
+    "name": "Yeon Hanbok",
+    "city": "Seoul",
+    "lat": 37.5799,
+    "lng": 126.9836,
+    "rating": 4.3
+  },
+  {
+    "id": "hb8",
+    "segment": "hanbok",
+    "name": "Teterot Salon Hanbok",
+    "city": "Seoul",
+    "lat": 37.5746,
+    "lng": 126.9863,
+    "rating": 4.2
+  },
+  {
+    "id": "hb9",
+    "segment": "hanbok",
+    "name": "Jeonju Hanbok Rental Street",
+    "city": "Jeonju",
+    "lat": 35.8152,
+    "lng": 127.1515,
+    "rating": 4.5
+  },
+  {
+    "id": "hb10",
+    "segment": "hanbok",
+    "name": "Gyeongju Hanbok Rental (Hwangnam-dong)",
+    "city": "Gyeongju",
+    "lat": 35.8353,
+    "lng": 129.2189,
+    "rating": 4.3
+  },
+  {
+    "id": "ce1",
+    "segment": "culture",
+    "name": "Jogyesa Temple Stay/Program",
+    "city": "Seoul",
+    "lat": 37.5733,
+    "lng": 126.9823,
+    "rating": 4.6
+  },
+  {
+    "id": "ce2",
+    "segment": "culture",
+    "name": "Bongeunsa Temple Programs",
+    "city": "Seoul",
+    "lat": 37.5145,
+    "lng": 127.057,
+    "rating": 4.5
+  },
+  {
+    "id": "ce3",
+    "segment": "culture",
+    "name": "Museum Kimchikan (Kimchi Class)",
+    "city": "Seoul",
+    "lat": 37.5729,
+    "lng": 126.9867,
+    "rating": 4.4
+  },
+  {
+    "id": "ce4",
+    "segment": "culture",
+    "name": "Namsangol Hanok Village Activities",
+    "city": "Seoul",
+    "lat": 37.5599,
+    "lng": 126.9945,
+    "rating": 4.4
+  },
+  {
+    "id": "ce5",
+    "segment": "culture",
+    "name": "Bukchon Traditional Craft Experience",
+    "city": "Seoul",
+    "lat": 37.5811,
+    "lng": 126.9858,
+    "rating": 4.4
+  },
+  {
+    "id": "ce6",
+    "segment": "culture",
+    "name": "Traditional Tea Ceremony (Tteuran)",
+    "city": "Seoul",
+    "lat": 37.5722,
+    "lng": 126.9907,
+    "rating": 4.3
+  },
+  {
+    "id": "ce7",
+    "segment": "culture",
+    "name": "K-pop Dance Class (Hongdae area)",
+    "city": "Seoul",
+    "lat": 37.5556,
+    "lng": 126.9236,
+    "rating": 4.5
+  },
+  {
+    "id": "ce8",
+    "segment": "culture",
+    "name": "Korean Cooking Class (O’ngo Food)",
+    "city": "Seoul",
+    "lat": 37.5712,
+    "lng": 126.9829,
+    "rating": 4.6
+  },
+  {
+    "id": "ce9",
+    "segment": "culture",
+    "name": "K-Style Hub (culture/tour programs)",
+    "city": "Seoul",
+    "lat": 37.5662,
+    "lng": 126.9824,
+    "rating": 4.3
+  },
+  {
+    "id": "ce10",
+    "segment": "culture",
+    "name": "Jeju Folk Village Experience",
+    "city": "Jeju",
+    "lat": 33.32586,
+    "lng": 126.84102,
+    "rating": 4.5
+  },
+  {
+    "id": "f1",
+    "segment": "festivals",
+    "name": "Boryeong Mud Festival",
+    "city": "Boryeong",
+    "lat": 36.3229,
+    "lng": 126.5079,
+    "rating": 4.6
+  },
+  {
+    "id": "f2",
+    "segment": "festivals",
+    "name": "Jinju Namgang Lantern Festival",
+    "city": "Jinju",
+    "lat": 35.19,
+    "lng": 128.081,
+    "rating": 4.6
+  },
+  {
+    "id": "f3",
+    "segment": "festivals",
+    "name": "Andong Mask Dance Festival",
+    "city": "Andong",
+    "lat": 36.566,
+    "lng": 128.733,
+    "rating": 4.5
+  },
+  {
+    "id": "f4",
+    "segment": "festivals",
+    "name": "Hwacheon Sancheoneo Ice Festival",
+    "city": "Hwacheon",
+    "lat": 38.107,
+    "lng": 127.706,
+    "rating": 4.5
+  },
+  {
+    "id": "f5",
+    "segment": "festivals",
+    "name": "Busan International Film Festival (BIFF Square)",
+    "city": "Busan",
+    "lat": 35.101,
+    "lng": 129.034,
+    "rating": 4.6
+  },
+  {
+    "id": "f6",
+    "segment": "festivals",
+    "name": "Jinhae Gunhangje Cherry Blossom Festival",
+    "city": "Changwon",
+    "lat": 35.162,
+    "lng": 128.709,
+    "rating": 4.6
+  },
+  {
+    "id": "f7",
+    "segment": "festivals",
+    "name": "Seoul Lantern Festival (Cheonggyecheon)",
+    "city": "Seoul",
+    "lat": 37.569,
+    "lng": 126.978,
+    "rating": 4.5
+  },
+  {
+    "id": "f8",
+    "segment": "festivals",
+    "name": "Jeonju International Film Festival",
+    "city": "Jeonju",
+    "lat": 35.82,
+    "lng": 127.148,
+    "rating": 4.4
+  },
+  {
+    "id": "f9",
+    "segment": "festivals",
+    "name": "Jeju Fire Festival (Saebyeol Oreum)",
+    "city": "Jeju",
+    "lat": 33.411,
+    "lng": 126.355,
+    "rating": 4.5
+  },
+  {
+    "id": "f10",
+    "segment": "festivals",
+    "name": "Gwangju Biennale",
+    "city": "Gwangju",
+    "lat": 35.174,
+    "lng": 126.879,
+    "rating": 4.4
+  },
+  {
+    "id": "t1",
+    "segment": "trails",
+    "name": "Bukhansan Baegundae Trailhead",
+    "city": "Seoul",
+    "lat": 37.661,
+    "lng": 126.997,
+    "rating": 4.8
+  },
+  {
+    "id": "t2",
+    "segment": "trails",
+    "name": "Namsan Loop Trail",
+    "city": "Seoul",
+    "lat": 37.552,
+    "lng": 126.99,
+    "rating": 4.4
+  },
+  {
+    "id": "t3",
+    "segment": "trails",
+    "name": "Inwangsan Ridge Trail",
+    "city": "Seoul",
+    "lat": 37.592,
+    "lng": 126.96,
+    "rating": 4.6
+  },
+  {
+    "id": "t4",
+    "segment": "trails",
+    "name": "Seoraksan Ulsanbawi Trailhead",
+    "city": "Sokcho",
+    "lat": 38.164,
+    "lng": 128.474,
+    "rating": 4.8
+  },
+  {
+    "id": "t5",
+    "segment": "trails",
+    "name": "Hallasan Seongpanak Trailhead",
+    "city": "Jeju",
+    "lat": 33.361,
+    "lng": 126.608,
+    "rating": 4.8
+  },
+  {
+    "id": "t6",
+    "segment": "trails",
+    "name": "Hallasan Gwaneumsa Trailhead",
+    "city": "Jeju",
+    "lat": 33.435,
+    "lng": 126.551,
+    "rating": 4.8
+  },
+  {
+    "id": "t7",
+    "segment": "trails",
+    "name": "Ansan Jarak-gil (woodland deck)",
+    "city": "Seoul",
+    "lat": 37.569,
+    "lng": 126.949,
+    "rating": 4.5
+  },
+  {
+    "id": "t8",
+    "segment": "trails",
+    "name": "Yongmasan Trail",
+    "city": "Seoul",
+    "lat": 37.573,
+    "lng": 127.09,
+    "rating": 4.4
+  },
+  {
+    "id": "t9",
+    "segment": "trails",
+    "name": "Jirisan Nogodan Ridge",
+    "city": "Gurye",
+    "lat": 35.322,
+    "lng": 127.51,
+    "rating": 4.7
+  },
+  {
+    "id": "t10",
+    "segment": "trails",
+    "name": "Geumjeongsan Godangbong Route",
+    "city": "Busan",
+    "lat": 35.263,
+    "lng": 129.061,
+    "rating": 4.6
+  },
+  {
+    "id": "nl1",
+    "segment": "nightlife",
+    "name": "Hongdae Club Street",
+    "city": "Seoul",
+    "lat": 37.555,
+    "lng": 126.923,
+    "rating": 4.5
+  },
+  {
+    "id": "nl2",
+    "segment": "nightlife",
+    "name": "Itaewon Bars & Lounges",
+    "city": "Seoul",
+    "lat": 37.5347,
+    "lng": 126.9947,
+    "rating": 4.4
+  },
+  {
+    "id": "nl3",
+    "segment": "nightlife",
+    "name": "Gangnam Station Nightlife",
+    "city": "Seoul",
+    "lat": 37.498,
+    "lng": 127.027,
+    "rating": 4.4
+  },
+  {
+    "id": "nl4",
+    "segment": "nightlife",
+    "name": "Apgujeong Rodeo",
+    "city": "Seoul",
+    "lat": 37.527,
+    "lng": 127.039,
+    "rating": 4.3
+  },
+  {
+    "id": "nl5",
+    "segment": "nightlife",
+    "name": "Haeundae Gunam-ro Nightlife",
+    "city": "Busan",
+    "lat": 35.159,
+    "lng": 129.161,
+    "rating": 4.5
+  },
+  {
+    "id": "nl6",
+    "segment": "nightlife",
+    "name": "Seomyeon Bars & Clubs",
+    "city": "Busan",
+    "lat": 35.157,
+    "lng": 129.06,
+    "rating": 4.3
+  },
+  {
+    "id": "nl7",
+    "segment": "nightlife",
+    "name": "Songdo Central Park Bars",
+    "city": "Incheon",
+    "lat": 37.393,
+    "lng": 126.639,
+    "rating": 4.2
+  },
+  {
+    "id": "nl8",
+    "segment": "nightlife",
+    "name": "Dongseongno Street",
+    "city": "Daegu",
+    "lat": 35.869,
+    "lng": 128.596,
+    "rating": 4.3
+  },
+  {
+    "id": "nl9",
+    "segment": "nightlife",
+    "name": "Chungjang-ro Nightlife",
+    "city": "Gwangju",
+    "lat": 35.151,
+    "lng": 126.912,
+    "rating": 4.2
+  },
+  {
+    "id": "nl10",
+    "segment": "nightlife",
+    "name": "Jeju Tap-dong Nightlife",
+    "city": "Jeju",
+    "lat": 33.516,
+    "lng": 126.526,
+    "rating": 4.2
+  },
+  {
+    "id": "bh1",
+    "segment": "boutique_hotels",
+    "name": "RYSE, Autograph Collection",
+    "city": "Seoul",
+    "lat": 37.5554,
+    "lng": 126.9236,
+    "rating": 4.7
+  },
+  {
+    "id": "bh2",
+    "segment": "boutique_hotels",
+    "name": "Hotel28 Myeongdong",
+    "city": "Seoul",
+    "lat": 37.563,
+    "lng": 126.982,
+    "rating": 4.6
+  },
+  {
+    "id": "bh3",
+    "segment": "boutique_hotels",
+    "name": "Hotel Cappuccino",
+    "city": "Seoul",
+    "lat": 37.51,
+    "lng": 127.028,
+    "rating": 4.4
+  },
+  {
+    "id": "bh4",
+    "segment": "boutique_hotels",
+    "name": "L7 Hongdae",
+    "city": "Seoul",
+    "lat": 37.556,
+    "lng": 126.923,
+    "rating": 4.5
+  },
+  {
+    "id": "bh5",
+    "segment": "boutique_hotels",
+    "name": "L7 Myeongdong",
+    "city": "Seoul",
+    "lat": 37.5633,
+    "lng": 126.9854,
+    "rating": 4.4
+  },
+  {
+    "id": "bh6",
+    "segment": "boutique_hotels",
+    "name": "GLAD Mapo",
+    "city": "Seoul",
+    "lat": 37.541,
+    "lng": 126.946,
+    "rating": 4.4
+  },
+  {
+    "id": "bh7",
+    "segment": "boutique_hotels",
+    "name": "Nest Hotel",
+    "city": "Incheon",
+    "lat": 37.447,
+    "lng": 126.41,
+    "rating": 4.5
+  },
+  {
+    "id": "bh8",
+    "segment": "boutique_hotels",
+    "name": "Hotel La Casa",
+    "city": "Seoul",
+    "lat": 37.524,
+    "lng": 127.027,
+    "rating": 4.3
+  },
+  {
+    "id": "bh9",
+    "segment": "boutique_hotels",
+    "name": "Shilla Stay Haeundae",
+    "city": "Busan",
+    "lat": 35.159,
+    "lng": 129.162,
+    "rating": 4.4
+  },
+  {
+    "id": "bh10",
+    "segment": "boutique_hotels",
+    "name": "Maison Glad Jeju",
+    "city": "Jeju",
+    "lat": 33.4888,
+    "lng": 126.4875,
+    "rating": 4.3
+  },
+  {
+    "id": "hs1",
+    "segment": "hanok_stays",
+    "name": "Rakkojae Seoul",
+    "city": "Seoul",
+    "lat": 37.582,
+    "lng": 126.985,
+    "rating": 4.7
+  },
+  {
+    "id": "hs2",
+    "segment": "hanok_stays",
+    "name": "Chiwoonjung",
+    "city": "Seoul",
+    "lat": 37.5823,
+    "lng": 126.9853,
+    "rating": 4.6
+  },
+  {
+    "id": "hs3",
+    "segment": "hanok_stays",
+    "name": "Bonum 1957 Hanok & Boutique",
+    "city": "Seoul",
+    "lat": 37.58,
+    "lng": 126.985,
+    "rating": 4.5
+  },
+  {
+    "id": "hs4",
+    "segment": "hanok_stays",
+    "name": "Bukchonmaru Hanok",
+    "city": "Seoul",
+    "lat": 37.583,
+    "lng": 126.985,
+    "rating": 4.5
+  },
+  {
+    "id": "hs5",
+    "segment": "hanok_stays",
+    "name": "STAY256 Hanok",
+    "city": "Seoul",
+    "lat": 37.576,
+    "lng": 126.984,
+    "rating": 4.4
+  },
+  {
+    "id": "hs6",
+    "segment": "hanok_stays",
+    "name": "Hanok 24 Gyeongbokgung",
+    "city": "Seoul",
+    "lat": 37.579,
+    "lng": 126.973,
+    "rating": 4.4
+  },
+  {
+    "id": "hs7",
+    "segment": "hanok_stays",
+    "name": "Rakkojae Jeonju",
+    "city": "Jeonju",
+    "lat": 35.8153,
+    "lng": 127.151,
+    "rating": 4.6
+  },
+  {
+    "id": "hs8",
+    "segment": "hanok_stays",
+    "name": "Yangjin-jib Hanok",
+    "city": "Jeonju",
+    "lat": 35.8151,
+    "lng": 127.1514,
+    "rating": 4.5
+  },
+  {
+    "id": "hs9",
+    "segment": "hanok_stays",
+    "name": "Hahoe Hanok Stay Area",
+    "city": "Andong",
+    "lat": 36.5386,
+    "lng": 128.5179,
+    "rating": 4.5
+  },
+  {
+    "id": "hs10",
+    "segment": "hanok_stays",
+    "name": "Gyeongju Hanok Stay Area",
+    "city": "Gyeongju",
+    "lat": 35.835,
+    "lng": 129.218,
+    "rating": 4.4
+  },
+  {
+    "id": "ho1",
+    "segment": "hostels",
+    "name": "Zzzip Guesthouse",
+    "city": "Seoul",
+    "lat": 37.563,
+    "lng": 126.908,
+    "rating": 4.6
+  },
+  {
+    "id": "ho2",
+    "segment": "hostels",
+    "name": "Kimchee Hongdae Guesthouse",
+    "city": "Seoul",
+    "lat": 37.559,
+    "lng": 126.919,
+    "rating": 4.2
+  },
+  {
+    "id": "ho3",
+    "segment": "hostels",
+    "name": "Step Inn Myeongdong 1",
+    "city": "Seoul",
+    "lat": 37.563,
+    "lng": 126.984,
+    "rating": 4.4
+  },
+  {
+    "id": "ho4",
+    "segment": "hostels",
+    "name": "K-Guesthouse Myeongdong 1",
+    "city": "Seoul",
+    "lat": 37.5635,
+    "lng": 126.9852,
+    "rating": 4.2
+  },
+  {
+    "id": "ho5",
+    "segment": "hostels",
+    "name": "Busan Haeundae Guesthouse",
+    "city": "Busan",
+    "lat": 35.161,
+    "lng": 129.163,
+    "rating": 4.2
+  },
+  {
+    "id": "ho6",
+    "segment": "hostels",
+    "name": "Blue Backpackers Seomyeon",
+    "city": "Busan",
+    "lat": 35.1573,
+    "lng": 129.0599,
+    "rating": 4.2
+  },
+  {
+    "id": "ho7",
+    "segment": "hostels",
+    "name": "Incheon Airport Guesthouse Cluster",
+    "city": "Incheon",
+    "lat": 37.46,
+    "lng": 126.44,
+    "rating": 4.0
+  },
+  {
+    "id": "ho8",
+    "segment": "hostels",
+    "name": "Jeju Backpackers (Old Town area)",
+    "city": "Jeju",
+    "lat": 33.499,
+    "lng": 126.531,
+    "rating": 4.1
+  },
+  {
+    "id": "ho9",
+    "segment": "hostels",
+    "name": "Daegu Midtown Hostel Area",
+    "city": "Daegu",
+    "lat": 35.8695,
+    "lng": 128.5965,
+    "rating": 4.1
+  },
+  {
+    "id": "ho10",
+    "segment": "hostels",
+    "name": "Gwangju Hostel Area (Dong-gu)",
+    "city": "Gwangju",
+    "lat": 35.149,
+    "lng": 126.919,
+    "rating": 4.0
+  },
+  {
+    "id": "lr1",
+    "segment": "luxury_resorts",
+    "name": "The Shilla Jeju",
+    "city": "Jeju",
+    "lat": 33.2483,
+    "lng": 126.4094,
+    "rating": 4.7
+  },
+  {
+    "id": "lr2",
+    "segment": "luxury_resorts",
+    "name": "Lotte Hotel Jeju",
+    "city": "Jeju",
+    "lat": 33.2489,
+    "lng": 126.4103,
+    "rating": 4.6
+  },
+  {
+    "id": "lr3",
+    "segment": "luxury_resorts",
+    "name": "Paradise City Incheon",
+    "city": "Incheon",
+    "lat": 37.448,
+    "lng": 126.452,
+    "rating": 4.6
+  },
+  {
+    "id": "lr4",
+    "segment": "luxury_resorts",
+    "name": "SIGNIEL Seoul (Lotte World Tower)",
+    "city": "Seoul",
+    "lat": 37.5132,
+    "lng": 127.102,
+    "rating": 4.8
+  },
+  {
+    "id": "lr5",
+    "segment": "luxury_resorts",
+    "name": "SIGNIEL Busan",
+    "city": "Busan",
+    "lat": 35.1577,
+    "lng": 129.1615,
+    "rating": 4.7
+  },
+  {
+    "id": "lr6",
+    "segment": "luxury_resorts",
+    "name": "Ananti Hilton Busan",
+    "city": "Busan",
+    "lat": 35.1882,
+    "lng": 129.223,
+    "rating": 4.6
+  },
+  {
+    "id": "lr7",
+    "segment": "luxury_resorts",
+    "name": "Haevichi Hotel & Resort Jeju",
+    "city": "Jeju",
+    "lat": 33.3223,
+    "lng": 126.846,
+    "rating": 4.6
+  },
+  {
+    "id": "lr8",
+    "segment": "luxury_resorts",
+    "name": "Josun Palace, Gangnam",
+    "city": "Seoul",
+    "lat": 37.5062,
+    "lng": 127.0621,
+    "rating": 4.7
+  },
+  {
+    "id": "lr9",
+    "segment": "luxury_resorts",
+    "name": "Grand Josun Busan",
+    "city": "Busan",
+    "lat": 35.16,
+    "lng": 129.162,
+    "rating": 4.6
+  },
+  {
+    "id": "lr10",
+    "segment": "luxury_resorts",
+    "name": "Park Hyatt Busan",
+    "city": "Busan",
+    "lat": 35.1609,
+    "lng": 129.1458,
+    "rating": 4.7
+  }
+]

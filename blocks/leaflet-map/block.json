@@ -1,0 +1,28 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "childtheme/leaflet-map",
+  "version": "1.0.0",
+  "title": "Leaflet Map",
+  "category": "widgets",
+  "icon": "map-marker",
+  "description": "A customizable Leaflet map block with category filters.",
+  "attributes": {
+    "heading": {
+      "type": "string",
+      "default": "Explore Nearby"
+    },
+    "description": {
+      "type": "string",
+      "default": "Curated hotspots. Pick a category to populate the map."
+    },
+    "data": {
+      "type": "string",
+      "default": "places.json"
+    }
+  },
+  "textdomain": "leaflet-child-theme",
+  "render": "file:./render.php",
+  "style": "file:./style.css",
+  "viewScript": "file:./view.js"
+}
