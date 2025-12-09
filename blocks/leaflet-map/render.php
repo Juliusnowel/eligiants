@@ -131,6 +131,41 @@ $maxPriceCeiling = ceil($maxPriceFound / 100) * 100;
                 </div>
             </div>
 
+            <div id="map-detail-panel" class="map-detail-panel" aria-hidden="true">
+                <div class="detail-header">
+                    <h3 id="dp-title"></h3>
+                    <button id="detail-close" class="detail-close-btn" aria-label="Close details">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <div class="detail-body">
+                    <div id="dp-image-wrap" class="detail-image-wrap">
+                        <img id="dp-image" alt="" />
+                    </div>
+
+                    <p id="dp-rating" class="detail-rating"></p>
+
+                    <p id="dp-desc" class="detail-desc"></p>
+
+                    <p id="dp-addr-row" class="detail-row">
+                        <strong>Address:</strong> <span id="dp-addr"></span>
+                    </p>
+                    <p id="dp-hours-row" class="detail-row">
+                        <strong>Hours:</strong> <span id="dp-hours"></span>
+                    </p>
+                    <p id="dp-phone-row" class="detail-row">
+                        <strong>Phone:</strong> <a id="dp-phone"></a>
+                    </p>
+                    <p id="dp-web-row" class="detail-row">
+                        <strong>Website:</strong> <a id="dp-web" target="_blank" rel="noopener"></a>
+                    </p>
+                    <p id="dp-email-row" class="detail-row">
+                        <strong>Email:</strong> <a id="dp-email"></a>
+                    </p>
+                </div>
+            </div>
+
             <div id="map"></div>
             
             <!-- Bottom Controls (Zoom/Budget placeholder from screenshot) -->

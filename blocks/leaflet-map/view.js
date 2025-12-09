@@ -41,15 +41,39 @@ function faPin(faName, color) {
   return `<div class="fa-pin" style="--pin-bg:${color};"><i class="fa-solid fa-${faName}"></i></div>`;
 }
 
-function markerIcon(seg) {
-  const icon = ICONS[seg] || 'map-pin';
+function markerIcon(seg, active = false) {
+  // If active, use a specific 'pinned' icon (thumbtack) to make it distinct
+  const icon = active ? 'thumbtack' : (ICONS[seg] || 'map-pin');
   const color = PIN_COLORS[seg] || '#333';
+
+  const size   = active ? [42, 56] : [30, 42]; // Slightly larger active
+  const anchor = active ? [21, 56] : [15, 42];
+  const extraClass = active ? ' is-active' : '';
+
   return L.divIcon({
-    className: `seg-pin pin-${seg}`,
+    className: `seg-pin pin-${seg}${extraClass}`,
     html: faPin(icon, color),
-    iconSize: [30, 42],
-    iconAnchor: [15, 42]
+    iconSize: size,
+    iconAnchor: anchor
   });
+}
+
+function setSelectedPlace(p) {
+    if (!p) return;
+
+    if (STATE.selectedId && STATE.selectedId !== p.id) {
+        const oldMarker = STATE.markers.get(STATE.selectedId);
+        const oldPlace  = STATE.places.find(x => x.id === STATE.selectedId);
+        if (oldMarker && oldPlace) {
+            oldMarker.setIcon(markerIcon(oldPlace.segment, false));
+        }
+    }
+
+    const marker = STATE.markers.get(p.id);
+    if (marker) {
+        marker.setIcon(markerIcon(p.segment, true));
+        STATE.selectedId = p.id;
+    }
 }
 
 function stars(rating) {
@@ -61,18 +85,20 @@ function stars(rating) {
 }
 
 // Global State
+const rawPlaces = window.LEAFLET_PLACES || [];
+
 const STATE = {
-    places: window.LEAFLET_PLACES || [],
-    filter: {
-        category: null, // 'food', 'nature', 'culture' or null (all)
-        region: '',     // city string or empty (all)
-        search: '',      // text query
-        budget: null    // { min: number, max: number } or null
-    },
+    places: rawPlaces.map((p, idx) => ({
+        id: p.id ?? `place_${idx}`,
+        ...p,
+    })),
+    filter: { category: null, region: '', search: '', budget: null },
     map: null,
     layerGroup: null,
-    markers: new Map() // id -> leaflet marker
+    markers: new Map(),
+    selectedId: null,
 };
+
 
 // ----------------------
 // 2. CORE LOGIC
@@ -172,33 +198,45 @@ function toggleBudgetModal(show) {
     modal.hidden = !show;
 }
 
-
 function renderMap() {
     if (!STATE.layerGroup) return;
 
-    // Clear existing
     STATE.layerGroup.clearLayers();
     STATE.markers.clear();
 
     const items = getFilteredPlaces();
-
     if (items.length === 0) {
-        // Optional: show "No results" message?
+        STATE.selectedId = null;
         return;
     }
 
+    const visibleIds = new Set();
+
     items.forEach(p => {
         if (typeof p.lat !== 'number' || typeof p.lng !== 'number') return;
-        
-        const m = L.marker([p.lat, p.lng], { icon: markerIcon(p.segment) })
+
+        const isActive = (p.id && p.id === STATE.selectedId);
+
+        const m = L.marker([p.lat, p.lng], { 
+                icon: markerIcon(p.segment, isActive),
+                placeId: p.id,
+                segment: p.segment
+            })
             .addTo(STATE.layerGroup)
             .bindPopup(`<div class="map-popup-simple"><strong>${p.name}</strong><br>${p.city || ''}</div>`) 
             .on('click', () => {
-                openModal(p);
+                setSelectedPlace(p);   // highlight pin
+                openModal(p);          // show details panel
             });
-        
+
         STATE.markers.set(p.id, m);
+        visibleIds.add(p.id);
     });
+
+    // If selected place is now filtered out, clear selection
+    if (STATE.selectedId && !visibleIds.has(STATE.selectedId)) {
+        STATE.selectedId = null;
+    }
 }
 
 // ----------------------
@@ -277,12 +315,12 @@ function renderPanelList() {
         `;
         
         item.addEventListener('click', () => {
-             // Focus map
-            if (STATE.map && typeof p.lat==='number') {
+            if (STATE.map && typeof p.lat === 'number') {
                 STATE.map.flyTo([p.lat, p.lng], 14, { duration: 1.0 });
-                openModal(p);
-                 // On mobile we might want to close panel? User didn't specify. Keeping it open for now as it's a side panel.
             }
+
+            setSelectedPlace(p); 
+            openModal(p);       
         });
         frag.appendChild(item);
     });
@@ -315,41 +353,74 @@ function updateUIState() {
 // 3. MODAL LOGIC
 // ----------------------
 function openModal(p) {
+    const panel = document.getElementById('map-detail-panel');
+    if (!panel) return;
+
     const G = id => document.getElementById(id);
-    const showIf = (id, cond) => { const el = G(id); if(el) el.style.display = cond ? '' : 'none'; };
+    const showRow = (rowId, cond) => {
+        const el = G(rowId);
+        if (el) el.style.display = cond ? '' : 'none';
+    };
 
-    const modal = G('place-modal');
-    if(!modal) return;
+    // Basic fields
+    G('dp-title').textContent = p.name || '';
+    G('dp-desc').textContent  = p.description || p.city || '';
 
-    G('pm-title').textContent = p.name;
-    G('pm-desc').textContent = p.city;
-    
     // Image
-    const imgWrap = G('pm-image-wrap');
-    const img = G('pm-image');
-    if(p.image) { 
-        img.src = p.image; 
-        imgWrap.style.display = ''; 
+    const imgWrap = G('dp-image-wrap');
+    const img = G('dp-image');
+    if (p.image) {
+        img.src = p.image;
+        imgWrap.style.display = '';
     } else {
-        imgWrap.style.display = 'none';
         img.removeAttribute('src');
+        imgWrap.style.display = 'none';
     }
 
     // Rating
-    const r = p.rating;
-    if(typeof r === 'number') {
-        G('pm-rating').textContent = `${stars(r)} (${r.toFixed(1)})`;
-        G('pm-rating').style.display = '';
+    if (typeof p.rating === 'number') {
+        G('dp-rating').textContent = `${stars(p.rating)} (${p.rating.toFixed(1)})`;
+        G('dp-rating').style.display = '';
     } else {
-        G('pm-rating').style.display = 'none';
+        G('dp-rating').style.display = 'none';
     }
 
-    // Details
-    G('pm-addr').textContent = p.address || ''; showIf('pm-addr-row', !!p.address);
-    // Add other fields as needed
+    // Detail rows
+    G('dp-addr').textContent = p.address || '';
+    showRow('dp-addr-row', !!p.address);
 
-    document.documentElement.style.overflow = 'hidden';
-    modal.hidden = false;
+    G('dp-hours').textContent = p.hours || '';
+    showRow('dp-hours-row', !!p.hours);
+
+    if (p.phone) {
+        const phoneEl = G('dp-phone');
+        phoneEl.textContent = p.phone;
+        phoneEl.href = `tel:${p.phone.replace(/[^0-9+]/g, '')}`;
+        showRow('dp-phone-row', true);
+    } else {
+        showRow('dp-phone-row', false);
+    }
+
+    if (p.website) {
+        const webEl = G('dp-web');
+        webEl.textContent = p.website;
+        webEl.href = p.website;
+        showRow('dp-web-row', true);
+    } else {
+        showRow('dp-web-row', false);
+    }
+
+    if (p.email) {
+        const emailEl = G('dp-email');
+        emailEl.textContent = p.email;
+        emailEl.href = `mailto:${p.email}`;
+        showRow('dp-email-row', true);
+    } else {
+        showRow('dp-email-row', false);
+    }
+
+    // Show panel (no full-screen overlay, no scrolling lock)
+    panel.setAttribute('aria-hidden', 'false');
 }
 
 function initModal() {
@@ -360,6 +431,16 @@ function initModal() {
     close?.addEventListener('click', hide);
     modal?.addEventListener('click', e => { if(e.target === modal) hide(); });
     document.addEventListener('keydown', e => { if(e.key === 'Escape') hide(); });
+}
+
+function initDetailPanel() {
+    const panel = document.getElementById('map-detail-panel');
+    const closeBtn = document.getElementById('detail-close');
+    if (!panel || !closeBtn) return;
+
+    closeBtn.addEventListener('click', () => {
+        panel.setAttribute('aria-hidden', 'true');
+    });
 }
 
 // ----------------------
@@ -487,6 +568,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // 3. Initial Render
+    initDetailPanel();
     initModal();
     renderMap();
 });
