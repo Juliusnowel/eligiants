@@ -171,4 +171,3 @@ $maxPriceCeiling = ceil($maxPriceFound / 100) * 100;
         </div>
     </div>
 </div>
-
