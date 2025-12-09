@@ -301,29 +301,40 @@ function renderPanelList() {
     items.forEach(p => {
         const item = document.createElement('div');
         item.className = 'panel-item';
-        // Add price if exists 
-        const priceHtml = p.price_range ? `<span class="panel-price"><i class="fa-solid fa-wallet"></i> ${p.price_range}</span>` : '';
+
+        // Icon based on segment
+        const seg       = p.segment;
+        const iconName  = ICONS[seg] || 'map-pin';
+        const iconColor = PIN_COLORS[seg] || '#ff5e3a';
+
+        const priceHtml  = p.price_range ? `<span class="panel-price"><i class="fa-solid fa-wallet"></i> ${p.price_range}</span>` : '';
         const ratingHtml = typeof p.rating === 'number' ? `<span class="panel-rating">${stars(p.rating)}</span>` : '';
 
         item.innerHTML = `
-            <h4>${p.name}</h4>
+            <div class="panel-item-header">
+                <span class="panel-item-icon" style="color:${iconColor};background:${iconColor}14;">
+                    <i class="fa-solid fa-${iconName}"></i>
+                </span>
+                <h4>${p.name}</h4>
+            </div>
             <p>${p.city || ''} ${p.address ? ' · ' + p.address : ''}</p>
             <div class="panel-item-meta">
                 ${priceHtml}
                 ${ratingHtml}
             </div>
         `;
-        
+
         item.addEventListener('click', () => {
             if (STATE.map && typeof p.lat === 'number') {
                 STATE.map.flyTo([p.lat, p.lng], 14, { duration: 1.0 });
             }
-
-            setSelectedPlace(p); 
-            openModal(p);       
+            setSelectedPlace(p);
+            openModal(p);
         });
+
         frag.appendChild(item);
     });
+
     listEl.appendChild(frag);
 }
 

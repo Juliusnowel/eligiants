@@ -520,6 +520,25 @@
     cursor: pointer;
     transition: background 0.1s;
 }
+
+.panel-item-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.panel-item-icon {
+    width: 24px;
+    height: 24px;
+    display: grid;
+    place-items: center;
+    font-size: 14px;
+    /* optional soft background so the icon pops */
+    border-radius: 999px;
+    background: #fff5f0;
+}
+
 .panel-item:hover { background: #fdfdfd; }
 .panel-item:last-child { border-bottom: none; }
 
@@ -640,3 +659,5 @@
     font-size: 1rem;
 }
 .btn-primary:hover { background: #00796b; }
+
+.leaflet-interactive, .leaflet-popup-content-wrapper, .leaflet-popup-tip, .leaflet-popup-close-button { display: none; }
