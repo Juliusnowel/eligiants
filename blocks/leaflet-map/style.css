@@ -85,6 +85,7 @@
     align-items: center;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     height: 48px;
+    position: relative; /* Added for suggestion positioning */
 }
 .search-btn, .search-icon {
     border: none;
@@ -112,6 +113,56 @@
 }
 #map-search:focus {
     outline: none;
+}
+
+/* Suggestions Dropdown */
+.search-suggestions {
+    position: absolute;
+    top: 60px; /* Below input */
+    left: 0;
+    width: 100%; /* Or wider if needed */
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    padding: 10px 0;
+    z-index: 10000;
+    max-height: 300px;
+    overflow-y: auto;
+}
+.search-suggestions[hidden] {
+    display: none;
+}
+.suggestion-header {
+    padding: 8px 20px 4px;
+    font-size: 0.8rem;
+    color: #999;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.suggestion-item {
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 15px;
+    color: #444;
+    transition: background 0.1s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.suggestion-item:hover, .suggestion-item.is-selected {
+    background: #f7f7f7;
+    color: #000;
+}
+.suggestion-item b {
+    color: #000;
+    font-weight: 700;
+}
+.suggestion-icon {
+    color: #999;
+    font-size: 14px;
+    width: 20px;
+    text-align: center;
 }
 
 /* Region Select */

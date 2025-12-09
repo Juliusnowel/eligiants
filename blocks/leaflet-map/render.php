@@ -77,9 +77,15 @@ $maxPriceCeiling = ceil($maxPriceFound / 100) * 100;
                 <!-- Left: Search & Region -->
                 <div class="toolbar-group left">
                     <div class="search-box">
-                        <button class="search-btn" aria-label="Search"><i class="fa-solid fa-bars"></i></button>
-                        <input type="text" id="map-search" placeholder="Search Places (e.g. Busan, Jeju)" aria-label="Search Places">
-                        <button class="search-icon" aria-label="Submit Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        <button class="search-btn" aria-label="Menu" title="Toggle List">
+                            <i class="fa-solid fa-bars"></i>
+                        </button>
+                        <input type="text" id="map-search" placeholder="Search Places (e.g. Busan, Jeju)" aria-label="Search Places" autocomplete="off">
+                        <button class="search-icon" aria-label="Submit Search">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                        <!-- Suggestions Dropdown -->
+                        <div id="search-suggestions" class="search-suggestions" hidden></div>
                     </div>
 
                     <div class="region-select-wrap">

@@ -512,6 +512,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Search Box
     const searchInput = document.getElementById('map-search');
     const searchBtn = document.querySelector('.search-icon');
+    const suggestionsEl = document.getElementById('search-suggestions');
     
     // Panel Toggle (Hamburger)
     const hamburgerBtn = document.querySelector('.search-btn'); // Left button
@@ -529,19 +530,118 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
+    // Search Autocomplete Logic
+
+    const renderSuggestions = (query) => {
+        if (!suggestionsEl) return;
+        if (!query || query.length < 1) {
+            suggestionsEl.hidden = true;
+            return;
+        }
+
+        const q = query.toLowerCase();
+        // Filter: match Name or City
+        // We limit to 5-6 results to keep it clean
+        const matches = STATE.places.filter(p => {
+             const n = (p.name || '').toLowerCase();
+             const c = (p.city || '').toLowerCase();
+             return n.includes(q) || c.includes(q);
+        }).slice(0, 6);
+
+        if (matches.length === 0) {
+            suggestionsEl.hidden = true;
+            return;
+        }
+
+        // Build HTML
+        let html = '<div class="suggestion-header">Suggested places:</div>';
+        
+        matches.forEach(p => {
+            // Highlight logic
+            const highlight = (txt) => {
+                if(!txt) return '';
+                const i = txt.toLowerCase().indexOf(q);
+                if (i >= 0) {
+                     return txt.substring(0, i) + '<b>' + txt.substring(i, i+q.length) + '</b>' + txt.substring(i+q.length);
+                }
+                return txt;
+            };
+            
+            const nameHtml = highlight(p.name);
+            const cityHtml = p.city ? `<span style="color:#888;font-size:0.85em;margin-left:6px;">${p.city}</span>` : '';
+            // If match was in city, highlight city too? For now just simple name highlight is enough usually.
+            
+            html += `
+                <div class="suggestion-item" data-id="${p.id}">
+                    <div class="suggestion-icon"><i class="fa-solid fa-location-dot"></i></div>
+                    <div>${nameHtml} ${cityHtml}</div>
+                </div>
+            `;
+        });
+
+        suggestionsEl.innerHTML = html;
+        suggestionsEl.hidden = false;
+
+        // Add Click Listeners
+        suggestionsEl.querySelectorAll('.suggestion-item').forEach(el => {
+            el.addEventListener('click', (e) => {
+                e.preventDefault(); // Stop prop?
+                const pid = el.dataset.id;
+                const p = STATE.places.find(x => x.id == pid);
+                if (p) {
+                    // Update input
+                    searchInput.value = p.name; 
+                    STATE.filter.search = p.name;
+                    
+                    // Fly & Select
+                    if(typeof p.lat === 'number') {
+                         STATE.map.flyTo([p.lat, p.lng], 15, { duration: 1.0 });
+                    }
+                    setSelectedPlace(p);
+                    openModal(p);
+                    renderMap(); // ensures filtering if we want only this result? 
+                    // Actually, if we just selected one, the 'search' filter might hide others.
+                    // User said "pinned location is gone one by one because like they depends on the search".
+                    // If we set search input, renderMap WILL filter.
+                    
+                    suggestionsEl.hidden = true;
+                }
+            });
+        });
+    };
+
+    // Events
     const doSearch = () => {
         STATE.filter.search = searchInput.value.trim();
         renderMap();
-        updateUIState(); // updates list if open
+        updateUIState();
+        suggestionsEl.hidden = true; // hide on submit
     };
+
+    searchInput?.addEventListener('input', (e) => {
+        // Live suggestion
+        renderSuggestions(e.target.value.trim());
+        
+        // Live Filter Map? User said existing behavior (pinned gone one by one) is fine.
+        // So we can also update map live if desired, or wait for enter/click. 
+        // Standard "Google Maps" usually filters live OR suggests.
+        // We'll filter live as per previous standard.
+        STATE.filter.search = e.target.value.trim();
+        renderMap(); 
+    });
 
     searchInput?.addEventListener('keyup', (e) => {
         if (e.key === 'Enter') doSearch();
-        else {
-             // Optional: live search
-             STATE.filter.search = searchInput.value.trim();
-             renderMap();
-             updateUIState();
+        if (e.key === 'Escape') {
+            suggestionsEl.hidden = true;
+            searchInput.blur();
+        }
+    });
+
+    // Hide suggestions when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!suggestionsEl.hidden && !searchInput.contains(e.target) && !suggestionsEl.contains(e.target)) {
+            suggestionsEl.hidden = true;
         }
     });
 
