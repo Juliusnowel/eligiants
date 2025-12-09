@@ -1,0 +1,26 @@
+{
+  "apiVersion": 3,
+  "name": "ileg/card-img",
+  "title": "Section · Card Image Animation",
+  "category": "widgets",
+  "description": "Section with heading, intro, and animated image cards.",
+  "icon": "screenoptions",
+  "supports": {
+    "html": false,
+    "inserter": false,
+    "align": ["wide", "full"]
+  },
+  "attributes": {
+    "title": { "type": "string", "default": "" },
+    "intro": { "type": "string", "default": "" },
+    "items": { "type": "array", "default": [] },
+    "design": { "type": "string", "enum": ["left","top"], "default": "left" },
+    "showReadLink": { "type": "boolean", "default": false },
+    "readLinkText": { "type": "string", "default": "Read more" },
+    "dataIndex": { "type": "number", "default": 0 },
+    "showIndicators": { "type": "boolean", "default": true },
+    "dataKey": { "type": "string", "default": "card-img" }
+  },
+  "render": "file:./render.php",
+  "style": "file:./style.css"
+}
