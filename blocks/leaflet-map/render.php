@@ -62,6 +62,7 @@ $maxPriceCeiling = ceil($maxPriceFound / 100) * 100;
 <div <?php echo get_block_wrapper_attributes( ['class' => 'map-page'] ); ?>>
     <script>
         window.LEAFLET_PLACES = <?php echo json_encode( $placesData ); ?>;
+        window.LEAFLET_BASE_URL = "<?php echo esc_js(get_stylesheet_directory_uri() . '/blocks/leaflet-map/'); ?>";
     </script>
 
     <div class="map-header-section">
@@ -89,8 +90,18 @@ $maxPriceCeiling = ceil($maxPriceFound / 100) * 100;
                     </div>
 
                     <div class="region-select-wrap">
-                        <label for="map-region" class="sr-only">Region</label>
-                        <span class="region-label">Region:</span>
+                        <label for="map-country" class="sr-only">Country</label>
+                        <span class="region-label">Country:</span>
+                        <select id="map-country">
+                            <option value="places.json">South Korea</option>
+                            <option value="Japan.json">Japan</option>
+                            <option value="Thailand.json">Thailand</option>
+                        </select>
+                    </div>
+
+                    <div class="region-select-wrap">
+                        <label for="map-region" class="sr-only">City</label>
+                        <span class="region-label">City:</span>
                         <select id="map-region">
                             <option value="">All</option>
                             <?php foreach ($cities as $city): ?>

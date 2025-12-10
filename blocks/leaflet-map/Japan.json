@@ -1,0 +1,53 @@
+[
+  {
+    "id": "j1",
+    "segment": "food",
+    "name": "Sushi Dai",
+    "city": "Tokyo",
+    "lat": 35.6614,
+    "lng": 139.7997,
+    "rating": 4.8,
+    "price_range": "3000-5000",
+    "description": "Famous sushi breakfast spot."
+  },
+  {
+    "id": "j2",
+    "segment": "nature",
+    "name": "Arashiyama Bamboo Grove",
+    "city": "Kyoto",
+    "lat": 35.0094,
+    "lng": 135.667,
+    "rating": 4.7,
+    "description": "Scenic bamboo forest path."
+  },
+  {
+    "id": "j3",
+    "segment": "culture",
+    "name": "Senso-ji Temple",
+    "city": "Tokyo",
+    "lat": 35.7148,
+    "lng": 139.7967,
+    "rating": 4.6,
+    "description": "Ancient Buddhist temple."
+  },
+  {
+    "id": "j4",
+    "segment": "nature",
+    "name": "Arashiyama Bamboo Grove",
+    "city": "Kyoto",
+    "lat": 35.0094,
+    "lng": 135.667,
+    "rating": 4.7,
+    "description": "Scenic bamboo forest path."
+  },
+  {
+    "id": "j5",
+    "segment": "culture",
+    "name": "Senso-ji Temple",
+    "city": "Tokyo",
+    "lat": 35.7148,
+    "lng": 139.7967,
+    "rating": 4.6,
+    "description": "Ancient Buddhist temple."
+  }
+]

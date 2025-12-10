@@ -19,7 +19,8 @@
     "readLinkText": { "type": "string", "default": "Read more" },
     "dataIndex": { "type": "number", "default": 0 },
     "showIndicators": { "type": "boolean", "default": true },
-    "dataKey": { "type": "string", "default": "card-img" }
+    "dataKey": { "type": "string", "default": "card-img" },
+    "dataSource": { "type": "string", "default": "" }
   },
   "render": "file:./render.php",
   "style": "file:./style.css"

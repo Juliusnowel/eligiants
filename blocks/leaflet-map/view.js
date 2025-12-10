@@ -160,8 +160,87 @@ function getFilteredPlaces() {
     return items;
 }
 
-// ... existing renderMap, updateUIState, modals ...
+async function loadCountryData(filename) {
+    if (!window.LEAFLET_BASE_URL) return;
+    
+    // Clear current state options to avoid confusion
+    STATE.filter.region = ''; 
+    STATE.selectedId = null;
+    
+    try {
+        const resp = await fetch(window.LEAFLET_BASE_URL + filename);
+        if (!resp.ok) throw new Error('Failed to load');
+        const data = await resp.json();
+        
+        // Update STATE
+        STATE.places = data.map((p, idx) => ({
+            id: p.id ?? `place_${idx}`,
+            ...p,
+        }));
+        
+        // Update City Dropdown
+        updateCityDropdown(STATE.places);
 
+        // Update Budget Slider range based on new data
+        updateBudgetSlider(STATE.places);
+
+        // Re-render
+        renderMap();
+        updateUIState();
+        
+        // Fit bounds to new set
+        if (STATE.map && STATE.places.length > 0) {
+            const bounds = L.latLngBounds(STATE.places.map(p => [p.lat, p.lng]));
+            STATE.map.fitBounds(bounds, { padding: [50, 50] });
+        }
+
+    } catch (e) {
+        console.error('Country load failed', e);
+    }
+}
+
+function updateCityDropdown(places) {
+    const regionSelect = document.getElementById('map-region');
+    if (!regionSelect) return;
+    
+    const cities = new Set(places.map(p => p.city).filter(Boolean));
+    const sorted = Array.from(cities).sort();
+    
+    regionSelect.innerHTML = '<option value="">All</option>';
+    sorted.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c;
+        opt.textContent = c;
+        regionSelect.appendChild(opt);
+    });
+}
+
+function updateBudgetSlider(places) {
+    let maxFound = 0;
+    places.forEach(p => {
+        const range = parsePriceRange(p.price_range);
+        if (range && range.max > maxFound) maxFound = range.max;
+    });
+    
+    if (maxFound === 0) maxFound = 500;
+    const ceiling = Math.ceil(maxFound / 100) * 100;
+
+    const minInput = document.getElementById('budget-min');
+    const maxInput = document.getElementById('budget-max');
+    const maxDisp  = document.getElementById('budget-max-disp');
+    
+    if (minInput && maxInput) {
+        // Reset values
+        minInput.max = ceiling;
+        maxInput.max = ceiling;
+        minInput.value = 0;
+        maxInput.value = ceiling;
+        
+        if (maxDisp) maxDisp.textContent = ceiling;
+        
+        STATE.filter.budget = null; // Reset filter
+    }
+}
 function initBudgetSlider() {
     const minInput = document.getElementById('budget-min');
     const maxInput = document.getElementById('budget-max');
@@ -682,4 +761,12 @@ document.addEventListener('DOMContentLoaded', () => {
     initDetailPanel();
     initModal();
     renderMap();
+
+    // Country Select Logic
+    const countrySelect = document.getElementById('map-country');
+    if (countrySelect) {
+        countrySelect.addEventListener('change', (e) => {
+            loadCountryData(e.target.value);
+        });
+    }
 });
