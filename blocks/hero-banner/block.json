@@ -27,6 +27,7 @@
     "interval":    { "type": "number",  "default": 5000 },
     "fullHeight":  { "type": "boolean", "default": true },
     "headerHeight":{ "type": "number",  "default": 0 },
-    "underHeader": { "type": "boolean", "default": true }
+    "underHeader": { "type": "boolean", "default": true },
+    "animation":   { "type": "boolean", "default": true }
   }
 }

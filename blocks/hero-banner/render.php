@@ -16,6 +16,7 @@ $defaults = [
   'fullHeight'   => true,
   'headerHeight' => 0,
   'underHeader'  => true,
+  'animation'    => true,
 ];
 
 $post_id = $context['postId'] ?? get_the_ID();
@@ -74,10 +75,12 @@ $title_shadow = ! empty( $attrs['titleShadow'] ) ? ' has-title-shadow' : '';
 
 $images   = array_values( array_filter( (array) $attrs['images'] ) );
 $interval = max( 1000, (int) $attrs['interval'] );
+$animate  = $attrs['animation'] ? 'true' : 'false';
 ?>
 <div <?php echo $wrapper; ?> id="<?php echo esc_attr( $uid ); ?>"
      data-images="<?php echo esc_attr( wp_json_encode( $images ) ); ?>"
-     data-interval="<?php echo esc_attr( $interval ); ?>">
+     data-interval="<?php echo esc_attr( $interval ); ?>"
+     data-animate="<?php echo esc_attr( $animate ); ?>">
   <figure class="hero-banner__media" style="background-image:url('<?php echo esc_url( $images[0] ?? $bg_url ); ?>');" aria-hidden="true"></figure>
 
   <div class="hero-banner__inner">
@@ -129,13 +132,16 @@ $interval = max( 1000, (int) $attrs['interval'] );
   var imgs = [];
   try { imgs = JSON.parse(root.getAttribute('data-images') || '[]'); } catch(e){}
   var interval = Math.max(1000, parseInt(root.getAttribute('data-interval') || '5000', 10));
+  var shouldAnimate = root.getAttribute('data-animate') !== 'false';
 
   function restartZoom(){
     media.style.setProperty('--cycle', interval + 'ms');      // keep CSS in sync
     media.style.animation = 'none';
     media.style.transform = 'scale(1)';                       // snap back to start
     void media.offsetWidth;                                   // reflow to restart
-    media.style.animation = 'heroZoomIn ' + interval + 'ms linear forwards';
+    if (shouldAnimate) {
+      media.style.animation = 'heroZoomIn ' + interval + 'ms linear forwards';
+    }
   }
 
   // initial run

@@ -165,3 +165,9 @@
 @media (prefers-reduced-motion: reduce){
   .hero-banner__cta{ transition:none; }
 }
+
+/* Force static if animation is disabled via attribute */
+.hero-banner[data-animate="false"] .hero-banner__media {
+  animation: none !important;
+  transform: scale(1) !important;
+}
