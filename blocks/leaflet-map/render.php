@@ -165,6 +165,10 @@ $maxPriceCeiling = ceil($maxPriceFound / 100) * 100;
 
                     <p id="dp-desc" class="detail-desc"></p>
 
+                    <p id="dp-price-row" class="detail-row">
+                        <strong>Price:</strong> <span id="dp-price"></span>
+                    </p>
+
                     <p id="dp-addr-row" class="detail-row">
                         <strong>Address:</strong> <span id="dp-addr"></span>
                     </p>
@@ -189,8 +193,8 @@ $maxPriceCeiling = ceil($maxPriceFound / 100) * 100;
             <div class="map-bottom-controls">
                 <button class="control-btn budget-btn"><i class="fa-solid fa-wallet"></i> Budget</button>
                 <div class="zoom-controls">
-                    <button id="custom-zoom-in" aria-label="Zoom In">+</button>
                     <button id="custom-zoom-out" aria-label="Zoom Out">-</button>
+                    <button id="custom-zoom-in" aria-label="Zoom In">+</button>
                 </div>
             </div>
 

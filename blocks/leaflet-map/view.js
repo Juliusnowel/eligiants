@@ -260,8 +260,8 @@ function initBudgetSlider() {
              // We'll handle the effective range in state.
         }
         
-        minDisp.textContent = `P${Math.min(minVal, maxVal)}`;
-        maxDisp.textContent = `P${Math.max(minVal, maxVal)}`;
+        minDisp.textContent = `$${Math.min(minVal, maxVal)}`;
+        maxDisp.textContent = `$${Math.max(minVal, maxVal)}`;
     };
 
     minInput.addEventListener('input', updateDisplay);
@@ -290,19 +290,37 @@ function renderMap() {
     }
 
     const visibleIds = new Set();
+    // reset coord usage on each render
+    STATE.coordUsage = {};
 
     items.forEach(p => {
         if (typeof p.lat !== 'number' || typeof p.lng !== 'number') return;
 
+        // --- jitter logic START ---
+        const coordKey = `${p.lat},${p.lng}`;
+        const usedCount = STATE.coordUsage[coordKey] || 0;
+        STATE.coordUsage[coordKey] = usedCount + 1;
+
+        // small offset so pins don't overlap but stay near the city
+        const JITTER_STEP = 0.003; // ~300m; adjust if needed
+        const lat = p.lat + usedCount * JITTER_STEP;
+        const lng = p.lng + usedCount * JITTER_STEP;
+        // --- jitter logic END ---
+
         const isActive = (p.id && p.id === STATE.selectedId);
 
-        const m = L.marker([p.lat, p.lng], { 
+        const m = L.marker([lat, lng], {       // <- use jittered coords
                 icon: markerIcon(p.segment, isActive),
                 placeId: p.id,
                 segment: p.segment
             })
             .addTo(STATE.layerGroup)
-            .bindPopup(`<div class="map-popup-simple"><strong>${p.name}</strong><br>${p.city || ''}</div>`) 
+            .bindPopup(`
+                <div class="map-popup-simple">
+                    <strong>${p.name}</strong><br>
+                    ${p.city || ''}${p.address ? ' · ' + p.address : ''}
+                </div>
+            `)
             .on('click', () => {
                 setSelectedPlace(p);   // highlight pin
                 openModal(p);          // show details panel
@@ -386,7 +404,7 @@ function renderPanelList() {
         const iconName  = ICONS[seg] || 'map-pin';
         const iconColor = PIN_COLORS[seg] || '#ff5e3a';
 
-        const priceHtml  = p.price_range ? `<span class="panel-price"><i class="fa-solid fa-wallet"></i> ${p.price_range}</span>` : '';
+        const priceHtml  = p.price_range ? `<span class="panel-price"><i class="fa-solid fa-wallet"></i> $${p.price_range}</span>` : '';
         const ratingHtml = typeof p.rating === 'number' ? `<span class="panel-rating">${stars(p.rating)}</span>` : '';
 
         item.innerHTML = `
@@ -473,6 +491,15 @@ function openModal(p) {
         G('dp-rating').style.display = '';
     } else {
         G('dp-rating').style.display = 'none';
+    }
+
+    // Price
+    if (p.price_range) {
+        G('dp-price').textContent = `$${p.price_range}`;
+        showRow('dp-price-row', true);
+    } else {
+        G('dp-price').textContent = '';
+        showRow('dp-price-row', false);
     }
 
     // Detail rows
