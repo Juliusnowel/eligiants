@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [
     {
         "id": "th_bkk_f1",
@@ -975,3 +976,58 @@
         "hours": "Daylight hours (verify locally)"
     }
 ]
+=======
+[
+  {
+    "id": "t1",
+    "segment": "food",
+    "name": "Pad Thai Thip Samai",
+    "city": "Bangkok",
+    "lat": 13.7543,
+    "lng": 100.5052,
+    "rating": 4.5,
+    "price_range": "100-300",
+    "description": "Legendary Pad Thai restaurant."
+  },
+  {
+    "id": "t2",
+    "segment": "nature",
+    "name": "Railay Beach",
+    "city": "Krabi",
+    "lat": 8.0195,
+    "lng": 98.8354,
+    "rating": 4.8,
+    "description": "Beautiful beach accessible only by boat."
+  },
+  {
+    "id": "t3",
+    "segment": "culture",
+    "name": "Wat Arun",
+    "city": "Bangkok",
+    "lat": 13.7437,
+    "lng": 100.4888,
+    "rating": 4.7,
+    "description": "Temple of Dawn on the Chao Phraya River."
+  },
+  {
+    "id": "t4",
+    "segment": "nature",
+    "name": "Railay Beach",
+    "city": "Krabi",
+    "lat": 8.0195,
+    "lng": 98.8354,
+    "rating": 4.8,
+    "description": "Beautiful beach accessible only by boat."
+  },
+  {
+    "id": "t5",
+    "segment": "culture",
+    "name": "Wat Arun",
+    "city": "Bangkok",
+    "lat": 13.7437,
+    "lng": 100.4888,
+    "rating": 4.7,
+    "description": "Temple of Dawn on the Chao Phraya River."
+  }
+]
+>>>>>>> eec66bf (pull update)
